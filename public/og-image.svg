@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#15213B" />
+      <stop offset="100%" stop-color="#1B2A4A" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#B89968" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#1B2A4A" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#glow)" />
+
+  <!-- Omega mark -->
+  <g transform="translate(600 210)" fill="none" stroke="#F0EAD9" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(-70 -70) scale(1.4)">
+      <circle cx="50" cy="44" r="30" stroke-width="3.5" />
+      <circle cx="50" cy="44" r="17" stroke-width="2.6" opacity="0.85" />
+      <circle cx="50" cy="44" r="5" fill="#B89968" stroke="none" />
+      <path d="M32 68 C 25 76, 22 81, 21 87 L 35 87 C 35 82, 35 78, 38 73" stroke-width="3.5" />
+      <path d="M68 68 C 75 76, 78 81, 79 87 L 65 87 C 65 82, 65 78, 62 73" stroke-width="3.5" />
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="600" y="430" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="600" fill="#F0EAD9" letter-spacing="4">Do Right Things.</text>
+
+  <!-- Tagline -->
+  <text x="600" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="600" fill="#B89968" letter-spacing="12">AIM AGENCY · AIMAGENCY.VN</text>
+</svg>
