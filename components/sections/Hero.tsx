@@ -52,41 +52,34 @@ export function Hero() {
         </div>
       </motion.div>
 
-      {/* Nội dung */}
+      {/* Nội dung — entrance bằng CSS animation để không chặn LCP chờ JS hydrate;
+          prefers-reduced-motion đã được globals.css xử lý */}
       <motion.div style={{ y: yContent }} className="container-aim relative z-10 py-28 text-center">
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={reduce ? undefined : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="eyebrow tracking-brand text-gold-bright"
+        <p
+          className="eyebrow animate-fade-in-up tracking-brand text-gold-bright"
+          style={{ animationDelay: '0.1s' }}
         >
           Branding Studio · aimagency.vn
-        </motion.p>
+        </p>
 
-        <motion.h1
+        <h1
           id="hero-heading"
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={reduce ? undefined : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.18 }}
-          className="mx-auto mt-6 max-w-4xl font-display text-[clamp(3rem,11vw,7.5rem)] font-semibold leading-[0.95] tracking-tight"
+          className="mx-auto mt-6 max-w-4xl animate-fade-in-up font-display text-[clamp(3rem,11vw,7.5rem)] font-semibold leading-[0.95] tracking-tight"
+          style={{ animationDelay: '0.18s' }}
         >
           {HERO.title}
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={reduce ? undefined : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-beige/85 sm:text-lg"
+        <p
+          className="mx-auto mt-7 max-w-2xl animate-fade-in-up text-base leading-relaxed text-beige/85 sm:text-lg"
+          style={{ animationDelay: '0.3s' }}
         >
           {HERO.subtitle}
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={reduce ? undefined : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.42 }}
-          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+        <div
+          className="mt-10 flex animate-fade-in-up flex-col items-center justify-center gap-4 sm:flex-row"
+          style={{ animationDelay: '0.42s' }}
         >
           <Button href={HERO.primaryCta.href} variant="gold">
             {HERO.primaryCta.label}
@@ -94,7 +87,7 @@ export function Hero() {
           <Button href={HERO.secondaryCta.href} variant="outline-light" withArrow>
             {HERO.secondaryCta.label}
           </Button>
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* Gợi ý cuộn */}

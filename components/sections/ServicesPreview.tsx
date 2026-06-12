@@ -14,7 +14,7 @@ export function ServicesPreview() {
       <div className="container-aim">
         <Reveal className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
-            <p className="eyebrow text-gold">Dịch vụ</p>
+            <p className="eyebrow text-gold-deep">Dịch vụ</p>
             <h2
               id="services-heading"
               className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl"
@@ -48,7 +48,7 @@ export function ServicesPreview() {
                 <div>
                   <h3 className="flex items-center gap-2 font-display text-xl font-semibold">
                     {card.title}
-                    <IconArrowRight className="h-4 w-4 -translate-x-1 text-gold opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                    <IconArrowRight className="h-4 w-4 -translate-x-1 text-gold-deep opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-navy/75">{card.body}</p>
                 </div>

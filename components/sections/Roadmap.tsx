@@ -11,7 +11,7 @@ export function Roadmap() {
     <Section tone="beige" id="roadmap" ariaLabelledby="roadmap-heading">
       <div className="container-aim">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold">Tầm nhìn dài hạn</p>
+          <p className="eyebrow text-gold-deep">Tầm nhìn dài hạn</p>
           <h2
             id="roadmap-heading"
             className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl"

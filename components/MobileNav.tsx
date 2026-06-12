@@ -66,7 +66,11 @@ export function MobileNav({ open, onClose, isActive }: MobileNavProps) {
 
   return (
     <div
-      className={`lg:hidden ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}
+      // visibility đợi transition 300ms khi đóng — drawer trượt ra xong mới ẩn;
+      // khi ẩn, link bên trong hết focusable (tránh lỗi aria-hidden-focus).
+      className={`transition-[visibility] duration-300 lg:hidden ${
+        open ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+      }`}
       aria-hidden={!open}
     >
       {/* Overlay */}
