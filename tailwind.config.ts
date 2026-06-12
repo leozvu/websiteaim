@@ -25,6 +25,9 @@ const config: Config = {
         gold: {
           DEFAULT: '#B89968',
           bright: '#C7AA7D',
+          // Bronze đậm cho text gold trên nền beige — đạt AA (~5.5:1).
+          // Gold DEFAULT trên beige chỉ ~2:1, chỉ dùng cho nét trang trí.
+          deep: '#6F5933',
         },
       },
       fontFamily: {

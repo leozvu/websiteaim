@@ -86,7 +86,7 @@ export function Footer() {
           <p className="text-xs text-beige/60">
             © 2026 {SITE.legalName}. {SITE.tagline}.
           </p>
-          <p className="eyebrow text-beige/40">{SITE.tagline}</p>
+          <p className="eyebrow text-beige/60">{SITE.tagline}</p>
         </div>
       </div>
     </footer>

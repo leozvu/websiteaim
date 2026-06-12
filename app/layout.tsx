@@ -5,20 +5,21 @@ import { Footer } from '@/components/Footer';
 import { SITE } from '@/lib/nav';
 import './globals.css';
 
-// Display serif — tiêu đề lớn (Playfair Display, nhiều weight)
-// Bao gồm subset 'vietnamese' để heading tiếng Việt render đúng dấu trong Playfair.
+// Display serif — tiêu đề lớn. CHỈ load weight đang dùng thật (600/semibold,
+// audit toàn codebase) — mỗi weight thừa là một file font chặn băng thông LCP.
+// Subset 'vietnamese' bắt buộc để heading tiếng Việt render đúng dấu.
 const playfair = Playfair_Display({
   subsets: ['latin', 'vietnamese'],
-  weight: ['400', '500', '600', '700', '800'],
-  style: ['normal', 'italic'],
+  weight: ['600'],
   display: 'swap',
   variable: '--font-display',
 });
 
-// Body — Be Vietnam Pro, bắt buộc subset vietnamese cho đủ dấu
+// Body — Be Vietnam Pro, bắt buộc subset vietnamese cho đủ dấu.
+// 400 body · 500 label/chip · 600 button/giá/eyebrow — không load thừa.
 const beVietnam = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
   display: 'swap',
   variable: '--font-body',
 });

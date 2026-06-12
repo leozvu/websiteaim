@@ -55,6 +55,15 @@
     @apply font-body text-xs font-semibold uppercase tracking-widest;
   }
 
+  /* Ẩn scrollbar cho dải tab cuộn ngang (mobile) — vẫn cuộn được bình thường */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Link skip-to-content cho A11y */
   .skip-link {
     @apply sr-only;

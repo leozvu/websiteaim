@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { SITE } from '@/lib/nav';
 
 type OmegaMarkProps = {
   className?: string;
@@ -70,12 +69,14 @@ export function Logo({
   withTagline = false,
   href = '/',
 }: LogoProps) {
+  // Khi có wordmark, mark chỉ là trang trí — text cung cấp accessible name,
+  // tránh lệch giữa visible label và aria name (a11y: label-content-name-mismatch).
   const content =
     variant === 'mark' ? (
       <OmegaMark className={markClassName || 'h-9 w-9'} />
     ) : variant === 'stacked' ? (
       <span className="flex flex-col items-center gap-2 text-center">
-        <OmegaMark className={markClassName || 'h-12 w-12'} />
+        <OmegaMark title="" className={markClassName || 'h-12 w-12'} />
         <span className="flex flex-col items-center">
           <span className="font-display text-xl font-semibold tracking-wide">AIM AGENCY</span>
           {withTagline && (
@@ -85,7 +86,7 @@ export function Logo({
       </span>
     ) : (
       <span className="flex items-center gap-2.5">
-        <OmegaMark className={markClassName || 'h-9 w-9'} />
+        <OmegaMark title="" className={markClassName || 'h-9 w-9'} />
         <span className="flex flex-col leading-none">
           <span className="font-display text-lg font-semibold tracking-wide">AIM AGENCY</span>
           {withTagline && (
@@ -104,7 +105,7 @@ export function Logo({
   return (
     <Link
       href={href}
-      aria-label={`${SITE.name} — ${SITE.tagline}`}
+      // variant 'mark' không có text — OmegaMark (role=img) cung cấp accessible name.
       className={`inline-flex items-center transition-opacity hover:opacity-80 ${className}`}
     >
       {content}

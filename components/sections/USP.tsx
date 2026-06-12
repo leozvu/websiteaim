@@ -12,7 +12,7 @@ export function USP() {
     <Section tone="beige" id="usp" ariaLabelledby="usp-heading">
       <div className="container-aim">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold">Nguyên tắc của chúng tôi</p>
+          <p className="eyebrow text-gold-deep">Nguyên tắc của chúng tôi</p>
           <h2
             id="usp-heading"
             className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl"
@@ -36,7 +36,7 @@ export function USP() {
                   <Icon className="h-7 w-7" />
                 </span>
                 <h3 className="mt-6 font-display text-2xl font-semibold">{pillar.vi}</h3>
-                <p className="eyebrow mt-1 text-[0.65rem] text-steel">{pillar.en}</p>
+                <p className="eyebrow mt-1 text-[0.65rem] text-navy/70">{pillar.en}</p>
                 <p className="mt-4 text-sm leading-relaxed text-navy/75">{pillar.body}</p>
               </Reveal>
             );
