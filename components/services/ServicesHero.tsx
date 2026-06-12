@@ -53,6 +53,18 @@ export function ServicesHero() {
         >
           {SERVICES_HERO.subtitle}
         </p>
+
+        {/* Anchor of trust — meta niêm yết, hairline phía trên */}
+        <ul
+          className="mt-12 flex max-w-2xl animate-fade-in-up flex-wrap gap-x-8 gap-y-2 border-t border-beige/15 pt-5"
+          style={{ animationDelay: '0.38s' }}
+        >
+          {SERVICES_HERO.meta.map((item) => (
+            <li key={item} className="eyebrow text-[0.65rem] text-beige/60">
+              {item}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

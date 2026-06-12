@@ -269,6 +269,8 @@ export const SERVICES_HERO = {
   title: 'Bảng giá minh bạch.',
   subtitle:
     'Chọn đúng phân khúc của bạn. Aim không bán những dịch vụ viển vông — mỗi con số dưới đây là cam kết.',
+  /** Dòng meta khẳng định tính niêm yết — anchor of trust. */
+  meta: ['Niêm yết công khai', 'Đơn vị: VNĐ', 'Hiệu lực từ 06/2026'],
 } as const;
 
 export const SERVICES_FINAL_CTA = {

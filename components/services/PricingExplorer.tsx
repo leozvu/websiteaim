@@ -70,15 +70,20 @@ function PriceValue({ price, tier, large }: { price: number | null; tier: TierId
       </PriceSwap>
     );
   }
+  if (large) {
+    // Tách "đ" khỏi con số: số serif lớn, đ nhỏ và dịu — nhịp typographic tinh hơn.
+    return (
+      <PriceSwap
+        tier={tier}
+        className="font-display text-3xl font-semibold tabular-nums tracking-tight text-navy sm:text-4xl"
+      >
+        {formatPrice(price).slice(0, -1)}
+        <span className="ml-0.5 align-top text-[0.55em] font-medium text-navy/70">đ</span>
+      </PriceSwap>
+    );
+  }
   return (
-    <PriceSwap
-      tier={tier}
-      className={
-        large
-          ? 'font-display text-3xl font-semibold tabular-nums tracking-tight text-navy sm:text-4xl'
-          : 'text-sm font-semibold tabular-nums text-navy'
-      }
-    >
+    <PriceSwap tier={tier} className="text-sm font-semibold tabular-nums text-navy">
       {formatPrice(price)}
     </PriceSwap>
   );
@@ -97,7 +102,7 @@ function GroupCard({
   children: React.ReactNode;
 }) {
   return (
-    <article className="group flex h-full flex-col rounded-lg border border-navy/10 bg-beige-warm/60 p-7 transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-navy/20 hover:shadow-[0_28px_56px_-28px_rgba(27,42,74,0.35)] sm:p-9">
+    <article className="group flex h-full flex-col rounded-lg border border-navy/10 bg-beige-warm p-7 shadow-[0_2px_8px_-4px_rgba(27,42,74,0.12)] transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-1 hover:border-navy/20 hover:shadow-[0_28px_56px_-28px_rgba(27,42,74,0.35)] sm:p-9">
       <p className="font-display text-4xl font-semibold text-gold" aria-hidden>
         {number}
       </p>
@@ -122,7 +127,7 @@ function PackageCard({ group, tier }: { group: PackageGroup; tier: TierId }) {
       <ul className="mt-6 space-y-3 border-t border-navy/10 pt-6">
         {group.includes.map((item) => (
           <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-navy/85">
-            <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+            <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-gold-deep" />
             <span>{item}</span>
           </li>
         ))}
@@ -142,12 +147,14 @@ function ItemizedCard({ group, tier }: { group: ItemizedGroup; tier: TierId }) {
     <GroupCard number={group.number} title={group.title} intro={group.intro}>
       <ul className="mt-6 border-t border-navy/10">
         {group.items.map((item) => (
-          <li
-            key={item.name}
-            className="flex items-baseline justify-between gap-4 border-b border-navy/[0.07] py-3.5"
-          >
-            <span className="text-sm leading-relaxed text-navy/85">{item.name}</span>
-            <span className="text-right">
+          <li key={item.name} className="flex items-baseline gap-3 py-3.5">
+            <span className="shrink-0 text-sm leading-relaxed text-navy/85">{item.name}</span>
+            {/* Dotted leader — dẫn mắt từ tên đến giá (kiểu mục lục/price list cổ điển) */}
+            <span
+              aria-hidden
+              className="min-w-6 flex-1 self-center border-b border-dotted border-navy/25"
+            />
+            <span className="shrink-0 text-right">
               <PriceValue price={item.price[tier]} tier={tier} />
             </span>
           </li>
@@ -155,7 +162,7 @@ function ItemizedCard({ group, tier }: { group: ItemizedGroup; tier: TierId }) {
       </ul>
       {group.note && (
         <div className="mt-6 flex items-start gap-3 rounded-md border border-gold/40 bg-gold/10 p-4">
-          <IconPercent className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+          <IconPercent className="mt-0.5 h-5 w-5 shrink-0 text-gold-deep" />
           <p className="text-sm leading-relaxed text-navy">
             <strong className="font-semibold">{group.note.strong}</strong>{' '}
             <span className="text-navy/70">{group.note.detail}</span>
@@ -172,11 +179,28 @@ export function PricingExplorer() {
   // ?tier= trong URL được áp sau khi hydrate — link share vẫn mở đúng phân khúc.
   const [tier, setTier] = useState<TierId>(DEFAULT_TIER);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const tablistRef = useRef<HTMLDivElement>(null);
+  // Fade hint mép phải khi dải tab còn cuộn được (mobile) — ẩn khi đã ở cuối.
+  const [moreRight, setMoreRight] = useState(false);
   const reduce = useReducedMotion();
 
   useEffect(() => {
     const param = new URLSearchParams(window.location.search).get('tier');
     if (isTierId(param) && param !== DEFAULT_TIER) setTier(param);
+  }, []);
+
+  useEffect(() => {
+    const el = tablistRef.current;
+    if (!el) return;
+    const update = () =>
+      setMoreRight(el.scrollWidth - el.clientWidth - el.scrollLeft > 8);
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      el.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
   }, []);
 
   // Persist lựa chọn vào URL để share được — replaceState, không reload/scroll.
@@ -218,11 +242,20 @@ export function PricingExplorer() {
     <div>
       {/* Selector phân khúc — sticky dưới header khi cuộn bảng giá */}
       <div className="sticky top-16 z-30 -mx-6 bg-beige/90 px-6 py-3 backdrop-blur-md sm:-mx-8 sm:px-8 lg:top-20 lg:-mx-10 lg:px-10">
-        <div
-          role="tablist"
-          aria-label="Chọn phân khúc doanh nghiệp"
-          className="scrollbar-none -mx-1 flex gap-1 overflow-x-auto px-1 sm:justify-center"
-        >
+        <div className="relative">
+          {/* Fade hint: còn tab phía phải chưa thấy (mobile) */}
+          <span
+            aria-hidden
+            className={`pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-beige to-transparent transition-opacity duration-200 sm:hidden ${
+              moreRight ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+          <div
+            ref={tablistRef}
+            role="tablist"
+            aria-label="Chọn phân khúc doanh nghiệp"
+            className="scrollbar-none -mx-1 flex gap-1 overflow-x-auto px-1 sm:justify-center"
+          >
           {TIERS.map((t, i) => {
             const active = t.id === tier;
             return (
@@ -257,10 +290,11 @@ export function PricingExplorer() {
             );
           })}
         </div>
+        </div>
       </div>
 
-      {/* Mô tả phân khúc đang chọn */}
-      <div className="mt-6 text-center" aria-live="polite">
+      {/* Mô tả phân khúc đang chọn — min-h giữ chỗ 2 dòng để cards không nhảy khi đổi tier */}
+      <div className="mt-6 min-h-[2.75rem] text-center" aria-live="polite">
         <PriceSwap tier={tier} className="mx-auto block max-w-xl text-sm leading-relaxed text-navy/70">
           {activeTier.description}
         </PriceSwap>

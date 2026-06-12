@@ -112,7 +112,7 @@ export function MobileNav({ open, onClose, isActive }: MobileNavProps) {
                   href={item.href}
                   onClick={onClose}
                   aria-current={isActive(item.href) ? 'page' : undefined}
-                  className={`block rounded-md px-3 py-3 font-display text-2xl transition-colors ${
+                  className={`block rounded-md px-3 py-3 font-display text-2xl font-semibold transition-colors ${
                     isActive(item.href)
                       ? 'text-gold-bright'
                       : 'text-beige hover:text-gold-bright'

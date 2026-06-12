@@ -121,7 +121,8 @@ export default function ServicesPage() {
       <Section tone="beige" id="faq" ariaLabelledby="faq-heading">
         <div className="container-aim">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
-            <Reveal>
+            {/* Heading sticky khi cuộn danh sách 8 câu — giữ context */}
+            <Reveal className="lg:sticky lg:top-32 lg:self-start">
               <p className="eyebrow text-gold-deep">Hỏi thẳng, đáp thẳng</p>
               <h2
                 id="faq-heading"

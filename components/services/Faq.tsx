@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { IconPlus } from '../ui/Icons';
 import { FAQ_ITEMS } from '@/lib/pricing';
+import { SITE } from '@/lib/nav';
 
 /**
  * FAQ accordion — expand/collapse mượt (height auto qua Framer Motion),
@@ -29,6 +30,7 @@ export function Faq() {
   };
 
   return (
+    <div>
     <div className="divide-y divide-navy/10 border-y border-navy/10">
       {FAQ_ITEMS.map((item, i) => {
         const isOpen = open === i;
@@ -84,6 +86,19 @@ export function Faq() {
           </div>
         );
       })}
+    </div>
+
+      {/* Escape hatch — câu hỏi ngoài danh sách */}
+      <p className="mt-6 text-sm leading-relaxed text-navy/70">
+        Câu hỏi khác chưa có ở đây?{' '}
+        <a
+          href={`mailto:${SITE.email}`}
+          className="font-semibold text-navy underline decoration-gold/60 decoration-1 underline-offset-4 transition-colors hover:decoration-gold"
+        >
+          {SITE.email}
+        </a>{' '}
+        — chúng tôi trả lời trong 24 giờ làm việc.
+      </p>
     </div>
   );
 }
