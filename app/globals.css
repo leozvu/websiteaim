@@ -87,6 +87,35 @@
 }
 
 @layer utilities {
+  /* Cursor tùy biến: ẩn cursor gốc khi đang chạy (chỉ áp khi JS bật .cursor-none) */
+  .cursor-none,
+  .cursor-none * {
+    cursor: none !important;
+  }
+  /* Vòng ngoài cursor phình + đổ nền gold mờ khi hover phần tử tương tác */
+  .cursor-ring.is-hover {
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(184, 153, 104, 0.12);
+    border-color: rgba(184, 153, 104, 0.9);
+  }
+
+  /* Marquee: chạy ngang vô tận; tạm dừng khi hover */
+  @keyframes marquee-x {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-marquee {
+    animation: marquee-x var(--marquee-duration, 32s) linear infinite;
+  }
+  .marquee-pause:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+
   /* Paper grain rất nhẹ (0.03) cho nền beige — chất liệu giấy, không phẳng số.
      Noise SVG inline, không tải thêm asset. */
   .paper-grain {

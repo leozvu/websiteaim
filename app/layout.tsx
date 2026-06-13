@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { EB_Garamond, Be_Vietnam_Pro } from 'next/font/google';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { SmoothScroll } from '@/components/motion/SmoothScroll';
+import { CustomCursor } from '@/components/motion/CustomCursor';
 import { SITE } from '@/lib/nav';
 import './globals.css';
 
@@ -112,6 +114,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-link">
           Bỏ qua tới nội dung chính
         </a>
+        <SmoothScroll />
+        <CustomCursor />
         <Header />
         <div id="main-content">{children}</div>
         <Footer />
