@@ -3,19 +3,22 @@
 @tailwind utilities;
 
 :root {
-  /* Brand palette — mirror của tailwind.config.ts để dùng trong CSS thuần */
-  --navy: #1b2a4a;
-  --navy-deep: #15213b;
+  /* Brand palette — mirror BRAND BOOK (Deep Royal Navy 2756C, Dusty Blue, cream) */
+  --navy: #1a2150;
+  --navy-deep: #12183c;
+  --navy-soft: #27306a;
   --beige: #f0ead9;
   --beige-warm: #e7dfc9;
-  --steel: #6e8ca8;
+  --steel: #6e7c89;
+  --dove: #9da0a6;
   --gold: #b89968;
+  --gold-deep: #6f5933;
   color-scheme: light;
 }
 
 @layer base {
   html {
-    /* Nền beige mặc định, KHÔNG trắng tinh — tránh flash trắng khi load */
+    /* Nền beige (cream) mặc định, KHÔNG trắng tinh — tránh flash trắng khi load */
     background-color: var(--beige);
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
@@ -30,6 +33,12 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Garamond là serif mảnh, cổ điển — bật ligature & tinh chỉnh cho heading display */
+  .font-display {
+    font-feature-settings: 'liga' 1, 'dlig' 1, 'kern' 1;
+    font-kerning: normal;
+  }
+
   /* Focus rõ ràng cho keyboard navigation (A11y) */
   :focus-visible {
     outline: 2px solid var(--gold);
@@ -37,7 +46,6 @@
     border-radius: 2px;
   }
 
-  /* Headings dùng font display theo mặc định khi gắn class .font-display */
   ::selection {
     background-color: var(--gold);
     color: var(--navy);
@@ -45,14 +53,28 @@
 }
 
 @layer components {
-  /* Container chuẩn cho mọi section */
+  /* Container chuẩn — lề rộng hơn cho nhịp editorial */
   .container-aim {
-    @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-10;
+    @apply mx-auto w-full max-w-content px-6 sm:px-10 lg:px-16;
   }
 
-  /* Nhãn label in hoa giãn cách rộng */
+  /* Nhãn label in hoa giãn cách rộng (marginalia editorial) */
   .eyebrow {
-    @apply font-body text-xs font-semibold uppercase tracking-widest;
+    @apply font-body text-[0.7rem] font-semibold uppercase tracking-widest;
+  }
+
+  /* Hairline 1px — vạch phân tách kiểu chuyên san in */
+  .hairline {
+    @apply h-px w-full border-0 bg-current opacity-[0.18];
+  }
+
+  /* Ẩn scrollbar cho dải cuộn ngang (mobile) — vẫn cuộn được */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 
   /* Link skip-to-content cho A11y */
@@ -61,6 +83,22 @@
   }
   .skip-link:focus {
     @apply not-sr-only fixed left-4 top-4 z-[100] rounded-md bg-navy px-4 py-2 text-sm font-semibold text-beige;
+  }
+}
+
+@layer utilities {
+  /* Paper grain rất nhẹ (0.03) cho nền beige — chất liệu giấy, không phẳng số.
+     Noise SVG inline, không tải thêm asset. */
+  .paper-grain {
+    position: relative;
+  }
+  .paper-grain::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
 

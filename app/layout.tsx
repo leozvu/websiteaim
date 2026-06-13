@@ -1,24 +1,25 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Be_Vietnam_Pro } from 'next/font/google';
+import { EB_Garamond, Be_Vietnam_Pro } from 'next/font/google';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { SITE } from '@/lib/nav';
 import './globals.css';
 
-// Display serif — tiêu đề lớn (Playfair Display, nhiều weight)
-// Bao gồm subset 'vietnamese' để heading tiếng Việt render đúng dấu trong Playfair.
-const playfair = Playfair_Display({
+// Display serif = GARAMOND theo brand book ("Kiểu chữ thương hiệu").
+// EB Garamond — bản số hoá trung thành của Garamond cổ điển, có subset 'vietnamese'.
+// Chỉ load weight dùng thật: 500 (heading), 600 (display nhấn) + italic 500 (trích dẫn).
+const garamond = EB_Garamond({
   subsets: ['latin', 'vietnamese'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['500', '600'],
   style: ['normal', 'italic'],
   display: 'swap',
   variable: '--font-display',
 });
 
-// Body — Be Vietnam Pro, bắt buộc subset vietnamese cho đủ dấu
+// Body = Be Vietnam Pro theo brand book ("Kiểu chữ nội dung"). Subset vietnamese bắt buộc.
 const beVietnam = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
   display: 'swap',
   variable: '--font-body',
 });
@@ -88,11 +89,13 @@ const organizationSchema = {
   alternateName: SITE.name,
   url: SITE.url,
   email: SITE.email,
+  telephone: SITE.phone,
   slogan: SITE.tagline,
   description: DESCRIPTION,
   logo: `${SITE.url}/favicon.svg`,
   address: {
     '@type': 'PostalAddress',
+    streetAddress: '67 Huỳnh Thiện Lộc, Phường Tân Phú',
     addressLocality: 'TP. Hồ Chí Minh',
     addressCountry: 'VN',
   },
@@ -100,7 +103,7 @@ const organizationSchema = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${playfair.variable} ${beVietnam.variable}`}>
+    <html lang="vi" className={`${garamond.variable} ${beVietnam.variable}`}>
       <body>
         <script
           type="application/ld+json"

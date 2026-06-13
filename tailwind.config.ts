@@ -9,22 +9,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand palette — chính xác theo brand system AIM AGENCY
+        // Brand palette — chính xác theo BRAND BOOK AIM AGENCY (không theo brief cũ)
+        // Primary: Deep Royal Navy (PANTONE 2756 C) — royal/indigo đậm, mood "Bleu de Chanel"
         navy: {
-          DEFAULT: '#1B2A4A',
-          deep: '#15213B', // navy đậm hơn cho gradient/footer
+          DEFAULT: '#1A2150',
+          deep: '#12183C', // navy đậm hơn cho footer/lớp nền sâu
+          soft: '#27306A', // navy nhạt hơn cho hairline/khối phụ trên nền navy
         },
+        // Secondary accent: Light Beige (cream) — nền sáng, không trắng tinh
         beige: {
           DEFAULT: '#F0EAD9',
           warm: '#E7DFC9', // beige ấm hơn cho card/divider trên nền beige
         },
+        // Steel = Dusty Blue (PANTONE 7544 C) theo book — cấu trúc/divider
         steel: {
-          DEFAULT: '#6E8CA8',
-          soft: '#8FA6BC',
+          DEFAULT: '#6E7C89',
+          soft: '#93A0AB',
         },
+        // Wild Dove (PANTONE 877 C) — xám bạc, dùng rất tiết chế
+        dove: '#9DA0A6',
+        // Gold/Bronze — "mực" nhấn: hairline, số chương, gạch chân active (<5%)
         gold: {
           DEFAULT: '#B89968',
           bright: '#C7AA7D',
+          // Bronze đậm cho TEXT gold trên nền beige (gold thường chỉ ~2:1 — fail AA)
+          deep: '#6F5933',
         },
       },
       fontFamily: {

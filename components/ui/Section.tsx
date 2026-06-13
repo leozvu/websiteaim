@@ -16,12 +16,13 @@ type SectionProps = {
 
 const toneClass: Record<Tone, string> = {
   navy: 'bg-navy text-beige',
-  beige: 'bg-beige text-navy',
+  // paper-grain: chất liệu giấy rất nhẹ trên nền cream — editorial, không phẳng số
+  beige: 'bg-beige text-navy paper-grain',
 };
 
 /**
- * Wrapper section: set nền navy/beige + padding dọc nhất quán.
- * Đảm bảo nền tối/sáng luân phiên, không bao giờ trắng tinh.
+ * Wrapper section: nền navy/beige luân phiên + nhịp dọc editorial rộng.
+ * Nền beige có lớp paper-grain mảnh; mọi nội dung nằm trên lớp grain (z-10).
  */
 export function Section({
   children,
@@ -36,9 +37,9 @@ export function Section({
     <Tag
       id={id}
       aria-labelledby={ariaLabelledby}
-      className={`${toneClass[tone]} ${flush ? '' : 'py-20 sm:py-24 lg:py-28'} ${className}`}
+      className={`relative ${toneClass[tone]} ${flush ? '' : 'py-24 sm:py-28 lg:py-36'} ${className}`}
     >
-      {children}
+      <div className="relative z-10">{children}</div>
     </Tag>
   );
 }

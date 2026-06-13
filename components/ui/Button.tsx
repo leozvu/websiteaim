@@ -35,7 +35,7 @@ export function Button({
   className = '',
 }: ButtonProps) {
   const isInternal = href.startsWith('/');
-  const classes = `group inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-md px-7 py-3 font-body text-sm font-semibold tracking-wide transition-colors duration-200 ${variantClass[variant]} ${className}`;
+  const classes = `group inline-flex min-h-[3rem] items-center justify-center gap-2.5 rounded-[3px] px-8 py-3 font-body text-[0.8rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-200 ${variantClass[variant]} ${className}`;
 
   const inner = (
     <>

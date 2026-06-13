@@ -137,16 +137,23 @@ export function IconInstagram(props: IconProps) {
   );
 }
 
-export function IconLinkedin(props: IconProps) {
+export function IconZalo(props: IconProps) {
   return (
     <svg {...base(props)}>
-      <rect x="4" y="4" width="16" height="16" rx="2" />
-      <path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 17v-7" />
+      <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+      <path d="M8 9h4l-4 5.5h4.2" />
+      <path d="M15.4 9v5.5M15.4 11.6a2 2 0 1 0 1.7 3" opacity="0.85" />
     </svg>
   );
 }
 
 /* ---- Maps cho lookup theo tên ---- */
+
+export const SOCIAL_ICONS = {
+  facebook: IconFacebook,
+  instagram: IconInstagram,
+  zalo: IconZalo,
+} as const;
 
 export const USP_ICONS = {
   aim: IconAim,
