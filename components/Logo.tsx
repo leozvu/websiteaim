@@ -8,9 +8,10 @@ type OmegaMarkProps = {
 };
 
 /**
- * Logo Omega (Ω) cách điệu — placeholder SVG.
- * Cấu trúc: vòng tròn đồng tâm + tâm điểm + đuôi cong xuống.
- * Dùng currentColor để tự thích ứng nền navy/beige.
+ * Logo Omega (Ω) — trace theo logo CHÍNH THỨC của Aim:
+ * vòng Omega dày hở đáy với hai chân đế ngang, bên trong là vòng tròn
+ * đồng tâm + tâm điểm đặc. Dùng currentColor để thích ứng nền navy/beige.
+ * Hình học này được dùng chung cho bản 3D (OmegaEmblem) — cùng tỉ lệ.
  */
 export function OmegaMark({ className, title = 'Aim Agency' }: OmegaMarkProps) {
   const decorative = !title;
@@ -25,27 +26,15 @@ export function OmegaMark({ className, title = 'Aim Agency' }: OmegaMarkProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Vòng ngoài */}
-      <circle cx="50" cy="44" r="34" stroke="currentColor" strokeWidth="3.5" />
+      {/* Thân Omega: vành dày hở đáy (±30°) + hai chân đế ngang */}
+      <path
+        d="M65.5 71.85 A31 31 0 1 0 34.5 71.85 L21.5 71.85 L21.5 77.5 L38 77.5 L40.4 61.6 A19.2 19.2 0 1 1 59.6 61.6 L62 77.5 L78.5 77.5 L78.5 71.85 Z"
+        fill="currentColor"
+      />
       {/* Vòng trong đồng tâm */}
-      <circle cx="50" cy="44" r="20" stroke="currentColor" strokeWidth="2.5" opacity="0.8" />
+      <circle cx="50" cy="45" r="10.4" stroke="currentColor" strokeWidth="4" />
       {/* Tâm điểm */}
-      <circle cx="50" cy="44" r="5.5" fill="currentColor" />
-      {/* Hai chân Omega — đuôi cong xuống hai bên */}
-      <path
-        d="M30 70 C 22 78, 18 84, 17 90 L 33 90 C 33 84, 33 79, 36 74"
-        stroke="currentColor"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M70 70 C 78 78, 82 84, 83 90 L 67 90 C 67 84, 67 79, 64 74"
-        stroke="currentColor"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <circle cx="50" cy="45" r="4.3" fill="currentColor" />
     </svg>
   );
 }
