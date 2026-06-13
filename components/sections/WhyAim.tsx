@@ -8,7 +8,7 @@ import { PAIN_SOLUTIONS } from '@/lib/content';
  */
 export function WhyAim() {
   return (
-    <Section tone="navy" id="why-aim" ariaLabelledby="why-heading">
+    <Section tone="navy" id="why-aim" ariaLabelledby="why-heading" seam glow={{ x: 26, y: 28 }}>
       <div className="container-aim">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="eyebrow text-gold-bright">Vì sao chọn Aim</p>
@@ -32,7 +32,7 @@ export function WhyAim() {
                 key={item.painTitle}
                 as="article"
                 delay={i * 0.05}
-                className="grid items-stretch gap-px overflow-hidden rounded-2xl border border-beige/10 bg-beige/5 lg:grid-cols-2"
+                className="card-ink grid items-stretch gap-px overflow-hidden rounded-2xl lg:grid-cols-2"
               >
                 {/* Pain */}
                 <div
@@ -49,7 +49,7 @@ export function WhyAim() {
 
                 {/* Solution */}
                 <div
-                  className={`flex flex-col justify-center border-t border-beige/10 bg-navy-deep/60 p-8 lg:border-l lg:border-t-0 lg:p-10 ${
+                  className={`flex flex-col justify-center border-t border-hairline bg-ink/40 p-8 lg:border-l lg:border-t-0 lg:p-10 ${
                     solutionFirst ? 'lg:order-1' : 'lg:order-2'
                   }`}
                 >

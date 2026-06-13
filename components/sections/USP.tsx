@@ -30,9 +30,9 @@ export function USP() {
                 key={pillar.vi}
                 as="article"
                 delay={i * 0.1}
-                className="group flex flex-col rounded-xl border border-navy/10 bg-beige-warm/50 p-8 transition-colors hover:border-gold/50"
+                className="group flex flex-col rounded-xl border border-[rgba(18,26,68,0.1)] bg-white/35 p-8 shadow-[0_2px_10px_-6px_rgba(6,8,21,0.25)] transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-gold-line hover:shadow-[0_24px_44px_-26px_rgba(6,8,21,0.4)]"
               >
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-navy text-gold-bright">
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-royal text-gold-champagne">
                   <Icon className="h-7 w-7" />
                 </span>
                 <h3 className="mt-6 font-display text-2xl font-semibold">{pillar.vi}</h3>

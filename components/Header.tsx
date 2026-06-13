@@ -35,8 +35,8 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 text-beige transition-colors duration-300 ${
-        scrolled ? 'bg-navy/95 shadow-lg shadow-navy/20 backdrop-blur' : 'bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 text-ivory transition-colors duration-300 ${
+        scrolled ? 'border-b border-hairline bg-ink/80 backdrop-blur-md' : 'bg-transparent'
       }`}
     >
       <div className="container-aim flex h-16 items-center justify-between lg:h-20">

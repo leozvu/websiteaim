@@ -52,7 +52,7 @@ function ProjectArtwork({ project, index }: { project: Project; index: number })
  */
 export function Projects() {
   return (
-    <Section tone="navy" id="projects" ariaLabelledby="projects-heading">
+    <Section tone="navy" id="projects" ariaLabelledby="projects-heading" seam glow={{ x: 50, y: 18 }}>
       <div className="container-aim">
         <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
@@ -72,7 +72,7 @@ export function Projects() {
             <Reveal key={project.name} as="li" delay={(i % 3) * 0.08}>
               <Link
                 href="/projects"
-                className="group block overflow-hidden rounded-xl border border-beige/10 bg-navy-deep focus-visible:outline-gold"
+                className="card-ink group block overflow-hidden rounded-xl transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-gold"
                 aria-label={`Xem dự án ${project.name} — ngành ${project.industry}`}
               >
                 {/* Artwork với hover zoom */}

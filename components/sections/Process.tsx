@@ -8,7 +8,7 @@ import { PROCESS_STEPS } from '@/lib/content';
  */
 export function Process() {
   return (
-    <Section tone="navy" id="process" ariaLabelledby="process-heading">
+    <Section tone="navy" id="process" ariaLabelledby="process-heading" seam glow={{ x: 74, y: 24 }}>
       <div className="container-aim">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="eyebrow text-gold-bright">Cách chúng tôi làm việc</p>

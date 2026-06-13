@@ -40,9 +40,9 @@ export function ServicesPreview() {
                 key={card.title}
                 as="article"
                 delay={i * 0.08}
-                className="group flex items-start gap-5 rounded-xl border border-steel/30 bg-steel/10 p-7 transition-all hover:border-steel/60 hover:bg-steel/15"
+                className="group flex items-start gap-5 rounded-xl border border-[rgba(18,26,68,0.1)] bg-white/35 p-7 shadow-[0_2px_10px_-6px_rgba(6,8,21,0.25)] transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-gold-line hover:shadow-[0_24px_44px_-26px_rgba(6,8,21,0.4)]"
               >
-                <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-navy text-gold-bright">
+                <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-royal text-gold-champagne">
                   <Icon className="h-6 w-6" />
                 </span>
                 <div>

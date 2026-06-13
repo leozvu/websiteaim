@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 type Tone = 'navy' | 'beige';
 
 type SectionProps = {
   children: ReactNode;
-  /** Nền section — navy hoặc beige (luân phiên, không trắng tinh). */
+  /** 'navy' = bề mặt tối xếp tầng (spotlight); 'beige' = ivory light-relief. */
   tone?: Tone;
   id?: string;
   className?: string;
@@ -12,17 +12,17 @@ type SectionProps = {
   flush?: boolean;
   as?: 'section' | 'div';
   ariaLabelledby?: string;
-};
-
-const toneClass: Record<Tone, string> = {
-  navy: 'bg-navy text-beige',
-  // paper-grain: chất liệu giấy rất nhẹ trên nền cream — editorial, không phẳng số
-  beige: 'bg-beige text-navy paper-grain',
+  /** Tâm spotlight (0–100%) — dịch để mỗi section có chiều sâu khác nhau. */
+  glow?: { x: number; y: number };
+  /** Đường nối glow mảnh ở mép trên (giữa các section tối). */
+  seam?: boolean;
 };
 
 /**
- * Wrapper section: nền navy/beige luân phiên + nhịp dọc editorial rộng.
- * Nền beige có lớp paper-grain mảnh; mọi nội dung nằm trên lớp grain (z-10).
+ * Wrapper section của AIM Luxury Visual System.
+ * - tone 'navy'  → .surface-dark (ink/midnight/royal + spotlight ấm + vignette + grain)
+ * - tone 'beige' → .surface-ivory (ivory ấm có chiều sâu nhẹ)
+ * Mọi nội dung nằm trên lớp nền/vignette (z-10).
  */
 export function Section({
   children,
@@ -32,12 +32,23 @@ export function Section({
   flush = false,
   as: Tag = 'section',
   ariaLabelledby,
+  glow,
+  seam = false,
 }: SectionProps) {
+  const dark = tone === 'navy';
+  const surface = dark ? 'surface-dark vignette' : 'surface-ivory paper-grain';
+  const style = glow
+    ? ({ ['--gx' as string]: `${glow.x}%`, ['--gy' as string]: `${glow.y}%` } as CSSProperties)
+    : undefined;
+
   return (
     <Tag
       id={id}
       aria-labelledby={ariaLabelledby}
-      className={`relative ${toneClass[tone]} ${flush ? '' : 'py-24 sm:py-28 lg:py-36'} ${className}`}
+      style={style}
+      className={`relative overflow-hidden ${surface} ${seam ? 'glow-seam' : ''} ${
+        flush ? '' : 'py-24 sm:py-28 lg:py-36'
+      } ${className}`}
     >
       <div className="relative z-10">{children}</div>
     </Tag>

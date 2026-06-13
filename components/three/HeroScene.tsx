@@ -62,12 +62,12 @@ export function HeroScene() {
         }`}
       >
         <div
-          className="absolute right-[6%] top-1/2 h-[64vmin] w-[64vmin] -translate-y-1/2 rounded-full blur-3xl"
-          style={{ background: 'radial-gradient(circle, rgba(201,168,106,0.16), transparent 62%)' }}
+          className="absolute right-[2%] top-1/2 h-[70vmin] w-[70vmin] -translate-y-1/2 rounded-full blur-3xl"
+          style={{ background: 'radial-gradient(circle, rgba(216,180,106,0.18), transparent 60%)' }}
         />
         <OmegaMark
           title=""
-          className="absolute right-[8%] top-1/2 h-[46vmin] w-[46vmin] -translate-y-1/2 text-gold/55"
+          className="absolute right-[-6%] top-1/2 h-[52vmin] w-[52vmin] -translate-y-1/2 text-gold-champagne/45"
         />
       </div>
 
