@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Section } from '../ui/Section';
 import { Reveal } from '../ui/Reveal';
+import { TextReveal } from '../ui/TextReveal';
 import { PROJECTS, PROJECTS_NDA_NOTE, type Project } from '@/lib/content';
 
 /** Placeholder thị giác cho tile dự án — SVG gradient tự tạo, không cần asset ngoài. */
@@ -54,15 +55,15 @@ export function Projects() {
   return (
     <Section tone="navy" id="projects" ariaLabelledby="projects-heading" seam glow={{ x: 50, y: 18 }}>
       <div className="container-aim">
-        <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <Reveal y={0} className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
-            <p className="eyebrow text-gold-bright">Dự án nổi bật</p>
-            <h2
+            <p className="eyebrow text-gold-champagne">Dự án nổi bật</p>
+            <TextReveal
+              as="h2"
               id="projects-heading"
-              className="mt-4 font-display text-3xl font-semibold leading-tight text-beige sm:text-4xl lg:text-5xl"
-            >
-              Một vài thương hiệu đã làm cùng Aim
-            </h2>
+              text="Một vài thương hiệu đã làm cùng Aim"
+              className="mt-4 font-display text-3xl font-semibold leading-tight text-ivory sm:text-4xl lg:text-5xl"
+            />
           </div>
           <p className="max-w-xs text-sm leading-relaxed text-beige/55">{PROJECTS_NDA_NOTE}</p>
         </Reveal>

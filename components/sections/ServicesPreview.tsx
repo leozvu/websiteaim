@@ -1,5 +1,6 @@
 import { Section } from '../ui/Section';
 import { Reveal } from '../ui/Reveal';
+import { TextReveal } from '../ui/TextReveal';
 import { Button } from '../ui/Button';
 import { SERVICE_ICONS, IconArrowRight } from '../ui/Icons';
 import { SERVICE_CARDS, SERVICES_CTA } from '@/lib/content';
@@ -12,15 +13,15 @@ export function ServicesPreview() {
   return (
     <Section tone="beige" id="services" ariaLabelledby="services-heading">
       <div className="container-aim">
-        <Reveal className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <Reveal y={0} className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
-            <p className="eyebrow text-gold">Dịch vụ</p>
-            <h2
+            <p className="eyebrow text-gold-deep">Dịch vụ</p>
+            <TextReveal
+              as="h2"
               id="services-heading"
+              text="Từ chiến lược đến ấn phẩm"
               className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl"
-            >
-              Từ chiến lược đến ấn phẩm
-            </h2>
+            />
             <p className="mt-5 text-base leading-relaxed text-navy/75">
               Bốn nhóm dịch vụ cốt lõi, ghép linh hoạt theo nhu cầu và ngân sách thực tế của bạn.
             </p>

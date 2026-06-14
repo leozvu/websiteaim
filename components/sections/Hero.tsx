@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import { Button } from '../ui/Button';
 import { HeroScene } from '../three/HeroScene';
 import { HERO } from '@/lib/content';
@@ -8,9 +9,10 @@ import { HERO } from '@/lib/content';
  * HERO — AIM Luxury "Lit Ink & Metal".
  * Nền tối xếp tầng với spotlight ấm lệch phải (nơi đặt emblem). Headline Garamond
  * CHỦ ĐẠO, lệch trái trên lưới 12; emblem 3D HỖ TRỢ (lệch phải, crop ngoài viewport).
- * Entrance bằng CSS (LCP nhanh); 3D là progressive enhancement phủ poster tĩnh.
+ * H1 reveal theo TỪ bằng CSS (LCP an toàn); 3D là progressive enhancement phủ poster.
  */
 export function Hero() {
+  const heroWords = HERO.title.split(' ');
   return (
     <section
       aria-labelledby="hero-heading"
@@ -31,29 +33,37 @@ export function Hero() {
 
           <h1
             id="hero-heading"
-            className="mt-7 animate-fade-in-up font-display text-[clamp(3rem,9.5vw,7.25rem)] font-semibold leading-[0.97] tracking-[-0.015em] text-ivory"
-            style={{ animationDelay: '0.13s' }}
+            className="mt-7 font-display text-[clamp(3rem,9.5vw,7.25rem)] font-semibold leading-[0.97] tracking-[-0.015em] text-ivory"
           >
-            {HERO.title}
+            {heroWords.map((w, i) => (
+              <Fragment key={`${w}-${i}`}>
+                <span className="word-mask">
+                  <span className="word-rise" style={{ animationDelay: `${0.12 + i * 0.09}s` }}>
+                    {w}
+                  </span>
+                </span>
+                {i < heroWords.length - 1 ? ' ' : ''}
+              </Fragment>
+            ))}
           </h1>
 
           {/* Hairline kim loại ngắn — dấu nhấn editorial */}
           <span
             aria-hidden
             className="mt-9 block h-px w-16 animate-fade-in-up bg-metal-gold"
-            style={{ animationDelay: '0.22s' }}
+            style={{ animationDelay: '0.55s' }}
           />
 
           <p
             className="mt-9 max-w-xl animate-fade-in-up text-[1.0625rem] leading-[1.75] text-muted sm:text-lg"
-            style={{ animationDelay: '0.28s' }}
+            style={{ animationDelay: '0.62s' }}
           >
             {HERO.subtitle}
           </p>
 
           <div
             className="mt-11 flex animate-fade-in-up flex-col gap-4 sm:flex-row"
-            style={{ animationDelay: '0.4s' }}
+            style={{ animationDelay: '0.72s' }}
           >
             <Button href={HERO.primaryCta.href} variant="gold">
               {HERO.primaryCta.label}

@@ -51,6 +51,14 @@ const config: Config = {
         widest: '0.25em',
         brand: '0.35em', // tagline "DO RIGHT THINGS" giãn cách rộng
       },
+      // Motion tokens — rút từ capture reference (chữ ký easing/duration)
+      transitionTimingFunction: {
+        brand: 'cubic-bezier(0.55, 0.085, 0, 0.99)',
+      },
+      transitionDuration: {
+        450: '450ms',
+        600: '600ms',
+      },
       maxWidth: {
         content: '1200px',
       },

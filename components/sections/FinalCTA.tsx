@@ -1,4 +1,5 @@
 import { Reveal } from '../ui/Reveal';
+import { TextReveal } from '../ui/TextReveal';
 import { Button } from '../ui/Button';
 import { OmegaMark } from '../Logo';
 import { FINAL_CTA } from '@/lib/content';
@@ -22,14 +23,14 @@ export function FinalCTA() {
       </div>
 
       <div className="container-aim relative z-10 py-24 lg:py-32">
-        <Reveal className="max-w-2xl">
+        <Reveal y={0} className="max-w-2xl">
           <p className="eyebrow tracking-brand text-gold-champagne">Do Right Things</p>
-          <h2
+          <TextReveal
+            as="h2"
             id="final-cta-heading"
+            text={FINAL_CTA.title}
             className="mt-5 font-display text-4xl font-semibold leading-[1.05] text-ivory sm:text-5xl lg:text-6xl"
-          >
-            {FINAL_CTA.title}
-          </h2>
+          />
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
             {FINAL_CTA.body}
           </p>

@@ -1,5 +1,6 @@
 import { Section } from '../ui/Section';
 import { Reveal } from '../ui/Reveal';
+import { TextReveal } from '../ui/TextReveal';
 import { PROCESS_STEPS } from '@/lib/content';
 
 /**
@@ -10,14 +11,14 @@ export function Process() {
   return (
     <Section tone="navy" id="process" ariaLabelledby="process-heading" seam glow={{ x: 74, y: 24 }}>
       <div className="container-aim">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold-bright">Cách chúng tôi làm việc</p>
-          <h2
+        <Reveal y={0} className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow text-gold-champagne">Cách chúng tôi làm việc</p>
+          <TextReveal
+            as="h2"
             id="process-heading"
-            className="mt-4 font-display text-3xl font-semibold leading-tight text-beige sm:text-4xl lg:text-5xl"
-          >
-            Quy trình bốn bước rõ ràng
-          </h2>
+            text="Quy trình bốn bước rõ ràng"
+            className="mt-4 font-display text-3xl font-semibold leading-tight text-ivory sm:text-4xl lg:text-5xl"
+          />
           <p className="mt-5 text-base leading-relaxed text-beige/70">
             Minh bạch ở từng giai đoạn. Bạn luôn biết đang ở đâu và bước tiếp theo là gì.
           </p>

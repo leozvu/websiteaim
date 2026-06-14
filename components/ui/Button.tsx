@@ -42,7 +42,7 @@ export function Button({
   const classes =
     `group inline-flex min-h-[3rem] items-center justify-center gap-2.5 rounded-[3px] px-8 py-3 ` +
     `font-body text-[0.78rem] font-semibold uppercase tracking-[0.16em] ` +
-    `transition-[background-position,background-color,border-color,color] duration-300 ease-out ` +
+    `transition-[background-position,background-color,border-color,color,transform] duration-450 ease-brand ` +
     `${variantClass[variant]} ${className}`;
 
   const inner = (

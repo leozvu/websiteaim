@@ -199,6 +199,28 @@
     border-color: rgba(184, 153, 104, 0.9);
   }
 
+  /* Hero word-reveal: mask trượt từng từ — thuần CSS (không chờ JS → LCP an toàn).
+     padding/margin âm để không clip descender; reduced-motion snap ngay (visible). */
+  @keyframes word-rise {
+    from {
+      transform: translateY(112%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  .word-mask {
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.16em 0.04em;
+    margin: -0.16em -0.04em;
+  }
+  .word-rise {
+    display: inline-block;
+    transform: translateY(112%);
+    animation: word-rise 0.8s cubic-bezier(0.55, 0.085, 0, 0.99) forwards;
+  }
+
   /* Marquee: chạy ngang vô tận; tạm dừng khi hover */
   @keyframes marquee-x {
     from {

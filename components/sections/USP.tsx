@@ -1,5 +1,6 @@
 import { Section } from '../ui/Section';
 import { Reveal } from '../ui/Reveal';
+import { TextReveal } from '../ui/TextReveal';
 import { USP_ICONS } from '../ui/Icons';
 import { USP_PILLARS, BRAND_PROMISE } from '@/lib/content';
 
@@ -11,14 +12,14 @@ export function USP() {
   return (
     <Section tone="beige" id="usp" ariaLabelledby="usp-heading">
       <div className="container-aim">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold">Nguyên tắc của chúng tôi</p>
-          <h2
+        <Reveal y={0} className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow text-gold-deep">Nguyên tắc của chúng tôi</p>
+          <TextReveal
+            as="h2"
             id="usp-heading"
+            text="Ba điều Aim cam kết làm đúng"
             className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl"
-          >
-            Ba điều Aim cam kết làm đúng
-          </h2>
+          />
           <p className="mt-5 text-base leading-relaxed text-navy/75">{BRAND_PROMISE}</p>
         </Reveal>
 

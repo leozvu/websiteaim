@@ -1,5 +1,6 @@
 import { Section } from '../ui/Section';
 import { Reveal } from '../ui/Reveal';
+import { TextReveal } from '../ui/TextReveal';
 import { PAIN_SOLUTIONS } from '@/lib/content';
 
 /**
@@ -10,14 +11,14 @@ export function WhyAim() {
   return (
     <Section tone="navy" id="why-aim" ariaLabelledby="why-heading" seam glow={{ x: 26, y: 28 }}>
       <div className="container-aim">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold-bright">Vì sao chọn Aim</p>
-          <h2
+        <Reveal y={0} className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow text-gold-champagne">Vì sao chọn Aim</p>
+          <TextReveal
+            as="h2"
             id="why-heading"
-            className="mt-4 font-display text-3xl font-semibold leading-tight text-beige sm:text-4xl lg:text-5xl"
-          >
-            Chúng tôi hiểu vấn đề thật của bạn
-          </h2>
+            text="Chúng tôi hiểu vấn đề thật của bạn"
+            className="mt-4 font-display text-3xl font-semibold leading-tight text-ivory sm:text-4xl lg:text-5xl"
+          />
           <p className="mt-5 text-base leading-relaxed text-beige/70">
             Không vẽ ra nhu cầu mới. Aim bắt đầu từ chính những khó khăn mà Startups và SME Việt
             đang đối mặt mỗi ngày.

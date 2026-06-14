@@ -1,5 +1,6 @@
 import { Section } from '../ui/Section';
 import { Reveal } from '../ui/Reveal';
+import { TextReveal } from '../ui/TextReveal';
 import { ROADMAP } from '@/lib/content';
 
 /**
@@ -10,14 +11,14 @@ export function Roadmap() {
   return (
     <Section tone="beige" id="roadmap" ariaLabelledby="roadmap-heading">
       <div className="container-aim">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold">Tầm nhìn dài hạn</p>
-          <h2
+        <Reveal y={0} className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow text-gold-deep">Tầm nhìn dài hạn</p>
+          <TextReveal
+            as="h2"
             id="roadmap-heading"
+            text="Lộ trình phát triển của Aim"
             className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl"
-          >
-            Lộ trình phát triển của Aim
-          </h2>
+          />
           <p className="mt-5 text-base leading-relaxed text-navy/75">
             Chúng tôi xây năng lực theo từng giai đoạn, vững phần gốc trước khi mở rộng. Đây là
             chặng đường mười năm chúng tôi cam kết đi cùng khách hàng.
