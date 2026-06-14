@@ -2,7 +2,6 @@
 
 import { Fragment } from 'react';
 import { Button } from '../ui/Button';
-import { HeroScene } from '../three/HeroScene';
 import { HERO } from '@/lib/content';
 
 /**
@@ -16,12 +15,9 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      style={{ ['--gx' as string]: '74%', ['--gy' as string]: '42%' }}
+      style={{ ['--gx' as string]: '36%', ['--gy' as string]: '38%' }}
       className="surface-dark vignette relative flex min-h-[100svh] items-center overflow-hidden"
     >
-      {/* Centerpiece 3D (hoặc poster tĩnh khi reduced-motion/mobile) — lệch phải, sau chữ */}
-      <HeroScene />
-
       <div className="container-aim relative z-10 grid w-full grid-cols-1 items-center gap-y-10 py-32 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <p
