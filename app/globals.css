@@ -199,6 +199,91 @@
     border-color: rgba(184, 153, 104, 0.9);
   }
 
+  /* ── Hero "control-room" — 4 lớp chiều sâu ── */
+
+  /* Lớp grid mảnh (signal blueprint), mask mờ dần về rìa */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(157, 160, 166, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(157, 160, 166, 0.06) 1px, transparent 1px);
+    background-size: 58px 58px;
+    -webkit-mask-image: radial-gradient(120% 90% at 64% 44%, #000 0%, transparent 72%);
+    mask-image: radial-gradient(120% 90% at 64% 44%, #000 0%, transparent 72%);
+  }
+
+  /* Glass control panel: frosted + hairline + inner light */
+  .glass-panel {
+    background: linear-gradient(155deg, rgba(39, 48, 90, 0.5), rgba(12, 18, 40, 0.45));
+    backdrop-filter: blur(16px) saturate(1.1);
+    -webkit-backdrop-filter: blur(16px) saturate(1.1);
+    border: 1px solid rgba(247, 238, 219, 0.12);
+    box-shadow:
+      0 34px 64px -30px rgba(0, 0, 0, 0.75),
+      inset 0 1px 0 rgba(247, 238, 219, 0.1);
+  }
+
+  /* Viền kim loại platinum mảnh (chrome tinh tế, chỉ ở edge) */
+  .metal-edge {
+    position: relative;
+  }
+  .metal-edge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      130deg,
+      rgba(232, 236, 240, 0.55),
+      rgba(157, 160, 166, 0.12) 28%,
+      transparent 52%,
+      rgba(232, 236, 240, 0.32) 92%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Tín hiệu "live" — chấm nhịp chậm */
+  @keyframes signal-pulse {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  .signal-live {
+    animation: signal-pulse 2.6s ease-in-out infinite;
+  }
+
+  /* CTA metallic sweep — vệt sáng chéo chạy chậm khi hover (nhỏ, premium) */
+  .cta-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-sweep::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.45) 48%,
+      transparent 66%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.9s cubic-bezier(0.55, 0.085, 0, 0.99);
+    pointer-events: none;
+  }
+  .cta-sweep:hover::after {
+    transform: translateX(120%);
+  }
+
   /* Hero word-reveal: mask trượt từng từ — thuần CSS (không chờ JS → LCP an toàn).
      padding/margin âm để không clip descender; reduced-motion snap ngay (visible). */
   @keyframes word-rise {
