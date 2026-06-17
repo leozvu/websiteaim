@@ -275,6 +275,16 @@
   }
 }
 
+/* Hero showcase: 1 cột mobile (chữ trên, reel dưới) → 2 cột desktop. */
+.aim-hero-grid {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 960px) {
+  .aim-hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
 /* Lưới đều full-width: 1 cột mobile → 2 cột tablet → 3/4 cột desktop. */
 .aim-grid-2,
 .aim-grid-3,
@@ -361,6 +371,26 @@
   50% {
     opacity: 0.6;
     transform: scale(1.06);
+  }
+}
+
+/* Hero showcase reel — vệt sáng champagne quét qua khi scene active. */
+@keyframes aim-sweep {
+  0% {
+    transform: translateX(-130%) skewX(-12deg);
+  }
+  55%,
+  100% {
+    transform: translateX(160%) skewX(-12deg);
+  }
+}
+/* Thanh tiến trình scene chạy đầy theo thời lượng. */
+@keyframes aim-tick-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 

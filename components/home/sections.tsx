@@ -4,12 +4,11 @@
    PHONG CÁCH brand book: nền navy↔ivory luân phiên, Garamond + champagne accent,
    số chương lớn, hairline editorial, Reveal/Tilt3D. Nội dung từ lib/content.ts. */
 
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { Button, Card, Icon, OmegaMark } from '@/components/brandbook/ds';
 import { Reveal, Tilt3D } from '@/components/brandbook/primitives';
+import { HeroShowcase } from './HeroShowcase';
 import {
-  HERO,
-  BRAND_PROMISE,
   USP_PILLARS,
   PAIN_SOLUTIONS,
   SERVICE_CARDS,
@@ -88,94 +87,7 @@ function SectionHead({
   );
 }
 
-/* ───────── 1 · HERO (navy) ───────── */
-function Hero() {
-  const [p, setP] = useState({ x: 0, y: 0 });
-  const reduce = useRef(false);
-  useEffect(() => {
-    reduce.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }, []);
-  const move = (e: React.MouseEvent<HTMLElement>) => {
-    if (reduce.current) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    setP({ x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 });
-  };
-  return (
-    <section
-      id="hero"
-      onMouseMove={move}
-      style={{
-        position: 'relative',
-        minHeight: '100svh',
-        background: 'var(--navy)',
-        color: 'var(--ivory)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        overflow: 'hidden',
-        perspective: '1300px',
-      }}
-    >
-      {/* Omega watermark parallax */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          right: '-10%',
-          top: '50%',
-          transformStyle: 'preserve-3d',
-          transform: `translate(${p.x * -36}px, calc(-50% + ${p.y * -28}px)) rotateX(${p.y * -8}deg) rotateY(${p.x * 14}deg)`,
-          transition: 'transform 0.35s var(--ease-out)',
-        }}
-      >
-        <OmegaMark size={660} title="" tone="ivory" style={{ opacity: 0.06 }} />
-      </div>
-      <span
-        aria-hidden
-        style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 28% 30%, rgba(197,173,138,0.1), transparent 55%)' }}
-      />
-
-      <div className="aim-container" style={{ position: 'relative', paddingTop: 96, paddingBottom: 48 }}>
-        <Reveal>
-          <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)', marginBottom: 26 }}>
-            Branding Studio · Startups &amp; SME Việt Nam
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h1
-            className="aim-display"
-            style={{ fontSize: 'var(--text-hero)', lineHeight: 1.02, margin: 0, maxWidth: 14 + 'ch', letterSpacing: '-0.01em' }}
-          >
-            {HERO.title}
-          </h1>
-        </Reveal>
-        <Reveal delay={0.18}>
-          <p style={{ marginTop: 28, maxWidth: 560, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>
-            {HERO.subtitle}
-          </p>
-        </Reveal>
-        <Reveal delay={0.26}>
-          <div style={{ marginTop: 38, display: 'flex', flexWrap: 'wrap', gap: 14 }}>
-            <Button href={HERO.primaryCta.href} variant="gold" size="lg" withArrow>
-              {HERO.primaryCta.label}
-            </Button>
-            <Button href={HERO.secondaryCta.href} variant="outline-light" size="lg">
-              {HERO.secondaryCta.label}
-            </Button>
-          </div>
-        </Reveal>
-      </div>
-
-      {/* scroll cue */}
-      <div className="aim-container" style={{ position: 'relative', paddingBottom: 32 }}>
-        <hr className="aim-rule aim-rule--dark" style={{ marginBottom: 16 }} />
-        <span style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 15, color: 'var(--text-on-dark-subtle)' }}>
-          {BRAND_PROMISE}
-        </span>
-      </div>
-    </section>
-  );
-}
+/* ───────── 1 · HERO — reel showcase asset thật (xem HeroShowcase.tsx) ───────── */
 
 /* ───────── 2 · USP (ivory) ───────── */
 function Usp() {
@@ -438,7 +350,7 @@ function FinalCta() {
 export default function HomeSections() {
   return (
     <>
-      <Hero />
+      <HeroShowcase />
       <Usp />
       <WhyAim />
       <Services />
