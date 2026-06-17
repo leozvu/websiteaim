@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { EB_Garamond, Be_Vietnam_Pro, Cormorant_Garamond } from 'next/font/google';
+import { SiteHeader } from '@/components/home/SiteHeader';
+import { SiteFooter } from '@/components/home/SiteFooter';
 import { SITE } from '@/lib/nav';
 import './globals.css';
 
@@ -122,9 +124,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-link">
           Bỏ qua tới nội dung chính
         </a>
-        {/* Brand book tự mang TopBar + SideRail + BackCover — không dùng Header/Footer global.
-            Lenis smooth-scroll đã GỠ (gây trễ wheel). Dùng scroll gốc (snappy). */}
-        <div id="main-content">{children}</div>
+        {/* Header + Footer toàn site (phong cách brand book). Lenis đã GỠ — scroll gốc. */}
+        <SiteHeader />
+        <main id="main-content">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

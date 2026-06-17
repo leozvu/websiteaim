@@ -263,6 +263,22 @@
   }
 }
 
+/* Responsive nav: desktop links ≥1024px, hamburger < 1024px. */
+.aim-nav-desktop {
+  display: none;
+}
+.aim-nav-mobile-trigger {
+  display: inline-flex !important;
+}
+@media (min-width: 1024px) {
+  .aim-nav-desktop {
+    display: block;
+  }
+  .aim-nav-mobile-trigger {
+    display: none !important;
+  }
+}
+
 /* Two-column editorial layouts at desktop (từ index.html <style>). */
 @media (min-width: 900px) {
   .aim-ch-header {
@@ -273,6 +289,19 @@
   }
   .aim-rail {
     display: flex !important;
+  }
+}
+
+/* Home: hàng pain↔solution 2 cột ở tablet+. */
+@media (min-width: 768px) {
+  .aim-why-row {
+    --two: 1fr 1fr;
+  }
+}
+/* Home: hàng roadmap (năm | nội dung) ở mobile lớn+. */
+@media (min-width: 640px) {
+  .aim-road-row {
+    --road: minmax(110px, 0.28fr) 1fr;
   }
 }
 

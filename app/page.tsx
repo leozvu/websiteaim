@@ -1,7 +1,7 @@
-import BrandBook from '@/components/brandbook/BrandBook';
+import HomeSections from '@/components/home/sections';
 
-// Trang chủ = brand book tương tác của AIM (Cover + 7 chương + back cover),
-// dựng y chang theo Claude Design file, dùng nội dung thật của AIM.
+// Trang chủ = NỘI DUNG THẬT của website (8 section marketing) khoác PHONG CÁCH
+// brand book (navy↔ivory, Garamond + champagne accent, editorial). Header/Footer ở layout.
 export default function HomePage() {
-  return <BrandBook />;
+  return <HomeSections />;
 }
