@@ -164,6 +164,18 @@
     background-color: var(--selection-bg);
     color: var(--selection-fg);
   }
+
+  /* Chống mồ côi chữ: cân dòng cho tiêu đề, tránh 1 từ rớt xuống riêng 1 dòng. */
+  h1,
+  h2,
+  h3,
+  h4,
+  .aim-display {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
 }
 
 @layer components {
@@ -260,6 +272,30 @@
     padding: 0.5rem 1rem;
     font-size: var(--text-sm);
     font-weight: 600;
+  }
+}
+
+/* Lưới đều full-width: 1 cột mobile → 2 cột tablet → 3/4 cột desktop. */
+.aim-grid-2,
+.aim-grid-3,
+.aim-grid-4 {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .aim-grid-2,
+  .aim-grid-3,
+  .aim-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .aim-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .aim-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

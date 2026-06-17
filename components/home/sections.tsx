@@ -182,7 +182,7 @@ function Usp() {
   return (
     <Band id="usp" tone="ivory">
       <SectionHead no="01" eyebrow="Cam kết của chúng tôi" title="Ba điều Aim luôn giữ" />
-      <div style={{ marginTop: 'clamp(40px,6vw,64px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+      <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
         {USP_PILLARS.map((p, i) => (
           <Reveal key={p.vi} delay={i * 0.07} depth style={{ height: '100%' }}>
             <Card tone="beige" interactive padding="30px" style={{ height: '100%' }}>
@@ -259,7 +259,7 @@ function Services() {
   return (
     <Band id="services" tone="ivory-raise">
       <SectionHead no="03" eyebrow="Dịch vụ" title="Những gì Aim làm cùng bạn" />
-      <div style={{ marginTop: 'clamp(40px,6vw,64px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
+      <div className="aim-grid-4" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
         {SERVICE_CARDS.map((s, i) => (
           <Reveal key={s.title} delay={i * 0.06} depth style={{ height: '100%' }}>
             <Card tone="beige" interactive padding="28px" style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -297,7 +297,7 @@ function Process() {
   return (
     <Band id="process" tone="navy">
       <SectionHead no="04" eyebrow="Quy trình" title="Bốn bước, minh bạch từ đầu" dark />
-      <div style={{ marginTop: 'clamp(40px,6vw,64px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 28 }}>
+      <div className="aim-grid-4" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
         {PROCESS_STEPS.map((s, i) => (
           <Reveal key={s.number} delay={i * 0.07}>
             <div>
@@ -351,7 +351,7 @@ function Projects() {
   return (
     <Band id="projects" tone="navy-ink">
       <SectionHead no="06" eyebrow="Dự án nổi bật" title="Một vài thương hiệu đã tin Aim" dark />
-      <div style={{ marginTop: 'clamp(40px,6vw,64px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
+      <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
         {PROJECTS.map((pr, i) => (
           <Reveal key={pr.name} delay={i * 0.05} depth>
             <Tilt3D
@@ -411,14 +411,14 @@ function Projects() {
 function FinalCta() {
   return (
     <Band id="cta" tone="navy">
-      <div style={{ maxWidth: 640, marginInline: 'auto', textAlign: 'center' }}>
+      <div style={{ maxWidth: 880, marginInline: 'auto', textAlign: 'center' }}>
         <Reveal>
-          <span aria-hidden style={{ fontFamily: 'var(--font-numeral)', fontSize: 56, color: 'var(--gold)', display: 'inline-block', lineHeight: 0.6 }}>
-            &ldquo;
-          </span>
+          <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)' }}>
+            Bắt đầu
+          </div>
         </Reveal>
         <Reveal delay={0.06}>
-          <h2 className="aim-display" style={{ fontSize: 'var(--text-display)', color: 'var(--ivory)', margin: '14px 0 0' }}>
+          <h2 className="aim-display" style={{ fontSize: 'var(--text-display)', color: 'var(--ivory)', margin: '16px 0 0' }}>
             {FINAL_CTA.title}
           </h2>
         </Reveal>
