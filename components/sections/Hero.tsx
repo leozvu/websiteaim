@@ -1,68 +1,25 @@
 'use client';
 
-import { Fragment, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import { Fragment } from 'react';
 import { Button } from '../ui/Button';
+import { HeroDepthScene } from '../three/HeroDepthScene';
 import { HERO } from '@/lib/content';
 
 /**
- * HERO — sạch: nền video navy cinematic (fal) phủ lên ảnh tĩnh (poster/LCP), scrim
- * navy cho chữ đọc rõ, parallax chuột rất nhẹ. Accent bạc/kem (no gold). Không panel.
+ * HERO — ảnh navy editorial với depth-parallax theo chuột (WebGL, "style" reference).
+ * Ảnh tĩnh làm poster/LCP + mobile/reduced-motion; canvas depth fade đè ở desktop.
+ * Scrim navy cho chữ đọc rõ. Accent bạc/kem (no gold).
  */
 export function Hero() {
   const heroWords = HERO.title.split(' ');
-  const mediaRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const desktop = window.matchMedia('(min-width: 768px)').matches;
-    if (!reduce && desktop && videoRef.current) {
-      videoRef.current.src = '/videos/hero-navy.mp4';
-      videoRef.current.play().catch(() => {});
-    }
-
-    const el = mediaRef.current;
-    if (!el || reduce || !window.matchMedia('(pointer: fine)').matches) return;
-    let raf = 0;
-    const t = { x: 0, y: 0 };
-    const c = { x: 0, y: 0 };
-    const onMove = (e: PointerEvent) => {
-      t.x = (e.clientX / window.innerWidth - 0.5) * 2;
-      t.y = (e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    const loop = () => {
-      c.x += (t.x - c.x) * 0.06;
-      c.y += (t.y - c.y) * 0.06;
-      el.style.transform = `scale(1.08) translate3d(${c.x * -12}px, ${c.y * -8}px, 0)`;
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    window.addEventListener('pointermove', onMove, { passive: true });
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener('pointermove', onMove);
-    };
-  }, []);
 
   return (
     <section
       aria-labelledby="hero-heading"
       className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink"
     >
-      <div ref={mediaRef} aria-hidden className="absolute inset-0 will-change-transform" style={{ transform: 'scale(1.08)' }}>
-        <Image src="/images/hero-navy.jpg" alt="" fill priority sizes="100vw" className="object-cover" />
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000 [&.ready]:opacity-100"
-          poster="/images/hero-navy.jpg"
-          muted
-          loop
-          playsInline
-          preload="none"
-          onPlaying={(e) => e.currentTarget.classList.add('ready')}
-        />
-      </div>
+      <HeroDepthScene />
+
       <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/70 to-ink/25" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-ink/30" />
 
