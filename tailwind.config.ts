@@ -28,7 +28,7 @@ const config: Config = {
         // ── Brand book tokens (giữ cho các trang khác) ──
         navy: { DEFAULT: '#1A2150', deep: '#12183C', soft: '#27306A' },
         beige: { DEFAULT: '#F0EAD9', warm: '#E7DFC9' },
-        steel: { DEFAULT: '#6E7C89', soft: '#93A0AB' },
+        steel: { DEFAULT: '#6E7C89', soft: '#93A0AB', deep: '#54636F' },
         dove: '#9DA0A6',
       },
       borderColor: {

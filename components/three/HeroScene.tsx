@@ -67,7 +67,7 @@ export function HeroScene() {
         />
         <OmegaMark
           title=""
-          className="absolute right-[-6%] top-1/2 h-[52vmin] w-[52vmin] -translate-y-1/2 text-gold-champagne/45"
+          className="absolute right-[-6%] top-1/2 h-[52vmin] w-[52vmin] -translate-y-1/2 text-dove/45"
         />
       </div>
 

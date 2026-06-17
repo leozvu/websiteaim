@@ -70,11 +70,11 @@ export function CustomCursor() {
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[120] hidden lg:block">
       <div
         ref={ring}
-        className="cursor-ring fixed left-0 top-0 h-8 w-8 rounded-full border border-gold/60 transition-[width,height,background-color,border-color] duration-200 ease-out"
+        className="cursor-ring fixed left-0 top-0 h-8 w-8 rounded-full border border-dove/60 transition-[width,height,background-color,border-color] duration-200 ease-out"
       />
       <div
         ref={dot}
-        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-gold"
+        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-dove"
       />
     </div>
   );

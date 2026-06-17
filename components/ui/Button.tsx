@@ -13,14 +13,13 @@ type ButtonProps = {
 };
 
 const variantClass: Record<Variant, string> = {
-  // Kim loại: gradient champagne→antique, chữ ink; hover dịch sheen (bg 200%) — không glow rẻ
+  // Primary: nền KEM (ivory) chữ navy — accent sáng theo brand (KHÔNG gold)
   gold:
-    'bg-metal-gold [background-size:200%_100%] [background-position:0%_50%] text-ink ' +
-    'border border-gold-line shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] ' +
-    'hover:[background-position:100%_50%] focus-visible:outline-ivory',
-  // Outline trên nền tối — hairline ivory, hover đổ champagne mờ + viền vàng
+    'bg-ivory text-ink border border-ivory hover:bg-[#ECE1C8] ' +
+    'shadow-[0_1px_0_rgba(255,255,255,0.4)_inset] focus-visible:outline-ivory',
+  // Outline trên nền tối — hairline ivory, hover đổ kem mờ + viền sáng
   'outline-light':
-    'border border-hairline-strong text-ivory hover:border-gold-line hover:bg-[rgba(216,180,106,0.10)]',
+    'border border-hairline-strong text-ivory hover:border-[rgba(247,238,219,0.5)] hover:bg-[rgba(247,238,219,0.08)]',
   // Outline trên nền ivory — viền royal, hover fill royal
   'outline-dark': 'border border-[rgba(18,26,68,0.35)] text-royal hover:bg-royal hover:text-ivory',
   // Filled tối trên nền sáng

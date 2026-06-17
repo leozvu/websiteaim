@@ -13,7 +13,7 @@ export function USP() {
     <Section tone="beige" id="usp" ariaLabelledby="usp-heading">
       <div className="container-aim">
         <Reveal y={0} className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold-deep">Nguyên tắc của chúng tôi</p>
+          <p className="eyebrow text-steel-deep">Nguyên tắc của chúng tôi</p>
           <TextReveal
             as="h2"
             id="usp-heading"
@@ -31,9 +31,9 @@ export function USP() {
                 key={pillar.vi}
                 as="article"
                 delay={i * 0.1}
-                className="group flex flex-col rounded-xl border border-[rgba(18,26,68,0.1)] bg-white/35 p-8 shadow-[0_2px_10px_-6px_rgba(6,8,21,0.25)] transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-gold-line hover:shadow-[0_24px_44px_-26px_rgba(6,8,21,0.4)]"
+                className="group flex flex-col rounded-xl border border-[rgba(18,26,68,0.1)] bg-white/35 p-8 shadow-[0_2px_10px_-6px_rgba(6,8,21,0.25)] transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-dove/40 hover:shadow-[0_24px_44px_-26px_rgba(6,8,21,0.4)]"
               >
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-royal text-gold-champagne">
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-royal text-dove">
                   <Icon className="h-7 w-7" />
                 </span>
                 <h3 className="mt-6 font-display text-2xl font-semibold">{pillar.vi}</h3>

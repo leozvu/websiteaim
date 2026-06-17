@@ -12,7 +12,7 @@ export function WhyAim() {
     <Section tone="navy" id="why-aim" ariaLabelledby="why-heading" seam glow={{ x: 26, y: 28 }}>
       <div className="container-aim">
         <Reveal y={0} className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold-champagne">Vì sao chọn Aim</p>
+          <p className="eyebrow text-dove">Vì sao chọn Aim</p>
           <TextReveal
             as="h2"
             id="why-heading"
@@ -54,7 +54,7 @@ export function WhyAim() {
                     solutionFirst ? 'lg:order-1' : 'lg:order-2'
                   }`}
                 >
-                  <span className="eyebrow text-gold-bright">Cách Aim giải</span>
+                  <span className="eyebrow text-dove">Cách Aim giải</span>
                   <h3 className="mt-3 font-display text-xl font-semibold text-beige sm:text-2xl">
                     {item.solutionTitle}
                   </h3>

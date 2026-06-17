@@ -12,7 +12,7 @@ export function Roadmap() {
     <Section tone="beige" id="roadmap" ariaLabelledby="roadmap-heading">
       <div className="container-aim">
         <Reveal y={0} className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold-deep">Tầm nhìn dài hạn</p>
+          <p className="eyebrow text-steel-deep">Tầm nhìn dài hạn</p>
           <TextReveal
             as="h2"
             id="roadmap-heading"
@@ -50,7 +50,7 @@ export function Roadmap() {
               {/* Marker */}
               <span
                 aria-hidden
-                className="relative z-10 mt-2 inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-gold ring-4 ring-beige sm:mt-3"
+                className="relative z-10 mt-2 inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-dove ring-4 ring-beige sm:mt-3"
               />
               {/* Nội dung */}
               <div className="pt-0.5">

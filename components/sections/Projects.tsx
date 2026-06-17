@@ -57,7 +57,7 @@ export function Projects() {
       <div className="container-aim">
         <Reveal y={0} className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
-            <p className="eyebrow text-gold-champagne">Dự án nổi bật</p>
+            <p className="eyebrow text-dove">Dự án nổi bật</p>
             <TextReveal
               as="h2"
               id="projects-heading"
@@ -73,7 +73,7 @@ export function Projects() {
             <Reveal key={project.name} as="li" delay={(i % 3) * 0.08}>
               <Link
                 href="/projects"
-                className="card-ink group block overflow-hidden rounded-xl transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-gold"
+                className="card-ink group block overflow-hidden rounded-xl transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-dove"
                 aria-label={`Xem dự án ${project.name} — ngành ${project.industry}`}
               >
                 {/* Artwork với hover zoom */}
@@ -89,7 +89,7 @@ export function Projects() {
                 {/* Meta */}
                 <div className="flex items-center justify-between gap-3 px-5 py-4">
                   <h3 className="font-display text-lg font-semibold text-beige">{project.name}</h3>
-                  <span className="eyebrow shrink-0 rounded-full border border-gold/40 px-3 py-1 text-[0.6rem] text-gold-bright">
+                  <span className="eyebrow shrink-0 rounded-full border border-dove/40 px-3 py-1 text-[0.6rem] text-dove">
                     {project.industry}
                   </span>
                 </div>

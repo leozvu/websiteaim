@@ -12,7 +12,7 @@ export function Process() {
     <Section tone="navy" id="process" ariaLabelledby="process-heading" seam glow={{ x: 74, y: 24 }}>
       <div className="container-aim">
         <Reveal y={0} className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-gold-champagne">Cách chúng tôi làm việc</p>
+          <p className="eyebrow text-dove">Cách chúng tôi làm việc</p>
           <TextReveal
             as="h2"
             id="process-heading"
@@ -31,10 +31,10 @@ export function Process() {
               {i < PROCESS_STEPS.length - 1 && (
                 <span
                   aria-hidden
-                  className="absolute left-[3.5rem] top-7 hidden h-px w-[calc(100%-2rem)] bg-gradient-to-r from-gold/50 to-transparent lg:block"
+                  className="absolute left-[3.5rem] top-7 hidden h-px w-[calc(100%-2rem)] bg-gradient-to-r from-dove/50 to-transparent lg:block"
                 />
               )}
-              <span className="font-display text-5xl font-semibold text-gold lg:text-6xl">
+              <span className="font-display text-5xl font-semibold text-steel-soft lg:text-6xl">
                 {step.number}
               </span>
               <h3 className="mt-4 font-display text-xl font-semibold text-beige">

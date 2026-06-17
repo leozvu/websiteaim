@@ -50,13 +50,13 @@ export function Header() {
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? 'page' : undefined}
-                  className={`relative font-body text-sm tracking-wide transition-colors hover:text-gold-bright ${
-                    isActive(item.href) ? 'text-gold-bright' : 'text-beige/90'
+                  className={`relative font-body text-sm tracking-wide transition-colors hover:text-dove ${
+                    isActive(item.href) ? 'text-dove' : 'text-beige/90'
                   }`}
                 >
                   {item.label}
                   {isActive(item.href) && (
-                    <span className="absolute -bottom-1.5 left-0 h-px w-full bg-gold" />
+                    <span className="absolute -bottom-1.5 left-0 h-px w-full bg-dove" />
                   )}
                 </Link>
               </li>

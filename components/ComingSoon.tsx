@@ -27,7 +27,7 @@ export function ComingSoon({ title, description }: ComingSoonProps) {
       </div>
 
       <div className="container-aim relative z-10 py-32 text-center">
-        <p className="eyebrow tracking-brand text-gold-bright">Đang hoàn thiện</p>
+        <p className="eyebrow tracking-brand text-dove">Đang hoàn thiện</p>
         <h1 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
           {title}
         </h1>

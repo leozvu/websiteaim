@@ -15,7 +15,7 @@ export function ServicesPreview() {
       <div className="container-aim">
         <Reveal y={0} className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
-            <p className="eyebrow text-gold-deep">Dịch vụ</p>
+            <p className="eyebrow text-steel-deep">Dịch vụ</p>
             <TextReveal
               as="h2"
               id="services-heading"
@@ -41,15 +41,15 @@ export function ServicesPreview() {
                 key={card.title}
                 as="article"
                 delay={i * 0.08}
-                className="group flex items-start gap-5 rounded-xl border border-[rgba(18,26,68,0.1)] bg-white/35 p-7 shadow-[0_2px_10px_-6px_rgba(6,8,21,0.25)] transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-gold-line hover:shadow-[0_24px_44px_-26px_rgba(6,8,21,0.4)]"
+                className="group flex items-start gap-5 rounded-xl border border-[rgba(18,26,68,0.1)] bg-white/35 p-7 shadow-[0_2px_10px_-6px_rgba(6,8,21,0.25)] transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-dove/40 hover:shadow-[0_24px_44px_-26px_rgba(6,8,21,0.4)]"
               >
-                <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-royal text-gold-champagne">
+                <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-royal text-dove">
                   <Icon className="h-6 w-6" />
                 </span>
                 <div>
                   <h3 className="flex items-center gap-2 font-display text-xl font-semibold">
                     {card.title}
-                    <IconArrowRight className="h-4 w-4 -translate-x-1 text-gold opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                    <IconArrowRight className="h-4 w-4 -translate-x-1 text-steel-soft opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-navy/75">{card.body}</p>
                 </div>

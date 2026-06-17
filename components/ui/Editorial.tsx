@@ -42,7 +42,7 @@ export function SectionNumber({ children, className = '' }: { children: ReactNod
   return (
     <span
       aria-hidden
-      className={`block font-display text-[clamp(2.75rem,6vw,4.25rem)] font-semibold leading-none text-gold ${className}`}
+      className={`block font-display text-[clamp(2.75rem,6vw,4.25rem)] font-semibold leading-none text-steel-soft ${className}`}
     >
       {children}
     </span>
@@ -111,7 +111,7 @@ export function SectionHeader({
   align = 'start',
   className = '',
 }: SectionHeaderProps) {
-  const labelColor = onDark ? 'text-gold-bright' : 'text-gold-deep';
+  const labelColor = onDark ? 'text-dove' : 'text-steel-deep';
   const titleColor = onDark ? 'text-beige' : 'text-navy';
   const introColor = onDark ? 'text-beige/70' : 'text-navy/70';
 

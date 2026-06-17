@@ -29,7 +29,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-beige/20 text-beige/80 transition-colors hover:border-gold hover:text-gold-bright"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-beige/20 text-beige/80 transition-colors hover:border-dove hover:text-dove"
                   >
                     <Icon className="h-5 w-5" />
                   </a>
@@ -40,13 +40,13 @@ export function Footer() {
 
           {/* Sitemap */}
           <nav aria-label="Sơ đồ trang">
-            <h2 className="eyebrow text-gold-bright">Khám phá</h2>
+            <h2 className="eyebrow text-dove">Khám phá</h2>
             <ul className="mt-6 flex flex-col gap-3.5">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-beige/80 transition-colors hover:text-gold-bright"
+                    className="text-sm text-beige/80 transition-colors hover:text-dove"
                   >
                     {item.label}
                   </Link>
@@ -57,21 +57,21 @@ export function Footer() {
 
           {/* Liên hệ — thông tin thật theo brand book */}
           <div>
-            <h2 className="eyebrow text-gold-bright">Liên hệ</h2>
+            <h2 className="eyebrow text-dove">Liên hệ</h2>
             <ul className="mt-6 flex flex-col gap-3.5 text-sm text-beige/80">
               <li className="leading-relaxed text-beige/65">{SITE.address}</li>
               <li>
-                <a href={SITE.phoneHref} className="transition-colors hover:text-gold-bright">
+                <a href={SITE.phoneHref} className="transition-colors hover:text-dove">
                   {SITE.phone}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-gold-bright">
+                <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-dove">
                   {SITE.email}
                 </a>
               </li>
               <li>
-                <a href={`https://${SITE.domain}`} className="transition-colors hover:text-gold-bright">
+                <a href={`https://${SITE.domain}`} className="transition-colors hover:text-dove">
                   {SITE.domain}
                 </a>
               </li>

@@ -110,8 +110,8 @@ export function MobileNav({ open, onClose, isActive }: MobileNavProps) {
                   aria-current={isActive(item.href) ? 'page' : undefined}
                   className={`block rounded-md px-3 py-3 font-display text-2xl transition-colors ${
                     isActive(item.href)
-                      ? 'text-gold-bright'
-                      : 'text-beige hover:text-gold-bright'
+                      ? 'text-dove'
+                      : 'text-beige hover:text-dove'
                   }`}
                 >
                   {item.label}
@@ -127,7 +127,7 @@ export function MobileNav({ open, onClose, isActive }: MobileNavProps) {
           </Button>
           <a
             href={`mailto:${SITE.email}`}
-            className="mt-4 block text-center text-sm text-beige/70 transition-colors hover:text-gold-bright"
+            className="mt-4 block text-center text-sm text-beige/70 transition-colors hover:text-dove"
           >
             {SITE.email}
           </a>

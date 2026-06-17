@@ -1,30 +1,74 @@
 'use client';
 
-import { Fragment } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Button } from '../ui/Button';
 import { HERO } from '@/lib/content';
 
 /**
- * HERO — AIM Luxury "Lit Ink & Metal".
- * Nền tối xếp tầng với spotlight ấm lệch phải (nơi đặt emblem). Headline Garamond
- * CHỦ ĐẠO, lệch trái trên lưới 12; emblem 3D HỖ TRỢ (lệch phải, crop ngoài viewport).
- * H1 reveal theo TỪ bằng CSS (LCP an toàn); 3D là progressive enhancement phủ poster.
+ * HERO — AIM. Ảnh navy editorial thật (fal) full-bleed + parallax theo chuột (tinh tế,
+ * desktop, tắt khi reduced-motion). Scrim navy bên trái để chữ Garamond đọc rõ.
+ * Accent: bạc Wild Dove + kem (KHÔNG gold). H1 reveal theo từ bằng CSS.
  */
 export function Hero() {
   const heroWords = HERO.title.split(' ');
+  const imgRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = imgRef.current;
+    if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    let raf = 0;
+    const target = { x: 0, y: 0 };
+    const cur = { x: 0, y: 0 };
+    const onMove = (e: PointerEvent) => {
+      target.x = (e.clientX / window.innerWidth - 0.5) * 2; // -1..1
+      target.y = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    const loop = () => {
+      cur.x += (target.x - cur.x) * 0.06;
+      cur.y += (target.y - cur.y) * 0.06;
+      el.style.transform = `scale(1.08) translate3d(${cur.x * -14}px, ${cur.y * -10}px, 0)`;
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('pointermove', onMove);
+    };
+  }, []);
+
   return (
     <section
       aria-labelledby="hero-heading"
-      style={{ ['--gx' as string]: '36%', ['--gy' as string]: '38%' }}
-      className="surface-dark vignette relative flex min-h-[100svh] items-center overflow-hidden"
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink"
     >
+      {/* Ảnh navy editorial — parallax nhẹ */}
+      <div ref={imgRef} aria-hidden className="absolute inset-0 will-change-transform" style={{ transform: 'scale(1.08)' }}>
+        <Image
+          src="/images/hero-navy.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
+
+      {/* Scrim: tối bên trái cho chữ đọc rõ + tối đáy */}
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/70 to-ink/25" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-ink/30" />
+
       <div className="container-aim relative z-10 grid w-full grid-cols-1 items-center gap-y-10 py-32 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <p
-            className="eyebrow animate-fade-in-up tracking-[0.32em] text-gold-champagne"
+            className="eyebrow animate-fade-in-up tracking-[0.32em] text-dove"
             style={{ animationDelay: '0.05s' }}
           >
-            Branding Studio · aimagency.vn
+            Branding Studio · TP.HCM
           </p>
 
           <h1
@@ -33,7 +77,7 @@ export function Hero() {
           >
             {heroWords.map((w, i) => (
               <Fragment key={`${w}-${i}`}>
-                <span className="word-mask">
+                <span aria-hidden className={`word-mask${i < heroWords.length - 1 ? ' mr-[0.22em]' : ''}`}>
                   <span className="word-rise" style={{ animationDelay: `${0.12 + i * 0.09}s` }}>
                     {w}
                   </span>
@@ -43,15 +87,14 @@ export function Hero() {
             ))}
           </h1>
 
-          {/* Hairline kim loại ngắn — dấu nhấn editorial */}
           <span
             aria-hidden
-            className="mt-9 block h-px w-16 animate-fade-in-up bg-metal-gold"
+            className="mt-9 block h-px w-16 animate-fade-in-up bg-dove/70"
             style={{ animationDelay: '0.55s' }}
           />
 
           <p
-            className="mt-9 max-w-xl animate-fade-in-up text-[1.0625rem] leading-[1.75] text-muted sm:text-lg"
+            className="mt-9 max-w-xl animate-fade-in-up text-[1.0625rem] leading-[1.75] text-ivory/80 sm:text-lg"
             style={{ animationDelay: '0.62s' }}
           >
             {HERO.subtitle}
@@ -71,12 +114,12 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Gợi ý cuộn — hairline tick tiết chế, không chữ thừa */}
+      {/* Gợi ý cuộn */}
       <div
         aria-hidden
         className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex lg:left-16 lg:translate-x-0 lg:items-start"
       >
-        <span className="h-12 w-px bg-gradient-to-b from-gold-champagne/50 to-transparent" />
+        <span className="h-12 w-px bg-gradient-to-b from-dove/60 to-transparent" />
       </div>
     </section>
   );

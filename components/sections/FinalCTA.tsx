@@ -17,14 +17,14 @@ export function FinalCTA() {
       {/* Omega trang trí mờ */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <OmegaMark
-          className="absolute -right-16 top-1/2 h-[28rem] w-[28rem] -translate-y-1/2 text-gold-champagne/10"
+          className="absolute -right-16 top-1/2 h-[28rem] w-[28rem] -translate-y-1/2 text-dove/10"
           title=""
         />
       </div>
 
       <div className="container-aim relative z-10 py-24 lg:py-32">
         <Reveal y={0} className="max-w-2xl">
-          <p className="eyebrow tracking-brand text-gold-champagne">Do Right Things</p>
+          <p className="eyebrow tracking-brand text-dove">Do Right Things</p>
           <TextReveal
             as="h2"
             id="final-cta-heading"
