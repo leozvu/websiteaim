@@ -1,23 +1,7 @@
-import { Hero } from '@/components/sections/Hero';
-import { USP } from '@/components/sections/USP';
-import { WhyAim } from '@/components/sections/WhyAim';
-import { ServicesPreview } from '@/components/sections/ServicesPreview';
-import { Process } from '@/components/sections/Process';
-import { Roadmap } from '@/components/sections/Roadmap';
-import { Projects } from '@/components/sections/Projects';
-import { FinalCTA } from '@/components/sections/FinalCTA';
+import BrandBook from '@/components/brandbook/BrandBook';
 
+// Trang chủ = brand book tương tác của AIM (Cover + 7 chương + back cover),
+// dựng y chang theo Claude Design file, dùng nội dung thật của AIM.
 export default function HomePage() {
-  return (
-    <main>
-      <Hero />
-      <USP />
-      <WhyAim />
-      <ServicesPreview />
-      <Process />
-      <Roadmap />
-      <Projects />
-      <FinalCTA />
-    </main>
-  );
+  return <BrandBook />;
 }

@@ -1,8 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { EB_Garamond, Be_Vietnam_Pro } from 'next/font/google';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { CustomCursor } from '@/components/motion/CustomCursor';
+import { EB_Garamond, Be_Vietnam_Pro, Cormorant_Garamond } from 'next/font/google';
 import { SITE } from '@/lib/nav';
 import './globals.css';
 
@@ -14,15 +11,24 @@ const garamond = EB_Garamond({
   weight: ['500', '600'],
   style: ['normal', 'italic'],
   display: 'swap',
-  variable: '--font-display',
+  variable: '--font-display-fs',
 });
 
 // Body = Be Vietnam Pro theo brand book ("Kiểu chữ nội dung"). Subset vietnamese bắt buộc.
 const beVietnam = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
-  weight: ['400', '500', '600'],
+  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
-  variable: '--font-body',
+  variable: '--font-body-fs',
+});
+
+// Numeral/display cao tương phản = Cormorant Garamond (số chương lớn, hero) theo brand book.
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-numeral-fs',
 });
 
 const DESCRIPTION =
@@ -104,7 +110,10 @@ const organizationSchema = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={`${garamond.variable} ${beVietnam.variable}`}>
+    <html
+      lang="vi"
+      className={`${garamond.variable} ${beVietnam.variable} ${cormorant.variable}`}
+    >
       <body>
         <script
           type="application/ld+json"
@@ -113,11 +122,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="skip-link">
           Bỏ qua tới nội dung chính
         </a>
-        {/* Lenis smooth-scroll đã GỠ — gây cảm giác trễ wheel. Dùng scroll gốc (snappy). */}
-        <CustomCursor />
-        <Header />
+        {/* Brand book tự mang TopBar + SideRail + BackCover — không dùng Header/Footer global.
+            Lenis smooth-scroll đã GỠ (gây trễ wheel). Dùng scroll gốc (snappy). */}
         <div id="main-content">{children}</div>
-        <Footer />
       </body>
     </html>
   );

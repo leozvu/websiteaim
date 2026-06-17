@@ -2,342 +2,303 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =============================================================
+   AIM Agency — Brand-book design tokens (ported y chang từ
+   Claude Design bundle: tokens/colors|typography|spacing|effects|base).
+   Quy tắc: deep royal navy ↔ ivory paper luân phiên — KHÔNG trắng tinh.
+   Champagne gold chỉ là "ceremony" (số chương, glyph trích dẫn, 1 CTA <5%).
+   ============================================================= */
 :root {
-  /* ── AIM Luxury Visual System "Lit Ink & Metal" ── */
-  --ink: #060815;
-  --midnight: #0b102b;
-  --royal: #121a44;
-  --gold-antique: #a9782a;
-  --gold-champagne: #d8b46a;
-  --ivory: #f7eedb;
-  --muted: #bdb6a8;
-  --hairline: rgba(247, 238, 219, 0.14);
-  --gold-line: rgba(216, 180, 106, 0.35);
-  /* Brand book tokens (giữ cho các trang khác) */
-  --navy: #1a2150;
-  --navy-deep: #12183c;
-  --beige: #f0ead9;
-  --beige-warm: #e7dfc9;
+  /* ---- Base palette ---- */
+  --navy: #081650;
+  --navy-ink: #040a29;
+  --navy-soft: #1b2a55;
+
+  --ivory: #f8f2eb;
+  --ivory-raise: #fbf7f1;
+  --ivory-deep: #ece4d7;
+
+  --gold: #c5ad8a;
+  --gold-bright: #d8c39e;
+  --gold-deep: #ad9168;
+
   --steel: #6e7c89;
-  --gold: #b89968;
-  --gold-deep: #6f5933;
-  color-scheme: dark;
+  --steel-soft: #9aa7b3;
+  --steel-pale: #aebccb;
+
+  /* ---- Semantic aliases ---- */
+  --surface-dark: var(--navy);
+  --surface-dark-deep: var(--navy-ink);
+  --surface-light: var(--ivory);
+  --surface-card-light: var(--ivory-raise);
+  --surface-support: var(--steel-pale);
+
+  --text-on-light: var(--navy);
+  --text-on-light-muted: rgba(8, 22, 80, 0.72);
+  --text-on-light-subtle: rgba(8, 22, 80, 0.5);
+
+  --text-on-dark: var(--ivory);
+  --text-on-dark-muted: rgba(248, 242, 235, 0.78);
+  --text-on-dark-subtle: rgba(248, 242, 235, 0.52);
+
+  --text-accent: var(--gold);
+  --text-accent-bright: var(--gold-bright);
+  --text-caption: var(--steel);
+
+  --border-on-light: rgba(8, 22, 80, 0.14);
+  --border-on-dark: rgba(248, 242, 235, 0.16);
+  --border-accent: rgba(197, 173, 138, 0.55);
+  --border-steel: rgba(110, 124, 137, 0.32);
+  --rule-on-light: rgba(8, 22, 80, 0.18);
+  --rule-on-dark: rgba(248, 242, 235, 0.2);
+
+  --focus-ring: var(--gold);
+  --selection-bg: var(--gold);
+  --selection-fg: var(--navy);
+
+  /* Legacy aliases */
+  --navy-deep: var(--navy-ink);
+  --beige: var(--ivory);
+  --beige-warm: var(--ivory-raise);
+
+  /* ---- Typography ---- */
+  --font-numeral: var(--font-numeral-fs), 'Cormorant Garamond', 'EB Garamond', Garamond, serif;
+  --font-display: var(--font-display-fs), 'EB Garamond', 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+  --font-body: var(--font-body-fs), 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-display);
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --numeral-hero: clamp(7rem, 16vw, 16rem);
+  --numeral: clamp(4.5rem, 9vw, 9rem);
+
+  --text-hero: clamp(3.25rem, 9vw, 7rem);
+  --text-display: clamp(2.5rem, 5vw, 4rem);
+  --text-h2: clamp(2rem, 3.4vw, 3.25rem);
+  --text-h3: 1.625rem;
+  --text-h4: 1.25rem;
+
+  --text-lg: 1.125rem;
+  --text-base: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
+  --text-2xs: 0.6875rem;
+
+  --leading-tight: 1;
+  --leading-snug: 1.15;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.01em;
+  --tracking-wide: 0.02em;
+  --tracking-label: 0.2em;
+  --tracking-widest: 0.28em;
+  --tracking-brand: 0.42em;
+
+  /* ---- Spacing & layout ---- */
+  --container-max: 1200px;
+  --container-pad: 1.5rem;
+  --container-pad-lg: 2.5rem;
+  --section-py: 5rem;
+  --section-py-lg: 7rem;
+  --tap-min: 2.75rem;
+
+  /* ---- Radii ---- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 2px rgba(21, 33, 59, 0.08);
+  --shadow-md: 0 8px 24px rgba(21, 33, 59, 0.12);
+  --shadow-lg: 0 18px 40px rgba(21, 33, 59, 0.18);
+  --shadow-header: 0 6px 24px rgba(27, 42, 74, 0.2);
+
+  /* ---- Motion ---- */
+  --ease-brand: cubic-bezier(0.21, 0.5, 0.31, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --dur-fast: 0.2s;
+  --dur-base: 0.3s;
+  --dur-reveal: 0.6s;
+  --dur-slow: 0.7s;
+
+  --focus-width: 2px;
+  --focus-offset: 3px;
+
+  color-scheme: light;
 }
 
 @layer base {
   html {
-    /* Nền deep ink mặc định — site dark-dominant, tránh flash sáng khi load */
-    background-color: var(--ink);
+    background-color: var(--surface-light);
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--ink);
-    color: var(--ivory);
-    font-family: var(--font-body), system-ui, sans-serif;
+    margin: 0;
+    background-color: var(--surface-light);
+    color: var(--text-on-light);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
-  /* Garamond là serif mảnh, cổ điển — bật ligature & tinh chỉnh cho heading display */
-  .font-display {
-    font-feature-settings: 'liga' 1, 'dlig' 1, 'kern' 1;
-    font-kerning: normal;
-  }
-
-  /* Focus rõ ràng cho keyboard navigation (A11y) */
   :focus-visible {
-    outline: 2px solid var(--gold);
-    outline-offset: 3px;
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
     border-radius: 2px;
   }
 
   ::selection {
-    background-color: var(--gold);
-    color: var(--navy);
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
   }
 }
 
 @layer components {
-  /* Container chuẩn — lề rộng hơn cho nhịp editorial */
-  .container-aim {
-    @apply mx-auto w-full max-w-content px-6 sm:px-10 lg:px-16;
+  /* Standard section container (max 1200px, responsive gutters). */
+  .aim-container {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--container-max);
+    padding-inline: var(--container-pad);
+  }
+  @media (min-width: 1024px) {
+    .aim-container {
+      padding-inline: var(--container-pad-lg);
+    }
   }
 
-  /* Nhãn label in hoa giãn cách rộng (marginalia editorial) */
-  .eyebrow {
-    @apply font-body text-[0.7rem] font-semibold uppercase tracking-widest;
+  /* Eyebrow — uppercase, wide-tracked label. */
+  .aim-eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
   }
 
-  /* Hairline 1px — vạch phân tách kiểu chuyên san in */
-  .hairline {
-    @apply h-px w-full border-0 bg-current opacity-[0.18];
+  /* Display heading helper. */
+  .aim-display {
+    font-family: var(--font-display);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-snug);
   }
 
-  /* Ẩn scrollbar cho dải cuộn ngang (mobile) — vẫn cuộn được */
-  .scrollbar-none {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-none::-webkit-scrollbar {
-    display: none;
+  /* Oversized champagne chapter numeral (Cormorant). */
+  .aim-numeral {
+    font-family: var(--font-numeral);
+    font-weight: var(--weight-medium);
+    line-height: 0.85;
+    color: var(--gold);
+    letter-spacing: var(--tracking-tight);
   }
 
-  /* Link skip-to-content cho A11y */
+  /* Thin editorial divider rule. */
+  .aim-rule {
+    border: none;
+    border-top: 1px solid var(--rule-on-light);
+    height: 0;
+    margin: 0;
+  }
+  .aim-rule--dark {
+    border-top-color: var(--rule-on-dark);
+  }
+
+  /* Button trailing-arrow nudge on hover. */
+  .aim-btn-arrow {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .aim-button:hover .aim-btn-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Form field (từ index.html <style>). */
+  .aim-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-on-dark);
+    background: rgba(248, 242, 235, 0.05);
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 15px;
+  }
+  .aim-input::placeholder {
+    color: rgba(248, 242, 235, 0.4);
+  }
+  .aim-input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Skip-to-content (A11y). */
   .skip-link {
-    @apply sr-only;
+    position: absolute;
+    left: -9999px;
   }
   .skip-link:focus {
-    @apply not-sr-only fixed left-4 top-4 z-[100] rounded-md bg-navy px-4 py-2 text-sm font-semibold text-beige;
-  }
-}
-
-@layer utilities {
-  /* ── Bề mặt xếp tầng chiều sâu ── */
-
-  /* Nền tối có spotlight ấm (glow vàng-lam) + đổ về deep ink + vignette + grain.
-     --gx/--gy chỉnh tâm spotlight để mỗi section dịch chiều sâu khác nhau. */
-  .surface-dark {
-    position: relative;
-    background-color: var(--ink);
-    background-image:
-      radial-gradient(
-        120% 90% at var(--gx, 72%) var(--gy, 30%),
-        rgba(24, 33, 78, 0.9) 0%,
-        rgba(11, 16, 43, 0.92) 42%,
-        var(--ink) 100%
-      );
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    border-radius: var(--radius-md);
+    background: var(--navy);
     color: var(--ivory);
-  }
-  /* Ấm vàng rất nhẹ phía nguồn sáng — kim loại "có hơi ấm" */
-  .surface-dark::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: radial-gradient(
-      60% 50% at var(--gx, 72%) var(--gy, 26%),
-      rgba(147, 160, 171, 0.08) 0%,
-      transparent 60%
-    );
-  }
-
-  /* Section "light relief" — ivory ấm, vẫn có chiều sâu radial nhẹ (không phẳng) */
-  .surface-ivory {
-    background-color: var(--ivory);
-    background-image: radial-gradient(
-      110% 80% at 50% 0%,
-      #fbf5e8 0%,
-      var(--ivory) 55%,
-      #ece1c8 100%
-    );
-    color: var(--royal);
-  }
-
-  /* Vignette mềm phủ lên — gom ánh nhìn vào tâm */
-  .vignette::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: radial-gradient(120% 100% at 50% 38%, transparent 52%, rgba(6, 8, 21, 0.55) 100%);
-  }
-
-  /* Đường nối glow mảnh giữa các section tối — corridor có ánh sáng, không khối phẳng */
-  .glow-seam {
-    position: relative;
-  }
-  .glow-seam::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(90%, 1100px);
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(147, 160, 171, 0.3),
-      transparent
-    );
-  }
-
-  /* Chữ kim loại bạc (platinum): sáng → wild dove — số chương/nhấn trên nền tối */
-  .text-metal {
-    background-image: linear-gradient(170deg, #e8ecf0 0%, #9da0a6 45%, #6e7c89 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Panel ink/glass: nền royal trong, viền hairline, inner light + đổ bóng sâu */
-  .card-ink {
-    background-color: rgba(18, 26, 68, 0.55);
-    border: 1px solid var(--hairline);
-    box-shadow:
-      inset 0 1px 0 0 rgba(247, 238, 219, 0.06),
-      0 24px 50px -28px rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(2px);
-  }
-  .card-ink:hover {
-    border-color: var(--gold-line);
-  }
-
-  /* Cursor tùy biến: ẩn cursor gốc khi đang chạy (chỉ áp khi JS bật .cursor-none) */
-  .cursor-none,
-  .cursor-none * {
-    cursor: none !important;
-  }
-  /* Vòng ngoài cursor phình + đổ nền gold mờ khi hover phần tử tương tác */
-  .cursor-ring.is-hover {
-    width: 3rem;
-    height: 3rem;
-    background-color: rgba(184, 153, 104, 0.12);
-    border-color: rgba(184, 153, 104, 0.9);
-  }
-
-  /* ── Hero "control-room" — 4 lớp chiều sâu ── */
-
-  /* Lớp grid mảnh (signal blueprint), mask mờ dần về rìa */
-  .hero-grid {
-    background-image:
-      linear-gradient(rgba(157, 160, 166, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(157, 160, 166, 0.06) 1px, transparent 1px);
-    background-size: 58px 58px;
-    -webkit-mask-image: radial-gradient(120% 90% at 64% 44%, #000 0%, transparent 72%);
-    mask-image: radial-gradient(120% 90% at 64% 44%, #000 0%, transparent 72%);
-  }
-
-  /* Glass control panel: frosted + hairline + inner light */
-  .glass-panel {
-    background: linear-gradient(155deg, rgba(39, 48, 90, 0.5), rgba(12, 18, 40, 0.45));
-    backdrop-filter: blur(16px) saturate(1.1);
-    -webkit-backdrop-filter: blur(16px) saturate(1.1);
-    border: 1px solid rgba(247, 238, 219, 0.12);
-    box-shadow:
-      0 34px 64px -30px rgba(0, 0, 0, 0.75),
-      inset 0 1px 0 rgba(247, 238, 219, 0.1);
-  }
-
-  /* Viền kim loại platinum mảnh (chrome tinh tế, chỉ ở edge) */
-  .metal-edge {
-    position: relative;
-  }
-  .metal-edge::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      130deg,
-      rgba(232, 236, 240, 0.55),
-      rgba(157, 160, 166, 0.12) 28%,
-      transparent 52%,
-      rgba(232, 236, 240, 0.32) 92%
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  /* Tín hiệu "live" — chấm nhịp chậm */
-  @keyframes signal-pulse {
-    0%,
-    100% {
-      opacity: 0.35;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-  .signal-live {
-    animation: signal-pulse 2.6s ease-in-out infinite;
-  }
-
-  /* CTA metallic sweep — vệt sáng chéo chạy chậm khi hover (nhỏ, premium) */
-  .cta-sweep {
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-sweep::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      115deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.45) 48%,
-      transparent 66%
-    );
-    transform: translateX(-120%);
-    transition: transform 0.9s cubic-bezier(0.55, 0.085, 0, 0.99);
-    pointer-events: none;
-  }
-  .cta-sweep:hover::after {
-    transform: translateX(120%);
-  }
-
-  /* Hero word-reveal: mask trượt từng từ — thuần CSS (không chờ JS → LCP an toàn).
-     padding/margin âm để không clip descender; reduced-motion snap ngay (visible). */
-  @keyframes word-rise {
-    from {
-      transform: translateY(112%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  .word-mask {
-    display: inline-block;
-    overflow: hidden;
-    padding: 0.16em 0.04em;
-    margin: -0.16em -0.04em;
-  }
-  .word-rise {
-    display: inline-block;
-    transform: translateY(112%);
-    animation: word-rise 0.8s cubic-bezier(0.55, 0.085, 0, 0.99) forwards;
-  }
-
-  /* Marquee: chạy ngang vô tận; tạm dừng khi hover */
-  @keyframes marquee-x {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-  .animate-marquee {
-    animation: marquee-x var(--marquee-duration, 32s) linear infinite;
-  }
-  .marquee-pause:hover .animate-marquee {
-    animation-play-state: paused;
-  }
-
-  /* Paper grain rất nhẹ (0.03) cho nền beige — chất liệu giấy, không phẳng số.
-     Noise SVG inline, không tải thêm asset. */
-  .paper-grain {
-    position: relative;
-  }
-  .paper-grain::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    padding: 0.5rem 1rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
   }
 }
 
-/* Tôn trọng prefers-reduced-motion: tắt mọi animation/parallax */
+/* Two-column editorial layouts at desktop (từ index.html <style>). */
+@media (min-width: 900px) {
+  .aim-ch-header {
+    --ch-cols: minmax(220px, 0.72fr) 1.28fr;
+  }
+  .aim-ch-body {
+    --two: 1fr 1fr;
+  }
+  .aim-rail {
+    display: flex !important;
+  }
+}
+
+/* Signature scroll-reveal & hero glow. */
+@keyframes aim-fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes aim-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.06);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
