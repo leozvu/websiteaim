@@ -1,48 +1,48 @@
 import type { Metadata } from 'next';
-import { OmegaMark } from '@/components/Logo';
-import { Button } from '@/components/ui/Button';
+import { OmegaMark, Button } from '@/components/brandbook/ds';
 
 export const metadata: Metadata = {
   title: 'Trang không tồn tại',
   robots: { index: false, follow: false },
 };
 
-/**
- * 404 custom — nền navy + Omega.
- * Copy theo brand: "Trang không tồn tại. Nhưng mục tiêu của bạn thì có."
- */
+/* 404 — nền navy + Omega, phong cách brand book. */
 export default function NotFound() {
   return (
-    <main className="relative flex min-h-[100svh] items-center overflow-hidden bg-navy text-beige">
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <OmegaMark
-          className="absolute left-1/2 top-1/2 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 text-steel/15"
-          title=""
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(circle, rgba(184,153,104,0.1), transparent 60%)',
-          }}
-        />
+    <main
+      style={{
+        position: 'relative',
+        minHeight: '100svh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        background: 'var(--navy)',
+        color: 'var(--ivory)',
+      }}
+    >
+      <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)' }}>
+          <OmegaMark size={420} title="" tone="ivory" style={{ opacity: 0.06 }} />
+        </div>
+        <span style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 42%, rgba(197,173,138,0.1), transparent 60%)' }} />
       </div>
 
-      <div className="container-aim relative z-10 py-32 text-center">
-        <p className="font-display text-7xl font-semibold text-gold sm:text-8xl">404</p>
-        <h1 className="mx-auto mt-6 max-w-2xl font-display text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-          Trang không tồn tại.
-          <br />
-          Nhưng mục tiêu của bạn thì có.
+      <div className="aim-container" style={{ position: 'relative', textAlign: 'center', paddingBlock: 128 }}>
+        <div className="aim-numeral" style={{ fontSize: 'clamp(5rem,14vw,11rem)' }}>
+          404
+        </div>
+        <h1 className="aim-display" style={{ fontSize: 'var(--text-h2)', margin: '12px auto 0', maxWidth: 620, color: 'var(--ivory)' }}>
+          Trang không tồn tại. Nhưng mục tiêu của bạn thì có.
         </h1>
-        <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-beige/75">
-          Có thể đường dẫn đã thay đổi. Quay về trang chủ hoặc kể cho chúng tôi nghe điều bạn đang
-          tìm.
+        <p style={{ margin: '18px auto 0', maxWidth: 460, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>
+          Có thể đường dẫn đã thay đổi. Quay về trang chủ hoặc kể cho chúng tôi nghe điều bạn đang tìm.
         </p>
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button href="/" variant="gold">
+        <div style={{ marginTop: 36, display: 'flex', flexWrap: 'wrap', gap: 14, justifyContent: 'center' }}>
+          <Button href="/" variant="gold" size="lg">
             Về trang chủ
           </Button>
-          <Button href="/contact" variant="outline-light" withArrow>
+          <Button href="/contact" variant="outline-light" size="lg" withArrow>
             Liên hệ với Aim
           </Button>
         </div>

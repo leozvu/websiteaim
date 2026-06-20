@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: [
       {
-        url: '/og-image.svg',
+        url: '/images/brand/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Aim Agency — Do Right Things',
@@ -74,19 +74,19 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Aim Agency — Do Right Things',
     description: DESCRIPTION,
-    images: ['/og-image.svg'],
+    images: ['/images/brand/og-image.png'],
   },
   robots: {
     index: true,
     follow: true,
   },
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    icon: [{ url: '/images/brand/favicon.png', type: 'image/png' }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#1B2A4A',
+  themeColor: '#081650',
   colorScheme: 'light',
 };
 
