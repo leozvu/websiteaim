@@ -2,6 +2,7 @@
   "name": "aimagency-web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Website chính thức của AIM AGENCY — Do Right Things.",
   "scripts": {
     "dev": "next dev",
@@ -11,17 +12,25 @@
   },
   "dependencies": {
     "@builder.io/sdk-react": "^5.2.3",
-    "next": "14.2.35",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@payloadcms/db-postgres": "^3.85.2",
+    "@payloadcms/db-sqlite": "^3.85.2",
+    "@payloadcms/next": "^3.85.2",
+    "@payloadcms/richtext-lexical": "^3.85.2",
+    "@payloadcms/storage-vercel-blob": "^3.85.2",
+    "graphql": "^16.14.2",
+    "next": "15.4",
+    "payload": "^3.85.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@types/node": "^20.14.12",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.35",
+    "eslint-config-next": "15.4",
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4"

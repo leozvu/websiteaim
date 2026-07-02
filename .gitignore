@@ -42,3 +42,7 @@ next-env.d.ts
 # Local Claude Design bundle (not for repo)
 .design/
 local-capture/
+
+# Payload CMS local
+payload.db*
+/media

@@ -4,7 +4,7 @@ import { SiteHeader } from '@/components/home/SiteHeader';
 import { SiteFooter } from '@/components/home/SiteFooter';
 import { Cursor } from '@/components/fx/Cursor';
 import { SITE } from '@/lib/nav';
-import './globals.css';
+import '../globals.css';
 
 // Display serif = GARAMOND theo brand book ("Kiểu chữ thương hiệu").
 // EB Garamond — bản số hoá trung thành của Garamond cổ điển, có subset 'vietnamese'.

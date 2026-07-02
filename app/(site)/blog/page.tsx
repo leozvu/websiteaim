@@ -2,22 +2,26 @@ import type { Metadata } from 'next';
 import { Band, SectionHead, PageHero } from '@/components/site/kit';
 import { Reveal } from '@/components/brandbook/primitives';
 import { Card, Button } from '@/components/brandbook/ds';
-import { BLOG_HERO, POSTS } from '@/lib/pages';
+import { BLOG_HERO } from '@/lib/pages';
+import { getPosts } from '@/lib/cms';
+
+export const dynamic = 'force-dynamic'; // bài mới từ CMS hiện ngay, không cần rebuild
 
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Góc nhìn thực chiến về thương hiệu, marketing và xây dựng doanh nghiệp tại Việt Nam — cho Startups & SME.',
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const { posts, fromCms } = await getPosts();
   return (
     <>
       <PageHero eyebrow={BLOG_HERO.eyebrow} title={BLOG_HERO.title} intro={BLOG_HERO.intro} />
 
       <Band tone="ivory">
-        <SectionHead no="01" eyebrow="Chủ đề" title="Những bài viết đang trên đường" />
+        <SectionHead no="01" eyebrow="Chủ đề" title={fromCms ? 'Bài viết mới nhất' : 'Những bài viết đang trên đường'} />
         <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-          {POSTS.map((post, i) => (
+          {posts.map((post, i) => (
             <Reveal key={post.title} delay={i * 0.05} depth style={{ height: '100%' }}>
               <Card tone="beige" interactive padding="28px" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>

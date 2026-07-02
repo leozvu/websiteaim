@@ -3,14 +3,18 @@ import { Band, SectionHead, PageHero } from '@/components/site/kit';
 import { Reveal, Tilt3D } from '@/components/brandbook/primitives';
 import { OmegaMark, Button } from '@/components/brandbook/ds';
 import { PROJECTS_HERO } from '@/lib/pages';
-import { PROJECTS, PROJECTS_NDA_NOTE } from '@/lib/content';
+import { PROJECTS_NDA_NOTE } from '@/lib/content';
+import { getProjects } from '@/lib/cms';
+
+export const dynamic = 'force-dynamic'; // dự án mới từ CMS hiện ngay, không cần rebuild
 
 export const metadata: Metadata = {
   title: 'Dự án',
   description: 'Một vài thương hiệu đã chọn làm đúng cùng Aim Agency, trên nhiều ngành nghề từ F&B đến công nghệ.',
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const { projects } = await getProjects();
   return (
     <>
       <PageHero eyebrow={PROJECTS_HERO.eyebrow} title={PROJECTS_HERO.title} intro={PROJECTS_HERO.intro} />
@@ -18,7 +22,7 @@ export default function ProjectsPage() {
       <Band tone="navy">
         <SectionHead no="01" eyebrow="Dự án nổi bật" title="Thương hiệu đã tin Aim" dark />
         <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-          {PROJECTS.map((pr, i) => (
+          {projects.map((pr, i) => (
             <Reveal key={pr.name} delay={i * 0.05} depth>
               <Tilt3D
                 max={9}
