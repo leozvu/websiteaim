@@ -275,6 +275,109 @@
   }
 }
 
+/* ══ Interaction vocabulary (Phase 1 — "The Craft Table") ══ */
+
+/* Cursor tùy biến: chấm ivory + vòng trễ, mix-blend difference nên nổi trên cả navy lẫn ivory. */
+.aim-cursor-dot,
+.aim-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+.aim-cursor-dot > span {
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #f8f2eb;
+}
+.aim-cursor-ring > span {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  border: 1px solid rgba(248, 242, 235, 0.85);
+  transition: transform 0.28s var(--ease-out);
+}
+.aim-cursor-ring.is-hover > span {
+  transform: scale(1.55);
+}
+html.aim-cursor-on,
+html.aim-cursor-on * {
+  cursor: none !important;
+}
+
+/* Link: underline vẽ từ trái khi hover. */
+.aim-link {
+  position: relative;
+}
+.aim-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s var(--ease-out);
+}
+.aim-link:hover::after,
+.aim-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Button physics: nén khi nhấn + vệt sáng quét chéo 1 lần khi hover. */
+.aim-button {
+  position: relative;
+  overflow: hidden;
+}
+.aim-button:active {
+  transform: scale(0.97);
+}
+.aim-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateX(-140%) skewX(-14deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.26), transparent);
+  transition: transform 0.7s var(--ease-out);
+}
+.aim-button:hover::after {
+  transform: translateX(140%);
+}
+
+/* Hero headline: từng từ trồi lên từ mask. */
+@keyframes aim-word-rise {
+  from {
+    transform: translateY(115%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.aim-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.12em 0.05em;
+  margin: -0.12em -0.05em;
+  vertical-align: top;
+}
+.aim-word {
+  display: inline-block;
+  transform: translateY(115%);
+  animation: aim-word-rise 0.8s var(--ease-brand) forwards;
+}
+
 /* Hero showcase: 1 cột mobile (chữ trên, reel dưới) → 2 cột desktop. */
 .aim-hero-grid {
   grid-template-columns: 1fr;

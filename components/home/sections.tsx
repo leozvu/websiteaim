@@ -4,9 +4,12 @@
    PHONG CÁCH brand book: nền navy↔ivory luân phiên, Garamond + champagne accent,
    số chương lớn, hairline editorial, Reveal/Tilt3D. Nội dung từ lib/content.ts. */
 
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Card, Icon, OmegaMark } from '@/components/brandbook/ds';
 import { Reveal, Tilt3D } from '@/components/brandbook/primitives';
+import { CountUp } from '@/components/fx/CountUp';
+import { DrawRule } from '@/components/fx/DrawRule';
+import { BookFlip } from '@/components/fx/BookFlip';
 import { HeroShowcase } from './HeroShowcase';
 import {
   USP_PILLARS,
@@ -97,6 +100,7 @@ function Usp() {
       <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
         {USP_PILLARS.map((p, i) => (
           <Reveal key={p.vi} delay={i * 0.07} depth style={{ height: '100%' }}>
+            <Tilt3D max={6} lift={1.015} radius="var(--radius-lg)" style={{ height: '100%' }}>
             <Card tone="beige" interactive padding="30px" style={{ height: '100%' }}>
               <span
                 style={{
@@ -118,6 +122,7 @@ function Usp() {
               </div>
               <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-light-muted)' }}>{p.body}</p>
             </Card>
+            </Tilt3D>
           </Reveal>
         ))}
       </div>
@@ -158,7 +163,7 @@ function WhyAim() {
                 <p style={{ marginTop: 12, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>{it.solution}</p>
               </div>
             </div>
-            {i < PAIN_SOLUTIONS.length - 1 && <hr className="aim-rule aim-rule--dark" />}
+            {i < PAIN_SOLUTIONS.length - 1 && <DrawRule dark />}
           </Reveal>
         ))}
       </div>
@@ -174,6 +179,7 @@ function Services() {
       <div className="aim-grid-4" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
         {SERVICE_CARDS.map((s, i) => (
           <Reveal key={s.title} delay={i * 0.06} depth style={{ height: '100%' }}>
+            <Tilt3D max={6} lift={1.015} radius="var(--radius-lg)" style={{ height: '100%' }}>
             <Card tone="beige" interactive padding="28px" style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
               <span
                 style={{
@@ -192,6 +198,7 @@ function Services() {
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 21, color: 'var(--navy)' }}>{s.title}</div>
               <p style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: 'var(--text-on-light-muted)' }}>{s.body}</p>
             </Card>
+            </Tilt3D>
           </Reveal>
         ))}
       </div>
@@ -214,9 +221,9 @@ function Process() {
           <Reveal key={s.number} delay={i * 0.07}>
             <div>
               <div className="aim-numeral" style={{ fontSize: 'clamp(3.5rem,7vw,5.5rem)' }}>
-                {s.number}
+                <CountUp value={parseInt(s.number, 10)} pad={2} duration={700 + i * 150} />
               </div>
-              <hr className="aim-rule aim-rule--dark" style={{ margin: '14px 0 16px' }} />
+              <DrawRule dark style={{ margin: '14px 0 16px' }} />
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--ivory)' }}>{s.title}</div>
               <div className="aim-eyebrow" style={{ color: 'var(--steel-soft)', margin: '2px 0 12px' }}>
                 {s.en}
@@ -230,29 +237,76 @@ function Process() {
   );
 }
 
-/* ───────── 6 · Lộ trình (ivory) ───────── */
+/* ───────── 6 · Lộ trình (ivory) — focal timeline: dòng giữa màn nét, còn lại lùi mờ ───────── */
 function Roadmap() {
+  const listRef = useRef<HTMLDivElement>(null);
+  const [focus, setFocus] = useState(-1);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rows = Array.from(listRef.current?.querySelectorAll<HTMLElement>('[data-road-row]') ?? []);
+    if (!rows.length) return;
+    let raf = 0;
+    const on = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const mid = window.innerHeight / 2;
+        let best = -1;
+        let bd = Infinity;
+        rows.forEach((r, i) => {
+          const rc = r.getBoundingClientRect();
+          const d = Math.abs(rc.top + rc.height / 2 - mid);
+          if (d < bd) {
+            bd = d;
+            best = i;
+          }
+        });
+        setFocus(best);
+      });
+    };
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', on);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <Band id="roadmap" tone="ivory">
       <SectionHead no="05" eyebrow="Lộ trình phát triển" title="Aim đi đường dài" />
-      <div style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-        {ROADMAP.map((m, i) => (
-          <Reveal key={m.year} delay={i * 0.05}>
-            <div
-              className="aim-road-row"
-              style={{ display: 'grid', gridTemplateColumns: 'var(--road, 1fr)', gap: 'clamp(8px,3vw,40px)', alignItems: 'baseline', paddingBlock: 'clamp(20px,3vw,30px)' }}
-            >
-              <div className="aim-numeral" style={{ fontSize: 'clamp(2.5rem,5vw,4rem)', color: 'var(--gold-deep)' }}>
-                {m.year}
+      <div ref={listRef} style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
+        {ROADMAP.map((m, i) => {
+          const focused = focus === -1 || focus === i;
+          return (
+            <Reveal key={m.year} delay={i * 0.05}>
+              <div
+                data-road-row
+                className="aim-road-row"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'var(--road, 1fr)',
+                  gap: 'clamp(8px,3vw,40px)',
+                  alignItems: 'baseline',
+                  paddingBlock: 'clamp(20px,3vw,30px)',
+                  opacity: focused ? 1 : 0.45,
+                  transform: focused ? 'scale(1)' : 'scale(0.985)',
+                  transformOrigin: 'left center',
+                  transition: 'opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out)',
+                }}
+              >
+                <div className="aim-numeral" style={{ fontSize: 'clamp(2.5rem,5vw,4rem)', color: focused ? 'var(--gold-deep)' : 'var(--steel)' , transition: 'color 0.45s'}}>
+                  <CountUp value={parseInt(m.year, 10)} duration={900} />
+                </div>
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--navy)', margin: 0 }}>{m.title}</h3>
+                  <p style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-light-muted)', maxWidth: 640 }}>{m.body}</p>
+                </div>
               </div>
-              <div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--navy)', margin: 0 }}>{m.title}</h3>
-                <p style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-light-muted)', maxWidth: 640 }}>{m.body}</p>
-              </div>
-            </div>
-            {i < ROADMAP.length - 1 && <hr className="aim-rule" />}
-          </Reveal>
-        ))}
+              {i < ROADMAP.length - 1 && <DrawRule />}
+            </Reveal>
+          );
+        })}
       </div>
     </Band>
   );
@@ -319,10 +373,32 @@ function Projects() {
   );
 }
 
-/* ───────── 8 · CTA cuối (navy) ───────── */
+/* ───────── 8 · CTA cuối (navy) — "phòng tối chờ bật đèn": spotlight theo con trỏ ───────── */
 function FinalCta() {
+  const glow = useRef<HTMLSpanElement>(null);
+  const reduce = useRef(false);
+  useEffect(() => {
+    reduce.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+  const move = (e: React.MouseEvent<HTMLElement>) => {
+    if (reduce.current || !glow.current) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    glow.current.style.background = `radial-gradient(460px circle at ${x}% ${y}%, rgba(197,173,138,0.14), transparent 62%)`;
+  };
   return (
-    <Band id="cta" tone="navy">
+    <section
+      id="cta"
+      onMouseMove={move}
+      style={{ position: 'relative', background: 'var(--navy)', color: 'var(--ivory)', paddingBlock: 'clamp(72px, 10vw, 120px)', overflow: 'hidden' }}
+    >
+      <span
+        ref={glow}
+        aria-hidden
+        style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(460px circle at 50% 40%, rgba(197,173,138,0.1), transparent 62%)' }}
+      />
+      <div className="aim-container" style={{ position: 'relative' }}>
       <div style={{ maxWidth: 880, marginInline: 'auto', textAlign: 'center' }}>
         <Reveal>
           <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)' }}>
@@ -343,7 +419,8 @@ function FinalCta() {
           </Button>
         </Reveal>
       </div>
-    </Band>
+      </div>
+    </section>
   );
 }
 
@@ -355,6 +432,7 @@ export default function HomeSections() {
       <WhyAim />
       <Services />
       <Process />
+      <BookFlip />
       <Roadmap />
       <Projects />
       <FinalCta />

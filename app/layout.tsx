@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { EB_Garamond, Be_Vietnam_Pro, Cormorant_Garamond } from 'next/font/google';
 import { SiteHeader } from '@/components/home/SiteHeader';
 import { SiteFooter } from '@/components/home/SiteFooter';
+import { Cursor } from '@/components/fx/Cursor';
 import { SITE } from '@/lib/nav';
 import './globals.css';
 
@@ -125,6 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Bỏ qua tới nội dung chính
         </a>
         {/* Header + Footer toàn site (phong cách brand book). Lenis đã GỠ — scroll gốc. */}
+        <Cursor />
         <SiteHeader />
         <main id="main-content">{children}</main>
         <SiteFooter />

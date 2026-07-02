@@ -52,7 +52,7 @@ export function SiteFooter() {
             <ul style={{ listStyle: 'none', margin: '22px 0 0', padding: 0, display: 'flex', flexDirection: 'column', gap: 13 }}>
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} style={{ fontSize: 13.5, color: 'var(--text-on-dark-muted)', textDecoration: 'none' }}>
+                  <Link href={item.href} className="aim-link" style={{ fontSize: 13.5, color: 'var(--text-on-dark-muted)', textDecoration: 'none' }}>
                     {item.label}
                   </Link>
                 </li>

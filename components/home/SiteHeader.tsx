@@ -53,8 +53,8 @@ export function SiteHeader() {
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? 'page' : undefined}
+                  className="aim-link"
                   style={{
-                    position: 'relative',
                     fontFamily: 'var(--font-body)',
                     fontSize: 13.5,
                     letterSpacing: '0.02em',

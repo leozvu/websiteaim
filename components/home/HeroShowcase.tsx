@@ -7,6 +7,7 @@
 
 import { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, OmegaMark, Logo } from '@/components/brandbook/ds';
+import { Tilt3D } from '@/components/brandbook/primitives';
 import { HERO } from '@/lib/content';
 
 const SCENE_MS = 1300;
@@ -319,8 +320,17 @@ export function HeroShowcase() {
           <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)', marginBottom: 24, ...enter(0) }}>
             Branding Studio · Startups &amp; SME Việt Nam
           </div>
-          <h1 className="aim-display" style={{ fontSize: 'var(--text-hero)', lineHeight: 1.02, margin: 0, letterSpacing: '-0.01em', ...enter(0.08) }}>
-            {HERO.title}
+          <h1 className="aim-display" style={{ fontSize: 'var(--text-hero)', lineHeight: 1.02, margin: 0, letterSpacing: '-0.01em' }}>
+            {HERO.title.split(' ').map((w, i, arr) => (
+              <span key={i}>
+                <span className="aim-word-mask">
+                  <span className="aim-word" style={{ animationDelay: `${0.1 + i * 0.09}s` }}>
+                    {w}
+                  </span>
+                </span>
+                {i < arr.length - 1 ? ' ' : ''}
+              </span>
+            ))}
           </h1>
           <p style={{ marginTop: 26, maxWidth: 480, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--text-on-dark-muted)', ...enter(0.16) }}>
             {HERO.subtitle}
@@ -335,9 +345,11 @@ export function HeroShowcase() {
           </div>
         </div>
 
-        {/* Cột reel showcase */}
+        {/* Cột reel showcase — nghiêng theo con trỏ như vật thể trên bàn */}
         <div style={{ ...enter(0.3) }}>
-          <Stage />
+          <Tilt3D max={5} lift={1.008} radius="var(--radius-lg)">
+            <Stage />
+          </Tilt3D>
         </div>
       </div>
     </section>
