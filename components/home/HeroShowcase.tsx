@@ -8,6 +8,7 @@
 import { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, OmegaMark, Logo } from '@/components/brandbook/ds';
 import { Tilt3D } from '@/components/brandbook/primitives';
+import { HeroVideo } from './HeroVideo';
 import { HERO } from '@/lib/content';
 
 const SCENE_MS = 1300;
@@ -303,6 +304,8 @@ export function HeroShowcase() {
         overflow: 'hidden',
       }}
     >
+      {/* Lớp 0: video atelier (fal.ai) + scrim navy — dưới cùng */}
+      <HeroVideo />
       <span aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 22% 30%, rgba(197,173,138,0.1), transparent 55%)' }} />
       <div
         aria-hidden
