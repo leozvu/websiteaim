@@ -3,12 +3,14 @@
 
 import { getPayload } from 'payload';
 import config from '@payload-config';
+import { cmsReady } from '@/lib/cms-ready';
 import { POSTS as STATIC_POSTS, type Post as StaticPost } from '@/lib/pages';
 import { PROJECTS as STATIC_PROJECTS, type Project as StaticProject } from '@/lib/content';
 
 export type CmsPost = StaticPost & { slug?: string };
 
 export async function getPosts(): Promise<{ posts: CmsPost[]; fromCms: boolean }> {
+  if (!cmsReady) return { posts: STATIC_POSTS, fromCms: false };
   try {
     const payload = await getPayload({ config });
     const res = await payload.find({
@@ -37,6 +39,7 @@ export async function getPosts(): Promise<{ posts: CmsPost[]; fromCms: boolean }
 }
 
 export async function getProjects(): Promise<{ projects: StaticProject[]; fromCms: boolean }> {
+  if (!cmsReady) return { projects: STATIC_PROJECTS, fromCms: false };
   try {
     const payload = await getPayload({ config });
     const res = await payload.find({ collection: 'projects', sort: 'order', limit: 24, depth: 0 });

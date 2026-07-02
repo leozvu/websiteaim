@@ -20,15 +20,25 @@ Khi CMS **trống**, site tự fallback về nội dung tĩnh trong `lib/` — s
 
 ## Kích hoạt trên production (1 lần, ~5 phút — việc của người quản trị)
 
-Trên Vercel → Project → **Settings → Environment Variables**, thêm:
+> Khi CHƯA kích hoạt: `/admin` trên Vercel hiện trang "CMS chưa được kích hoạt"
+> (không lỗi, không mất gì); site vẫn chạy bằng nội dung tĩnh.
 
-1. **`DATABASE_URL`** — Postgres miễn phí:
-   - Vào **neon.tech** → đăng ký free → Create project → copy **Connection string**
-   - (Không có biến này, /admin trên Vercel chạy chế độ demo bằng SQLite `/tmp` — **dữ liệu sẽ reset**, chỉ để xem thử)
-2. **`PAYLOAD_SECRET`** — chuỗi ngẫu nhiên dài (vd chạy `openssl rand -hex 32`)
-3. *(tuỳ chọn, để upload ảnh bền)* **`BLOB_READ_WRITE_TOKEN`** — Vercel Storage → Create Blob store → copy token
+**Bước 1 — tạo database:** vào **neon.tech** → đăng ký free → Create project →
+copy **Connection string** (dạng `postgresql://...`).
 
-Redeploy → mở `/admin` → màn hình "Create first user" → tạo tài khoản team → xong.
+**Bước 2 — khởi tạo schema + admin** (chạy 1 lần từ máy local, trong thư mục dự án):
+
+```bash
+DATABASE_URL="postgresql://...neon..." SEED_EMAIL="email-cua-ban" SEED_PASSWORD="mat-khau-manh" npm run cms:init
+```
+(Windows PowerShell: `$env:DATABASE_URL="..."; $env:SEED_EMAIL="..."; $env:SEED_PASSWORD="..."; npm run cms:init`)
+
+**Bước 3 — set biến môi trường trên Vercel** (Settings → Environment Variables):
+- `DATABASE_URL` = connection string Neon ở bước 1
+- `PAYLOAD_SECRET` = chuỗi ngẫu nhiên dài (vd `openssl rand -hex 32`)
+- *(tuỳ chọn, để upload ảnh bền)* `BLOB_READ_WRITE_TOKEN` — Vercel Storage → Create Blob store
+
+**Bước 4:** Redeploy → mở `/admin` → đăng nhập bằng tài khoản ở bước 2 → xong.
 
 ## Dev local
 
