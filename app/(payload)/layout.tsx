@@ -35,7 +35,7 @@ function CmsNotReady() {
           justifyContent: 'center',
           background: '#081650',
           color: '#f8f2eb',
-          fontFamily: 'Georgia, serif',
+          fontFamily: "system-ui, 'Segoe UI', Roboto, Arial, sans-serif",
           padding: 24,
         }}
       >
