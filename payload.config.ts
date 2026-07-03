@@ -18,8 +18,14 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 /* push: true = tự đồng bộ schema khi khởi động — team không phải chạy migration.
    Vercel: có Postgres (DB_URL) → dùng Postgres; local: SQLite file.
    Phù hợp site marketing quy mô nhỏ; dữ liệu quan trọng thì chuyển sang migrations. */
+/* Kết nối TRỰC TIẾP (non-pooling) — tránh lỗi pgbouncer với prepared statements.
+   push (tạo/đồng bộ schema) chỉ chạy khi:
+   - local dev (!VERCEL), hoặc
+   - bước build DB init (PAYLOAD_DB_PUSH=1, xem scripts/db-init.ts)
+   Runtime serverless trên Vercel: push tắt → chỉ query schema đã tạo sẵn lúc build. */
+const dbPush = process.env.PAYLOAD_DB_PUSH === '1' || !process.env.VERCEL;
 const db = DB_URL
-  ? postgresAdapter({ pool: { connectionString: DB_URL }, push: true })
+  ? postgresAdapter({ pool: { connectionString: DB_URL }, push: dbPush })
   : sqliteAdapter({
       client: { url: `file:${path.join(dirname, 'payload.db')}` },
       push: true,
