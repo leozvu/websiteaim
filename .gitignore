@@ -35,3 +35,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.faltmp/
+
+# Local Claude Design bundle (not for repo)
+.design/
+local-capture/
+
+# Payload CMS local
+payload.db*
+/media
+
+.env*

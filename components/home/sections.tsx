@@ -1,0 +1,529 @@
+'use client';
+
+/* Các section trang chủ — PHONG CÁCH brand book (navy↔ivory, Garamond + champagne,
+   Reveal/Tilt3D/CountUp/DrawRule). Mỗi section nhận PROPS (mặc định = lib/content)
+   để CMS truyền nội dung vào qua khối kéo-thả (blocks/config.ts → RenderBlocks). */
+
+import { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
+import { Button, Card, Icon, OmegaMark } from '@/components/brandbook/ds';
+import { Reveal, Tilt3D } from '@/components/brandbook/primitives';
+import { CountUp } from '@/components/fx/CountUp';
+import { DrawRule } from '@/components/fx/DrawRule';
+import { BookFlip } from '@/components/fx/BookFlip';
+import { HeroShowcase } from './HeroShowcase';
+import {
+  USP_PILLARS,
+  PAIN_SOLUTIONS,
+  SERVICE_CARDS,
+  SERVICES_CTA,
+  PROCESS_STEPS,
+  ROADMAP,
+  PROJECTS,
+  PROJECTS_NDA_NOTE,
+  FINAL_CTA,
+} from '@/lib/content';
+
+export type Tone = 'navy' | 'navy-ink' | 'ivory' | 'ivory-raise';
+const GROUNDS: Record<Tone, CSSProperties> = {
+  navy: { background: 'var(--navy)', color: 'var(--ivory)' },
+  'navy-ink': { background: 'var(--navy-ink)', color: 'var(--ivory)' },
+  ivory: { background: 'var(--ivory)', color: 'var(--navy)' },
+  'ivory-raise': { background: 'var(--ivory-raise)', color: 'var(--navy)' },
+};
+const isDark = (t: Tone) => t === 'navy' || t === 'navy-ink';
+
+function Band({ id, tone, children, style }: { id?: string; tone: Tone; children: ReactNode; style?: CSSProperties }) {
+  return (
+    <section id={id} style={{ ...GROUNDS[tone], paddingBlock: 'clamp(72px, 10vw, 120px)', ...style }}>
+      <div className="aim-container">{children}</div>
+    </section>
+  );
+}
+
+/* Tiêu đề section — eyebrow champagne + số thứ tự + tiêu đề Garamond. */
+function SectionHead({
+  no,
+  eyebrow,
+  title,
+  intro,
+  dark,
+  align = 'left',
+}: {
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  dark?: boolean;
+  align?: 'left' | 'center';
+}) {
+  if (!eyebrow && !title) return null;
+  return (
+    <Reveal>
+      <div style={{ textAlign: align, maxWidth: align === 'center' ? 720 : undefined, marginInline: align === 'center' ? 'auto' : undefined }}>
+        <div
+          className="aim-eyebrow"
+          style={{ color: dark ? 'var(--gold-bright)' : 'var(--gold)', display: 'flex', gap: 10, justifyContent: align === 'center' ? 'center' : 'flex-start' }}
+        >
+          {no && <span className="aim-numeral" style={{ fontSize: 15 }}>{no}</span>}
+          {eyebrow}
+        </div>
+        {title && (
+          <h2 className="aim-display" style={{ fontSize: 'var(--text-h2)', margin: '14px 0 0', color: dark ? 'var(--ivory)' : 'var(--navy)' }}>
+            {title}
+          </h2>
+        )}
+        {intro && (
+          <p
+            style={{
+              marginTop: 16,
+              fontSize: 'var(--text-lg)',
+              lineHeight: 1.65,
+              color: dark ? 'var(--text-on-dark-muted)' : 'var(--text-on-light-muted)',
+              maxWidth: 640,
+              marginInline: align === 'center' ? 'auto' : undefined,
+            }}
+          >
+            {intro}
+          </p>
+        )}
+      </div>
+    </Reveal>
+  );
+}
+
+/* ───────── 2 · USP ───────── */
+export function Usp({
+  no = '01',
+  eyebrow = 'Cam kết của chúng tôi',
+  title = 'Ba điều Aim luôn giữ',
+  pillars = USP_PILLARS as any[],
+}: {
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  pillars?: any[];
+} = {}) {
+  return (
+    <Band id="usp" tone="ivory">
+      <SectionHead no={no} eyebrow={eyebrow} title={title} />
+      <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
+        {pillars.map((p, i) => (
+          <Reveal key={p.vi || i} delay={i * 0.07} depth style={{ height: '100%' }}>
+            <Tilt3D max={6} lift={1.015} radius="var(--radius-lg)" style={{ height: '100%' }}>
+              <Card tone="beige" interactive padding="30px" style={{ height: '100%' }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    height: 52,
+                    width: 52,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 'var(--radius-full)',
+                    border: '1px solid var(--border-accent)',
+                    color: 'var(--gold-deep)',
+                  }}
+                >
+                  <Icon name={p.icon || 'aim'} size={26} />
+                </span>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--navy)', marginTop: 22 }}>{p.vi}</div>
+                <div className="aim-eyebrow" style={{ color: 'var(--steel)', margin: '4px 0 14px' }}>
+                  {p.en}
+                </div>
+                <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-light-muted)' }}>{p.body}</p>
+              </Card>
+            </Tilt3D>
+          </Reveal>
+        ))}
+      </div>
+    </Band>
+  );
+}
+
+/* ───────── 3 · Vì sao Aim ───────── */
+export function WhyAim({
+  no = '02',
+  eyebrow = 'Vì sao chọn Aim',
+  title = 'Vấn đề thật — cách giải thật',
+  items = PAIN_SOLUTIONS as any[],
+}: {
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  items?: any[];
+} = {}) {
+  return (
+    <Band id="why" tone="navy">
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark />
+      <div style={{ marginTop: 'clamp(40px,6vw,64px)', display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {items.map((it, i) => (
+          <Reveal key={it.painTitle || i} delay={i * 0.05}>
+            <div
+              className="aim-why-row"
+              style={{ display: 'grid', gridTemplateColumns: 'var(--two, 1fr)', gap: 'clamp(20px,4vw,56px)', paddingBlock: 'clamp(28px,4vw,40px)' }}
+            >
+              <div>
+                <div className="aim-eyebrow" style={{ color: 'var(--steel-soft)', marginBottom: 10 }}>
+                  Vấn đề
+                </div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--steel-pale)', margin: 0 }}>{it.painTitle}</h3>
+                <p style={{ marginTop: 12, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-dark-subtle)' }}>{it.pain}</p>
+              </div>
+              <div>
+                <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)', marginBottom: 10 }}>
+                  Cách Aim giải
+                </div>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--ivory)', margin: 0 }}>{it.solutionTitle}</h3>
+                <p style={{ marginTop: 12, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>{it.solution}</p>
+              </div>
+            </div>
+            {i < items.length - 1 && <DrawRule dark />}
+          </Reveal>
+        ))}
+      </div>
+    </Band>
+  );
+}
+
+/* ───────── 4 · Dịch vụ ───────── */
+export function Services({
+  no = '03',
+  eyebrow = 'Dịch vụ',
+  title = 'Những gì Aim làm cùng bạn',
+  cards = SERVICE_CARDS as any[],
+  ctaLabel = SERVICES_CTA.label,
+  ctaHref = SERVICES_CTA.href,
+}: {
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  cards?: any[];
+  ctaLabel?: string;
+  ctaHref?: string;
+} = {}) {
+  return (
+    <Band id="services" tone="ivory-raise">
+      <SectionHead no={no} eyebrow={eyebrow} title={title} />
+      <div className="aim-grid-4" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
+        {cards.map((s, i) => (
+          <Reveal key={s.title || i} delay={i * 0.06} depth style={{ height: '100%' }}>
+            <Tilt3D max={6} lift={1.015} radius="var(--radius-lg)" style={{ height: '100%' }}>
+              <Card tone="beige" interactive padding="28px" style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    height: 48,
+                    width: 48,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'var(--navy)',
+                    color: 'var(--gold-bright)',
+                  }}
+                >
+                  <Icon name={s.icon || 'strategy'} size={24} />
+                </span>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 21, color: 'var(--navy)' }}>{s.title}</div>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: 'var(--text-on-light-muted)' }}>{s.body}</p>
+              </Card>
+            </Tilt3D>
+          </Reveal>
+        ))}
+      </div>
+      {ctaLabel && (
+        <Reveal delay={0.1} style={{ marginTop: 40 }}>
+          <Button href={ctaHref || '/services'} variant="outline-dark" withArrow>
+            {ctaLabel}
+          </Button>
+        </Reveal>
+      )}
+    </Band>
+  );
+}
+
+/* ───────── 5 · Quy trình (steps) — dùng cho cả khối generic "steps" ───────── */
+export function Process({
+  tone = 'navy',
+  no = '04',
+  eyebrow = 'Quy trình',
+  title = 'Bốn bước, minh bạch từ đầu',
+  steps = PROCESS_STEPS as any[],
+}: {
+  tone?: Tone;
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  steps?: any[];
+} = {}) {
+  const dark = isDark(tone);
+  return (
+    <Band id="process" tone={tone}>
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark={dark} />
+      <div className="aim-grid-4" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
+        {steps.map((s, i) => (
+          <Reveal key={s.number || i} delay={i * 0.07}>
+            <div>
+              <div className="aim-numeral" style={{ fontSize: 'clamp(3.5rem,7vw,5.5rem)', color: dark ? undefined : 'var(--gold-deep)' }}>
+                <CountUp value={parseInt(s.number || String(i + 1), 10)} pad={2} duration={700 + i * 150} />
+              </div>
+              <DrawRule dark={dark} style={{ margin: '14px 0 16px' }} />
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: dark ? 'var(--ivory)' : 'var(--navy)' }}>{s.title}</div>
+              <div className="aim-eyebrow" style={{ color: dark ? 'var(--steel-soft)' : 'var(--steel)', margin: '2px 0 12px' }}>
+                {s.en}
+              </div>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: dark ? 'var(--text-on-dark-muted)' : 'var(--text-on-light-muted)' }}>{s.body}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </Band>
+  );
+}
+
+/* ───────── 6 · Lộ trình (focal timeline) — dùng cho cả khối generic "timeline" ───────── */
+export function Roadmap({
+  tone = 'ivory',
+  no = '05',
+  eyebrow = 'Lộ trình phát triển',
+  title = 'Aim đi đường dài',
+  items = ROADMAP as any[],
+}: {
+  tone?: Tone;
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  items?: any[];
+} = {}) {
+  const dark = isDark(tone);
+  const listRef = useRef<HTMLDivElement>(null);
+  const [focus, setFocus] = useState(-1);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rows = Array.from(listRef.current?.querySelectorAll<HTMLElement>('[data-road-row]') ?? []);
+    if (!rows.length) return;
+    let raf = 0;
+    const on = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const mid = window.innerHeight / 2;
+        let best = -1;
+        let bd = Infinity;
+        rows.forEach((r, i) => {
+          const rc = r.getBoundingClientRect();
+          const d = Math.abs(rc.top + rc.height / 2 - mid);
+          if (d < bd) {
+            bd = d;
+            best = i;
+          }
+        });
+        setFocus(best);
+      });
+    };
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', on);
+      cancelAnimationFrame(raf);
+    };
+  }, [items.length]);
+
+  return (
+    <Band id="roadmap" tone={tone}>
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark={dark} />
+      <div ref={listRef} style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
+        {items.map((m, i) => {
+          const focused = focus === -1 || focus === i;
+          return (
+            <Reveal key={m.year || i} delay={i * 0.05}>
+              <div
+                data-road-row
+                className="aim-road-row"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'var(--road, 1fr)',
+                  gap: 'clamp(8px,3vw,40px)',
+                  alignItems: 'baseline',
+                  paddingBlock: 'clamp(20px,3vw,30px)',
+                  opacity: focused ? 1 : 0.45,
+                  transform: focused ? 'scale(1)' : 'scale(0.985)',
+                  transformOrigin: 'left center',
+                  transition: 'opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out)',
+                }}
+              >
+                <div
+                  className="aim-numeral"
+                  style={{ fontSize: 'clamp(2.5rem,5vw,4rem)', color: focused ? (dark ? 'var(--gold-bright)' : 'var(--gold-deep)') : 'var(--steel)', transition: 'color 0.45s' }}
+                >
+                  <CountUp value={parseInt(m.year, 10) || 0} duration={900} />
+                </div>
+                <div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: dark ? 'var(--ivory)' : 'var(--navy)', margin: 0 }}>{m.title}</h3>
+                  <p style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.7, color: dark ? 'var(--text-on-dark-muted)' : 'var(--text-on-light-muted)', maxWidth: 640 }}>
+                    {m.body}
+                  </p>
+                </div>
+              </div>
+              {i < items.length - 1 && <DrawRule dark={dark} />}
+            </Reveal>
+          );
+        })}
+      </div>
+    </Band>
+  );
+}
+
+/* ───────── 7 · Dự án ───────── */
+export function Projects({
+  tone = 'navy-ink',
+  no = '06',
+  eyebrow = 'Dự án nổi bật',
+  title = 'Một vài thương hiệu đã tin Aim',
+  note = PROJECTS_NDA_NOTE,
+  items = PROJECTS as any[],
+}: {
+  tone?: Tone;
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  note?: string;
+  items?: any[];
+} = {}) {
+  return (
+    <Band id="projects" tone={tone}>
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark={isDark(tone)} />
+      <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
+        {items.map((pr, i) => (
+          <Reveal key={pr.name || i} delay={i * 0.05} depth>
+            <Tilt3D
+              max={9}
+              lift={1.02}
+              sheen
+              style={{
+                aspectRatio: '4 / 3',
+                overflow: 'hidden',
+                border: '1px solid var(--border-on-dark)',
+                boxShadow: '0 22px 48px rgba(4,10,41,0.45)',
+                background: `linear-gradient(150deg, ${pr.from || '#081650'} 0%, ${pr.to || '#6e7c89'} 100%)`,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-end',
+                padding: 22,
+              }}
+            >
+              <span aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 75% 18%, rgba(248,242,235,0.14), transparent 55%)' }} />
+              <span aria-hidden style={{ position: 'absolute', top: 18, right: 18, opacity: 0.5 }}>
+                <OmegaMark size={30} title="" tone="ivory" />
+              </span>
+              <div style={{ position: 'relative' }}>
+                {pr.industry && (
+                  <span
+                    className="aim-eyebrow"
+                    style={{
+                      display: 'inline-block',
+                      padding: '4px 10px',
+                      borderRadius: 'var(--radius-full)',
+                      border: '1px solid var(--border-accent)',
+                      color: 'var(--gold-bright)',
+                      fontSize: 10,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {pr.industry}
+                  </span>
+                )}
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--ivory)' }}>{pr.name}</div>
+              </div>
+            </Tilt3D>
+          </Reveal>
+        ))}
+      </div>
+      {note && (
+        <Reveal>
+          <p style={{ marginTop: 26, fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 14, color: 'var(--text-on-dark-subtle)' }}>{note}</p>
+        </Reveal>
+      )}
+    </Band>
+  );
+}
+
+/* ───────── 8 · CTA cuối — spotlight theo con trỏ ───────── */
+export function FinalCta({
+  eyebrow = 'Bắt đầu',
+  title = FINAL_CTA.title,
+  body = FINAL_CTA.body as string | undefined,
+  buttonLabel = FINAL_CTA.cta.label,
+  buttonHref = FINAL_CTA.cta.href,
+}: {
+  eyebrow?: string;
+  title?: string;
+  body?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+} = {}) {
+  const glow = useRef<HTMLSpanElement>(null);
+  const reduce = useRef(false);
+  useEffect(() => {
+    reduce.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+  const move = (e: React.MouseEvent<HTMLElement>) => {
+    if (reduce.current || !glow.current) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    glow.current.style.background = `radial-gradient(460px circle at ${x}% ${y}%, rgba(197,173,138,0.14), transparent 62%)`;
+  };
+  return (
+    <section
+      id="cta"
+      onMouseMove={move}
+      style={{ position: 'relative', background: 'var(--navy)', color: 'var(--ivory)', paddingBlock: 'clamp(72px, 10vw, 120px)', overflow: 'hidden' }}
+    >
+      <span
+        ref={glow}
+        aria-hidden
+        style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(460px circle at 50% 40%, rgba(197,173,138,0.1), transparent 62%)' }}
+      />
+      <div className="aim-container" style={{ position: 'relative' }}>
+        <div style={{ maxWidth: 880, marginInline: 'auto', textAlign: 'center' }}>
+          <Reveal>
+            <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)' }}>
+              {eyebrow}
+            </div>
+          </Reveal>
+          <Reveal delay={0.06}>
+            <h2 className="aim-display" style={{ fontSize: 'var(--text-display)', color: 'var(--ivory)', margin: '16px 0 0' }}>
+              {title}
+            </h2>
+          </Reveal>
+          {body && (
+            <Reveal delay={0.12}>
+              <p style={{ marginTop: 18, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>{body}</p>
+            </Reveal>
+          )}
+          <Reveal delay={0.18} style={{ marginTop: 34 }}>
+            <Button href={buttonHref || '/contact'} variant="gold" size="lg" withArrow>
+              {buttonLabel}
+            </Button>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* Trang chủ tĩnh — fallback khi CMS trống/lỗi. */
+export default function HomeSections() {
+  return (
+    <>
+      <HeroShowcase />
+      <Usp />
+      <WhyAim />
+      <Services />
+      <Process />
+      <BookFlip />
+      <Roadmap />
+      <Projects />
+      <FinalCta />
+    </>
+  );
+}
