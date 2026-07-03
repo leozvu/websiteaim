@@ -11,15 +11,17 @@ import { postgresAdapter } from '@payloadcms/db-postgres';
 import { sqliteAdapter } from '@payloadcms/db-sqlite';
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import sharp from 'sharp';
+import { DB_URL } from './lib/cms-ready';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /* push: true = tự đồng bộ schema khi khởi động — team không phải chạy migration.
+   Vercel: có Postgres (DB_URL) → dùng Postgres; local: SQLite file.
    Phù hợp site marketing quy mô nhỏ; dữ liệu quan trọng thì chuyển sang migrations. */
-const db = process.env.DATABASE_URL
-  ? postgresAdapter({ pool: { connectionString: process.env.DATABASE_URL }, push: true })
+const db = DB_URL
+  ? postgresAdapter({ pool: { connectionString: DB_URL }, push: true })
   : sqliteAdapter({
-      client: { url: process.env.VERCEL ? 'file:/tmp/payload.db' : `file:${path.join(dirname, 'payload.db')}` },
+      client: { url: `file:${path.join(dirname, 'payload.db')}` },
       push: true,
     });
 
