@@ -1,49 +1,55 @@
-import { fetchOneEntry } from '@builder.io/sdk-react';
+/* Trang do team dựng bằng KÉO-THẢ trong /admin (collection "Trang").
+   Route tĩnh (/, /about, ...) luôn ưu tiên; catch-all này lo mọi slug khác.
+   ?preview=1 → hiện cả trang chưa xuất bản + bật Live Preview refresh. */
+
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { RenderBuilderContent } from '@/components/builder/RenderBuilderContent';
-
-/* Catch-all cho các trang do team dựng bằng Builder.io (kéo-thả).
-   Route tĩnh (/, /about, /services, ...) luôn ưu tiên hơn catch-all này;
-   nên Builder chỉ quản các URL CHƯA được code (landing page, khuyến mãi, ...). */
+import { getPayload } from 'payload';
+import config from '@payload-config';
+import { cmsReady } from '@/lib/cms-ready';
+import { RenderBlocks } from '@/components/blocks/RenderBlocks';
+import { RefreshOnSave } from '@/components/blocks/RefreshOnSave';
 
 export const dynamic = 'force-dynamic';
 
-const apiKey = process.env.NEXT_PUBLIC_BUILDER_API_KEY || '';
-
-type PageProps = {
+type Props = {
   params: Promise<{ page?: string[] }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
-async function getContent(urlPath: string) {
-  if (!apiKey) return null;
+async function getPage(slug: string, preview: boolean) {
+  if (!cmsReady) return null;
   try {
-    return await fetchOneEntry({ model: 'page', apiKey, userAttributes: { urlPath } });
+    const payload = await getPayload({ config });
+    const where = preview
+      ? { slug: { equals: slug } }
+      : { and: [{ slug: { equals: slug } }, { published: { equals: true } }] };
+    const res = await payload.find({ collection: 'pages', where: where as any, limit: 1, depth: 2 });
+    return res.docs[0] ?? null;
   } catch {
     return null;
   }
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { page } = await params;
-  const urlPath = '/' + (page?.join('/') || '');
-  const content = await getContent(urlPath);
-  const data = content?.data as { title?: string; description?: string } | undefined;
-  return {
-    title: data?.title,
-    description: data?.description,
-  };
+  const slug = page?.join('/') || 'home';
+  const doc: any = await getPage(slug, false);
+  if (!doc) return {};
+  return { title: doc.metaTitle || doc.title, description: doc.metaDescription };
 }
 
-export default async function BuilderCatchAll({ params, searchParams }: PageProps) {
+export default async function BuilderPage({ params, searchParams }: Props) {
   const { page } = await params;
   const sp = await searchParams;
-  const urlPath = '/' + (page?.join('/') || '');
-  const content = await getContent(urlPath);
-  // Khi mở trong trình soạn Builder (?builder.* ) thì vẫn render canvas để chỉnh,
-  // dù chưa có nội dung. Ngoài ra không có nội dung → trả 404 chuẩn.
-  const previewing = Object.keys(sp).some((k) => k.startsWith('builder.'));
-  if (!content && !previewing) notFound();
-  return <RenderBuilderContent content={content} apiKey={apiKey} model="page" />;
+  const preview = sp?.preview === '1';
+  const slug = page?.join('/') || 'home';
+  const doc: any = await getPage(slug, preview);
+  if (!doc) notFound();
+  return (
+    <>
+      {preview && <RefreshOnSave />}
+      <RenderBlocks blocks={doc.layout} />
+    </>
+  );
 }

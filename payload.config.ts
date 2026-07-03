@@ -12,8 +12,14 @@ import { sqliteAdapter } from '@payloadcms/db-sqlite';
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import sharp from 'sharp';
 import { DB_URL } from './lib/cms-ready';
+import { pageBlocks } from './blocks/config';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/* URL front-end cho Live Preview (xem trước trực tiếp khi kéo-thả). */
+const serverURL =
+  process.env.NEXT_PUBLIC_SERVER_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000');
 
 /* push: true = tự đồng bộ schema khi khởi động — team không phải chạy migration.
    Vercel: có Postgres (DB_URL) → dùng Postgres; local: SQLite file.
@@ -40,8 +46,43 @@ export default buildConfig({
   admin: {
     user: 'users',
     meta: { titleSuffix: ' · AIM Agency CMS' },
+    livePreview: {
+      url: ({ data }) => `${serverURL}/${(data?.slug as string) || ''}?preview=1`,
+      collections: ['pages'],
+      breakpoints: [
+        { name: 'mobile', label: 'Điện thoại', width: 390, height: 844 },
+        { name: 'tablet', label: 'Máy tính bảng', width: 768, height: 1024 },
+        { name: 'desktop', label: 'Máy tính', width: 1440, height: 900 },
+      ],
+    },
   },
   collections: [
+    {
+      slug: 'pages',
+      labels: { singular: 'Trang', plural: 'Trang (kéo-thả)' },
+      admin: { useAsTitle: 'title', defaultColumns: ['title', 'slug', 'published'] },
+      access: { read: () => true },
+      fields: [
+        { name: 'title', label: 'Tên trang', type: 'text', required: true },
+        {
+          name: 'slug',
+          label: 'Đường dẫn (slug)',
+          type: 'text',
+          required: true,
+          unique: true,
+          admin: { description: 'vd: khuyen-mai-tet → aimagency.vn/khuyen-mai-tet' },
+        },
+        {
+          name: 'layout',
+          label: 'Khối nội dung (kéo ≡ để sắp xếp)',
+          type: 'blocks',
+          blocks: pageBlocks,
+        },
+        { name: 'metaTitle', label: 'SEO — Tiêu đề', type: 'text' },
+        { name: 'metaDescription', label: 'SEO — Mô tả', type: 'textarea' },
+        { name: 'published', label: 'Xuất bản', type: 'checkbox', defaultValue: true },
+      ],
+    },
     {
       slug: 'users',
       labels: { singular: 'Thành viên', plural: 'Thành viên' },
