@@ -8,7 +8,7 @@ import { getPayload } from 'payload';
 import config from '@payload-config';
 import { cmsReady } from '@/lib/cms-ready';
 import { RenderBlocks } from '@/components/blocks/RenderBlocks';
-import { RefreshOnSave } from '@/components/blocks/RefreshOnSave';
+import { LivePreviewClient } from '@/components/blocks/LivePreviewClient';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,10 +46,8 @@ export default async function BuilderPage({ params, searchParams }: Props) {
   const slug = page?.join('/') || 'home';
   const doc: any = await getPage(slug, preview);
   if (!doc) notFound();
-  return (
-    <>
-      {preview && <RefreshOnSave />}
-      <RenderBlocks blocks={doc.layout} />
-    </>
-  );
+  // preview=1 (mở trong khung Live Preview của /admin) → chỉnh sửa tương tác:
+  // gõ trong form là trang đổi ngay, không cần Lưu.
+  if (preview) return <LivePreviewClient initialDoc={doc} />;
+  return <RenderBlocks blocks={doc.layout} />;
 }

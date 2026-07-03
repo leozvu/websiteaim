@@ -44,5 +44,36 @@ if (projects.totalDocs === 0) {
   console.log('✓ Tạo dự án mẫu');
 }
 
+const pages = await payload.find({ collection: 'pages', limit: 1 });
+if (pages.totalDocs === 0) {
+  await payload.create({
+    collection: 'pages',
+    data: {
+      title: 'Trang mẫu (kéo-thả)',
+      slug: 'trang-mau',
+      published: true,
+      layout: [
+        {
+          blockType: 'hero',
+          eyebrow: 'Trang dựng bằng kéo-thả',
+          title: 'Dựng trang trong vài phút',
+          subtitle: 'Kéo các khối vào, điền nội dung, sắp xếp lại — không cần code.',
+          primaryLabel: 'Bắt đầu dự án',
+          primaryHref: '/contact',
+        },
+        {
+          blockType: 'cta',
+          tone: 'navy',
+          eyebrow: 'Bắt đầu',
+          title: 'Sẵn sàng dựng trang của bạn?',
+          buttonLabel: 'Bắt đầu dự án',
+          buttonHref: '/contact',
+        },
+      ],
+    } as any,
+  });
+  console.log('✓ Tạo trang kéo-thả mẫu (/trang-mau)');
+}
+
 console.log('DONE');
 process.exit(0);
