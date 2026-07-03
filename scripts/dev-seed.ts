@@ -35,45 +35,21 @@ if (posts.totalDocs === 0) {
   console.log('✓ Tạo bài viết mẫu');
 }
 
-const projects = await payload.find({ collection: 'projects', limit: 1 });
-if (projects.totalDocs === 0) {
-  await payload.create({
-    collection: 'projects',
-    data: { name: 'BamBoo Café', industry: 'F&B', from: '#1B2A4A', to: '#6E8CA8', order: 1 },
-  });
-  console.log('✓ Tạo dự án mẫu');
+const projCount = await payload.count({ collection: 'projects' });
+if (projCount.totalDocs <= 1) {
+  const { PROJECTS } = await import('../lib/content');
+  for (let i = 0; i < PROJECTS.length; i++) {
+    const pr = PROJECTS[i];
+    const dup = await payload.find({ collection: 'projects', where: { name: { equals: pr.name } }, limit: 1, depth: 0 });
+    if (dup.totalDocs === 0) {
+      await payload.create({ collection: 'projects', data: { ...pr, order: i + 1 } });
+      console.log(`✓ Tạo dự án: ${pr.name}`);
+    }
+  }
 }
 
-const pages = await payload.find({ collection: 'pages', limit: 1 });
-if (pages.totalDocs === 0) {
-  await payload.create({
-    collection: 'pages',
-    data: {
-      title: 'Trang mẫu (kéo-thả)',
-      slug: 'trang-mau',
-      published: true,
-      layout: [
-        {
-          blockType: 'hero',
-          eyebrow: 'Trang dựng bằng kéo-thả',
-          title: 'Dựng trang trong vài phút',
-          subtitle: 'Kéo các khối vào, điền nội dung, sắp xếp lại — không cần code.',
-          primaryLabel: 'Bắt đầu dự án',
-          primaryHref: '/contact',
-        },
-        {
-          blockType: 'cta',
-          tone: 'navy',
-          eyebrow: 'Bắt đầu',
-          title: 'Sẵn sàng dựng trang của bạn?',
-          buttonLabel: 'Bắt đầu dự án',
-          buttonHref: '/contact',
-        },
-      ],
-    } as any,
-  });
-  console.log('✓ Tạo trang kéo-thả mẫu (/trang-mau)');
-}
+const { ensurePages } = await import('./seed-pages');
+await ensurePages(payload);
 
 console.log('DONE');
 process.exit(0);

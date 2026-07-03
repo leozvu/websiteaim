@@ -1,8 +1,8 @@
 'use client';
 
-/* Trang chủ AIM — NỘI DUNG THẬT của website (8 section marketing) được khoác
-   PHONG CÁCH brand book: nền navy↔ivory luân phiên, Garamond + champagne accent,
-   số chương lớn, hairline editorial, Reveal/Tilt3D. Nội dung từ lib/content.ts. */
+/* Các section trang chủ — PHONG CÁCH brand book (navy↔ivory, Garamond + champagne,
+   Reveal/Tilt3D/CountUp/DrawRule). Mỗi section nhận PROPS (mặc định = lib/content)
+   để CMS truyền nội dung vào qua khối kéo-thả (blocks/config.ts → RenderBlocks). */
 
 import { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
 import { Button, Card, Icon, OmegaMark } from '@/components/brandbook/ds';
@@ -23,13 +23,14 @@ import {
   FINAL_CTA,
 } from '@/lib/content';
 
-type Tone = 'navy' | 'navy-ink' | 'ivory' | 'ivory-raise';
+export type Tone = 'navy' | 'navy-ink' | 'ivory' | 'ivory-raise';
 const GROUNDS: Record<Tone, CSSProperties> = {
   navy: { background: 'var(--navy)', color: 'var(--ivory)' },
   'navy-ink': { background: 'var(--navy-ink)', color: 'var(--ivory)' },
   ivory: { background: 'var(--ivory)', color: 'var(--navy)' },
   'ivory-raise': { background: 'var(--ivory-raise)', color: 'var(--navy)' },
 };
+const isDark = (t: Tone) => t === 'navy' || t === 'navy-ink';
 
 function Band({ id, tone, children, style }: { id?: string; tone: Tone; children: ReactNode; style?: CSSProperties }) {
   return (
@@ -49,12 +50,13 @@ function SectionHead({
   align = 'left',
 }: {
   no?: string;
-  eyebrow: string;
-  title: string;
+  eyebrow?: string;
+  title?: string;
   intro?: string;
   dark?: boolean;
   align?: 'left' | 'center';
 }) {
+  if (!eyebrow && !title) return null;
   return (
     <Reveal>
       <div style={{ textAlign: align, maxWidth: align === 'center' ? 720 : undefined, marginInline: align === 'center' ? 'auto' : undefined }}>
@@ -65,12 +67,11 @@ function SectionHead({
           {no && <span className="aim-numeral" style={{ fontSize: 15 }}>{no}</span>}
           {eyebrow}
         </div>
-        <h2
-          className="aim-display"
-          style={{ fontSize: 'var(--text-h2)', margin: '14px 0 0', color: dark ? 'var(--ivory)' : 'var(--navy)' }}
-        >
-          {title}
-        </h2>
+        {title && (
+          <h2 className="aim-display" style={{ fontSize: 'var(--text-h2)', margin: '14px 0 0', color: dark ? 'var(--ivory)' : 'var(--navy)' }}>
+            {title}
+          </h2>
+        )}
         {intro && (
           <p
             style={{
@@ -90,38 +91,46 @@ function SectionHead({
   );
 }
 
-/* ───────── 1 · HERO — reel showcase asset thật (xem HeroShowcase.tsx) ───────── */
-
-/* ───────── 2 · USP (ivory) ───────── */
-function Usp() {
+/* ───────── 2 · USP ───────── */
+export function Usp({
+  no = '01',
+  eyebrow = 'Cam kết của chúng tôi',
+  title = 'Ba điều Aim luôn giữ',
+  pillars = USP_PILLARS as any[],
+}: {
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  pillars?: any[];
+} = {}) {
   return (
     <Band id="usp" tone="ivory">
-      <SectionHead no="01" eyebrow="Cam kết của chúng tôi" title="Ba điều Aim luôn giữ" />
+      <SectionHead no={no} eyebrow={eyebrow} title={title} />
       <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-        {USP_PILLARS.map((p, i) => (
-          <Reveal key={p.vi} delay={i * 0.07} depth style={{ height: '100%' }}>
+        {pillars.map((p, i) => (
+          <Reveal key={p.vi || i} delay={i * 0.07} depth style={{ height: '100%' }}>
             <Tilt3D max={6} lift={1.015} radius="var(--radius-lg)" style={{ height: '100%' }}>
-            <Card tone="beige" interactive padding="30px" style={{ height: '100%' }}>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  height: 52,
-                  width: 52,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 'var(--radius-full)',
-                  border: '1px solid var(--border-accent)',
-                  color: 'var(--gold-deep)',
-                }}
-              >
-                <Icon name={p.icon} size={26} />
-              </span>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--navy)', marginTop: 22 }}>{p.vi}</div>
-              <div className="aim-eyebrow" style={{ color: 'var(--steel)', margin: '4px 0 14px' }}>
-                {p.en}
-              </div>
-              <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-light-muted)' }}>{p.body}</p>
-            </Card>
+              <Card tone="beige" interactive padding="30px" style={{ height: '100%' }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    height: 52,
+                    width: 52,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 'var(--radius-full)',
+                    border: '1px solid var(--border-accent)',
+                    color: 'var(--gold-deep)',
+                  }}
+                >
+                  <Icon name={p.icon || 'aim'} size={26} />
+                </span>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--navy)', marginTop: 22 }}>{p.vi}</div>
+                <div className="aim-eyebrow" style={{ color: 'var(--steel)', margin: '4px 0 14px' }}>
+                  {p.en}
+                </div>
+                <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-light-muted)' }}>{p.body}</p>
+              </Card>
             </Tilt3D>
           </Reveal>
         ))}
@@ -130,40 +139,44 @@ function Usp() {
   );
 }
 
-/* ───────── 3 · Vì sao Aim (navy) ───────── */
-function WhyAim() {
+/* ───────── 3 · Vì sao Aim ───────── */
+export function WhyAim({
+  no = '02',
+  eyebrow = 'Vì sao chọn Aim',
+  title = 'Vấn đề thật — cách giải thật',
+  items = PAIN_SOLUTIONS as any[],
+}: {
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  items?: any[];
+} = {}) {
   return (
     <Band id="why" tone="navy">
-      <SectionHead no="02" eyebrow="Vì sao chọn Aim" title="Vấn đề thật — cách giải thật" dark />
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark />
       <div style={{ marginTop: 'clamp(40px,6vw,64px)', display: 'flex', flexDirection: 'column', gap: 0 }}>
-        {PAIN_SOLUTIONS.map((it, i) => (
-          <Reveal key={it.painTitle} delay={i * 0.05}>
+        {items.map((it, i) => (
+          <Reveal key={it.painTitle || i} delay={i * 0.05}>
             <div
               className="aim-why-row"
               style={{ display: 'grid', gridTemplateColumns: 'var(--two, 1fr)', gap: 'clamp(20px,4vw,56px)', paddingBlock: 'clamp(28px,4vw,40px)' }}
             >
-              {/* Pain */}
               <div>
                 <div className="aim-eyebrow" style={{ color: 'var(--steel-soft)', marginBottom: 10 }}>
                   Vấn đề
                 </div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--steel-pale)', margin: 0 }}>
-                  {it.painTitle}
-                </h3>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--steel-pale)', margin: 0 }}>{it.painTitle}</h3>
                 <p style={{ marginTop: 12, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-dark-subtle)' }}>{it.pain}</p>
               </div>
-              {/* Solution */}
               <div>
                 <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)', marginBottom: 10 }}>
                   Cách Aim giải
                 </div>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--ivory)', margin: 0 }}>
-                  {it.solutionTitle}
-                </h3>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--ivory)', margin: 0 }}>{it.solutionTitle}</h3>
                 <p style={{ marginTop: 12, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>{it.solution}</p>
               </div>
             </div>
-            {i < PAIN_SOLUTIONS.length - 1 && <DrawRule dark />}
+            {i < items.length - 1 && <DrawRule dark />}
           </Reveal>
         ))}
       </div>
@@ -171,64 +184,93 @@ function WhyAim() {
   );
 }
 
-/* ───────── 4 · Dịch vụ (ivory) ───────── */
-function Services() {
+/* ───────── 4 · Dịch vụ ───────── */
+export function Services({
+  no = '03',
+  eyebrow = 'Dịch vụ',
+  title = 'Những gì Aim làm cùng bạn',
+  cards = SERVICE_CARDS as any[],
+  ctaLabel = SERVICES_CTA.label,
+  ctaHref = SERVICES_CTA.href,
+}: {
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  cards?: any[];
+  ctaLabel?: string;
+  ctaHref?: string;
+} = {}) {
   return (
     <Band id="services" tone="ivory-raise">
-      <SectionHead no="03" eyebrow="Dịch vụ" title="Những gì Aim làm cùng bạn" />
+      <SectionHead no={no} eyebrow={eyebrow} title={title} />
       <div className="aim-grid-4" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-        {SERVICE_CARDS.map((s, i) => (
-          <Reveal key={s.title} delay={i * 0.06} depth style={{ height: '100%' }}>
+        {cards.map((s, i) => (
+          <Reveal key={s.title || i} delay={i * 0.06} depth style={{ height: '100%' }}>
             <Tilt3D max={6} lift={1.015} radius="var(--radius-lg)" style={{ height: '100%' }}>
-            <Card tone="beige" interactive padding="28px" style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  height: 48,
-                  width: 48,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'var(--navy)',
-                  color: 'var(--gold-bright)',
-                }}
-              >
-                <Icon name={s.icon} size={24} />
-              </span>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 21, color: 'var(--navy)' }}>{s.title}</div>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: 'var(--text-on-light-muted)' }}>{s.body}</p>
-            </Card>
+              <Card tone="beige" interactive padding="28px" style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    height: 48,
+                    width: 48,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'var(--navy)',
+                    color: 'var(--gold-bright)',
+                  }}
+                >
+                  <Icon name={s.icon || 'strategy'} size={24} />
+                </span>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 21, color: 'var(--navy)' }}>{s.title}</div>
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: 'var(--text-on-light-muted)' }}>{s.body}</p>
+              </Card>
             </Tilt3D>
           </Reveal>
         ))}
       </div>
-      <Reveal delay={0.1} style={{ marginTop: 40 }}>
-        <Button href={SERVICES_CTA.href} variant="outline-dark" withArrow>
-          {SERVICES_CTA.label}
-        </Button>
-      </Reveal>
+      {ctaLabel && (
+        <Reveal delay={0.1} style={{ marginTop: 40 }}>
+          <Button href={ctaHref || '/services'} variant="outline-dark" withArrow>
+            {ctaLabel}
+          </Button>
+        </Reveal>
+      )}
     </Band>
   );
 }
 
-/* ───────── 5 · Quy trình (navy) ───────── */
-function Process() {
+/* ───────── 5 · Quy trình (steps) — dùng cho cả khối generic "steps" ───────── */
+export function Process({
+  tone = 'navy',
+  no = '04',
+  eyebrow = 'Quy trình',
+  title = 'Bốn bước, minh bạch từ đầu',
+  steps = PROCESS_STEPS as any[],
+}: {
+  tone?: Tone;
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  steps?: any[];
+} = {}) {
+  const dark = isDark(tone);
   return (
-    <Band id="process" tone="navy">
-      <SectionHead no="04" eyebrow="Quy trình" title="Bốn bước, minh bạch từ đầu" dark />
+    <Band id="process" tone={tone}>
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark={dark} />
       <div className="aim-grid-4" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-        {PROCESS_STEPS.map((s, i) => (
-          <Reveal key={s.number} delay={i * 0.07}>
+        {steps.map((s, i) => (
+          <Reveal key={s.number || i} delay={i * 0.07}>
             <div>
-              <div className="aim-numeral" style={{ fontSize: 'clamp(3.5rem,7vw,5.5rem)' }}>
-                <CountUp value={parseInt(s.number, 10)} pad={2} duration={700 + i * 150} />
+              <div className="aim-numeral" style={{ fontSize: 'clamp(3.5rem,7vw,5.5rem)', color: dark ? undefined : 'var(--gold-deep)' }}>
+                <CountUp value={parseInt(s.number || String(i + 1), 10)} pad={2} duration={700 + i * 150} />
               </div>
-              <DrawRule dark style={{ margin: '14px 0 16px' }} />
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--ivory)' }}>{s.title}</div>
-              <div className="aim-eyebrow" style={{ color: 'var(--steel-soft)', margin: '2px 0 12px' }}>
+              <DrawRule dark={dark} style={{ margin: '14px 0 16px' }} />
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: dark ? 'var(--ivory)' : 'var(--navy)' }}>{s.title}</div>
+              <div className="aim-eyebrow" style={{ color: dark ? 'var(--steel-soft)' : 'var(--steel)', margin: '2px 0 12px' }}>
                 {s.en}
               </div>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>{s.body}</p>
+              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: dark ? 'var(--text-on-dark-muted)' : 'var(--text-on-light-muted)' }}>{s.body}</p>
             </div>
           </Reveal>
         ))}
@@ -237,8 +279,21 @@ function Process() {
   );
 }
 
-/* ───────── 6 · Lộ trình (ivory) — focal timeline: dòng giữa màn nét, còn lại lùi mờ ───────── */
-function Roadmap() {
+/* ───────── 6 · Lộ trình (focal timeline) — dùng cho cả khối generic "timeline" ───────── */
+export function Roadmap({
+  tone = 'ivory',
+  no = '05',
+  eyebrow = 'Lộ trình phát triển',
+  title = 'Aim đi đường dài',
+  items = ROADMAP as any[],
+}: {
+  tone?: Tone;
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  items?: any[];
+} = {}) {
+  const dark = isDark(tone);
   const listRef = useRef<HTMLDivElement>(null);
   const [focus, setFocus] = useState(-1);
 
@@ -270,16 +325,16 @@ function Roadmap() {
       window.removeEventListener('scroll', on);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [items.length]);
 
   return (
-    <Band id="roadmap" tone="ivory">
-      <SectionHead no="05" eyebrow="Lộ trình phát triển" title="Aim đi đường dài" />
+    <Band id="roadmap" tone={tone}>
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark={dark} />
       <div ref={listRef} style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-        {ROADMAP.map((m, i) => {
+        {items.map((m, i) => {
           const focused = focus === -1 || focus === i;
           return (
-            <Reveal key={m.year} delay={i * 0.05}>
+            <Reveal key={m.year || i} delay={i * 0.05}>
               <div
                 data-road-row
                 className="aim-road-row"
@@ -295,15 +350,20 @@ function Roadmap() {
                   transition: 'opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out)',
                 }}
               >
-                <div className="aim-numeral" style={{ fontSize: 'clamp(2.5rem,5vw,4rem)', color: focused ? 'var(--gold-deep)' : 'var(--steel)' , transition: 'color 0.45s'}}>
-                  <CountUp value={parseInt(m.year, 10)} duration={900} />
+                <div
+                  className="aim-numeral"
+                  style={{ fontSize: 'clamp(2.5rem,5vw,4rem)', color: focused ? (dark ? 'var(--gold-bright)' : 'var(--gold-deep)') : 'var(--steel)', transition: 'color 0.45s' }}
+                >
+                  <CountUp value={parseInt(m.year, 10) || 0} duration={900} />
                 </div>
                 <div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: 'var(--navy)', margin: 0 }}>{m.title}</h3>
-                  <p style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.7, color: 'var(--text-on-light-muted)', maxWidth: 640 }}>{m.body}</p>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-h3)', color: dark ? 'var(--ivory)' : 'var(--navy)', margin: 0 }}>{m.title}</h3>
+                  <p style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.7, color: dark ? 'var(--text-on-dark-muted)' : 'var(--text-on-light-muted)', maxWidth: 640 }}>
+                    {m.body}
+                  </p>
                 </div>
               </div>
-              {i < ROADMAP.length - 1 && <DrawRule />}
+              {i < items.length - 1 && <DrawRule dark={dark} />}
             </Reveal>
           );
         })}
@@ -312,14 +372,28 @@ function Roadmap() {
   );
 }
 
-/* ───────── 7 · Dự án (navy-ink) ───────── */
-function Projects() {
+/* ───────── 7 · Dự án ───────── */
+export function Projects({
+  tone = 'navy-ink',
+  no = '06',
+  eyebrow = 'Dự án nổi bật',
+  title = 'Một vài thương hiệu đã tin Aim',
+  note = PROJECTS_NDA_NOTE,
+  items = PROJECTS as any[],
+}: {
+  tone?: Tone;
+  no?: string;
+  eyebrow?: string;
+  title?: string;
+  note?: string;
+  items?: any[];
+} = {}) {
   return (
-    <Band id="projects" tone="navy-ink">
-      <SectionHead no="06" eyebrow="Dự án nổi bật" title="Một vài thương hiệu đã tin Aim" dark />
+    <Band id="projects" tone={tone}>
+      <SectionHead no={no} eyebrow={eyebrow} title={title} dark={isDark(tone)} />
       <div className="aim-grid-3" style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
-        {PROJECTS.map((pr, i) => (
-          <Reveal key={pr.name} delay={i * 0.05} depth>
+        {items.map((pr, i) => (
+          <Reveal key={pr.name || i} delay={i * 0.05} depth>
             <Tilt3D
               max={9}
               lift={1.02}
@@ -329,7 +403,7 @@ function Projects() {
                 overflow: 'hidden',
                 border: '1px solid var(--border-on-dark)',
                 boxShadow: '0 22px 48px rgba(4,10,41,0.45)',
-                background: `linear-gradient(150deg, ${pr.from} 0%, ${pr.to} 100%)`,
+                background: `linear-gradient(150deg, ${pr.from || '#081650'} 0%, ${pr.to || '#6e7c89'} 100%)`,
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
@@ -337,44 +411,55 @@ function Projects() {
               }}
             >
               <span aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 75% 18%, rgba(248,242,235,0.14), transparent 55%)' }} />
-              <span
-                aria-hidden
-                style={{ position: 'absolute', top: 18, right: 18, opacity: 0.5 }}
-              >
+              <span aria-hidden style={{ position: 'absolute', top: 18, right: 18, opacity: 0.5 }}>
                 <OmegaMark size={30} title="" tone="ivory" />
               </span>
               <div style={{ position: 'relative' }}>
-                <span
-                  className="aim-eyebrow"
-                  style={{
-                    display: 'inline-block',
-                    padding: '4px 10px',
-                    borderRadius: 'var(--radius-full)',
-                    border: '1px solid var(--border-accent)',
-                    color: 'var(--gold-bright)',
-                    fontSize: 10,
-                    marginBottom: 10,
-                  }}
-                >
-                  {pr.industry}
-                </span>
+                {pr.industry && (
+                  <span
+                    className="aim-eyebrow"
+                    style={{
+                      display: 'inline-block',
+                      padding: '4px 10px',
+                      borderRadius: 'var(--radius-full)',
+                      border: '1px solid var(--border-accent)',
+                      color: 'var(--gold-bright)',
+                      fontSize: 10,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {pr.industry}
+                  </span>
+                )}
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--ivory)' }}>{pr.name}</div>
               </div>
             </Tilt3D>
           </Reveal>
         ))}
       </div>
-      <Reveal>
-        <p style={{ marginTop: 26, fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 14, color: 'var(--text-on-dark-subtle)' }}>
-          {PROJECTS_NDA_NOTE}
-        </p>
-      </Reveal>
+      {note && (
+        <Reveal>
+          <p style={{ marginTop: 26, fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 14, color: 'var(--text-on-dark-subtle)' }}>{note}</p>
+        </Reveal>
+      )}
     </Band>
   );
 }
 
-/* ───────── 8 · CTA cuối (navy) — "phòng tối chờ bật đèn": spotlight theo con trỏ ───────── */
-function FinalCta() {
+/* ───────── 8 · CTA cuối — spotlight theo con trỏ ───────── */
+export function FinalCta({
+  eyebrow = 'Bắt đầu',
+  title = FINAL_CTA.title,
+  body = FINAL_CTA.body as string | undefined,
+  buttonLabel = FINAL_CTA.cta.label,
+  buttonHref = FINAL_CTA.cta.href,
+}: {
+  eyebrow?: string;
+  title?: string;
+  body?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+} = {}) {
   const glow = useRef<HTMLSpanElement>(null);
   const reduce = useRef(false);
   useEffect(() => {
@@ -399,31 +484,34 @@ function FinalCta() {
         style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(460px circle at 50% 40%, rgba(197,173,138,0.1), transparent 62%)' }}
       />
       <div className="aim-container" style={{ position: 'relative' }}>
-      <div style={{ maxWidth: 880, marginInline: 'auto', textAlign: 'center' }}>
-        <Reveal>
-          <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)' }}>
-            Bắt đầu
-          </div>
-        </Reveal>
-        <Reveal delay={0.06}>
-          <h2 className="aim-display" style={{ fontSize: 'var(--text-display)', color: 'var(--ivory)', margin: '16px 0 0' }}>
-            {FINAL_CTA.title}
-          </h2>
-        </Reveal>
-        <Reveal delay={0.12}>
-          <p style={{ marginTop: 18, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>{FINAL_CTA.body}</p>
-        </Reveal>
-        <Reveal delay={0.18} style={{ marginTop: 34 }}>
-          <Button href={FINAL_CTA.cta.href} variant="gold" size="lg" withArrow>
-            {FINAL_CTA.cta.label}
-          </Button>
-        </Reveal>
-      </div>
+        <div style={{ maxWidth: 880, marginInline: 'auto', textAlign: 'center' }}>
+          <Reveal>
+            <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)' }}>
+              {eyebrow}
+            </div>
+          </Reveal>
+          <Reveal delay={0.06}>
+            <h2 className="aim-display" style={{ fontSize: 'var(--text-display)', color: 'var(--ivory)', margin: '16px 0 0' }}>
+              {title}
+            </h2>
+          </Reveal>
+          {body && (
+            <Reveal delay={0.12}>
+              <p style={{ marginTop: 18, fontSize: 'var(--text-lg)', lineHeight: 1.7, color: 'var(--text-on-dark-muted)' }}>{body}</p>
+            </Reveal>
+          )}
+          <Reveal delay={0.18} style={{ marginTop: 34 }}>
+            <Button href={buttonHref || '/contact'} variant="gold" size="lg" withArrow>
+              {buttonLabel}
+            </Button>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
 }
 
+/* Trang chủ tĩnh — fallback khi CMS trống/lỗi. */
 export default function HomeSections() {
   return (
     <>

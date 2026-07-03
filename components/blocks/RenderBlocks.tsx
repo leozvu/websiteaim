@@ -2,10 +2,14 @@
    Server component — nhận mảng `layout` của trang, switch theo blockType. */
 
 import { CSSProperties, ReactNode } from 'react';
-import Link from 'next/link';
 import { RichText } from '@payloadcms/richtext-lexical/react';
-import { Band, SectionHead } from '@/components/site/kit';
+import { Band, SectionHead, PageHero as KitPageHero } from '@/components/site/kit';
 import { Button, Card, Icon, OmegaMark } from '@/components/brandbook/ds';
+import { HeroShowcase } from '@/components/home/HeroShowcase';
+import { BookFlip } from '@/components/fx/BookFlip';
+import { Usp as UspSection, WhyAim as WhySection, Services as ServicesSection, Process as ProcessSection, Roadmap as RoadmapSection, FinalCta as FinalCtaSection } from '@/components/home/sections';
+import { ContactSection } from '@/components/site/ContactSection';
+import { ProjectsGridBlock, PostsListBlock } from './dynamic';
 
 type Tone = 'navy' | 'navy-ink' | 'ivory' | 'ivory-raise';
 const isDark = (t: Tone) => t === 'navy' || t === 'navy-ink';
@@ -261,15 +265,150 @@ function CTABlock(b: any) {
   );
 }
 
+/* ── Khối generic bổ sung ── */
+
+function PageHeroBlock(b: any) {
+  return <KitPageHero eyebrow={b.eyebrow || ''} title={b.title} intro={b.intro} />;
+}
+
+function FAQBlock(b: any) {
+  const tone: Tone = b.tone || 'ivory';
+  const dark = isDark(tone);
+  return (
+    <Band tone={tone}>
+      <SectionHead no={b.no} eyebrow={b.eyebrow || ''} title={b.title || ''} dark={dark} />
+      <div style={{ marginTop: 'clamp(36px,5vw,52px)', maxWidth: 820, display: 'flex', flexDirection: 'column' }}>
+        {(b.items || []).map((f: any, i: number) => (
+          <details key={i} style={{ borderTop: `1px solid ${dark ? 'var(--rule-on-dark)' : 'var(--rule-on-light)'}`, padding: '20px 0' }}>
+            <summary
+              style={{
+                cursor: 'pointer',
+                listStyle: 'none',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-h4)',
+                color: dark ? 'var(--ivory)' : 'var(--navy)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: 16,
+                alignItems: 'baseline',
+              }}
+            >
+              {f.q}
+              <span style={{ color: dark ? 'var(--gold-bright)' : 'var(--gold-deep)', flexShrink: 0 }}>
+                <Icon name="arrow-right" size={18} />
+              </span>
+            </summary>
+            <p style={{ margin: '14px 0 0', fontSize: 14.5, lineHeight: 1.75, color: dark ? 'var(--text-on-dark-muted)' : 'var(--text-on-light-muted)', maxWidth: 680 }}>
+              {f.a}
+            </p>
+          </details>
+        ))}
+      </div>
+    </Band>
+  );
+}
+
+function StepsBlock(b: any) {
+  return <ProcessSection tone={b.tone || 'navy'} no={b.no} eyebrow={b.eyebrow} title={b.title} steps={b.items || []} />;
+}
+
+function TimelineBlock(b: any) {
+  return <RoadmapSection tone={b.tone || 'ivory'} no={b.no} eyebrow={b.eyebrow} title={b.title} items={b.items || []} />;
+}
+
+function VideoBlockR(b: any) {
+  const tone: Tone = b.tone || 'navy';
+  const url: string = b.url || b.media?.url || '';
+  const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+  const vimeo = url.match(/vimeo\.com\/(\d+)/);
+  const embed = yt ? `https://www.youtube.com/embed/${yt[1]}` : vimeo ? `https://player.vimeo.com/video/${vimeo[1]}` : null;
+  return (
+    <Band tone={tone}>
+      <figure style={{ margin: 0, maxWidth: 960, marginInline: 'auto' }}>
+        <div style={{ position: 'relative', aspectRatio: '16 / 9', borderRadius: 'var(--radius-lg)', overflow: 'hidden', boxShadow: '0 24px 50px rgba(4,10,41,0.4)' }}>
+          {embed ? (
+            <iframe
+              src={embed}
+              title={b.caption || 'Video'}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0 }}
+            />
+          ) : url ? (
+            <video src={url} controls playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : null}
+        </div>
+        {b.caption && (
+          <figcaption style={{ marginTop: 12, textAlign: 'center', fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 14, color: isDark(tone) ? 'var(--text-on-dark-subtle)' : 'var(--steel)' }}>
+            {b.caption}
+          </figcaption>
+        )}
+      </figure>
+    </Band>
+  );
+}
+
+function ContactFormBlockR(b: any) {
+  return (
+    <Band tone="navy">
+      <ContactSection heading={b.heading} />
+    </Band>
+  );
+}
+
+function PostsListBlockR(b: any) {
+  const tone: Tone = b.tone || 'ivory';
+  return (
+    <Band tone={tone}>
+      <SectionHead no={b.no} eyebrow={b.eyebrow || ''} title={b.title || ''} dark={isDark(tone)} />
+      <div style={{ marginTop: 'clamp(40px,6vw,64px)' }}>
+        <PostsListBlock {...b} />
+      </div>
+    </Band>
+  );
+}
+
+/* ── Khối premium trang chủ ── */
+
+function HomeHeroBlock(b: any) {
+  return (
+    <HeroShowcase
+      eyebrow={b.eyebrow || undefined}
+      title={b.title || undefined}
+      subtitle={b.subtitle || undefined}
+      primaryLabel={b.primaryLabel || undefined}
+      primaryHref={b.primaryHref || undefined}
+      secondaryLabel={b.secondaryLabel || undefined}
+      secondaryHref={b.secondaryHref || undefined}
+      promise={b.promise || undefined}
+    />
+  );
+}
+
 const MAP: Record<string, (b: any) => ReactNode> = {
   hero: HeroBlock,
+  pageHero: PageHeroBlock,
   heading: HeadingBlock,
   richText: RichTextBlockR,
   cards: CardsBlock,
   pricing: PricingBlock,
   projects: ProjectsBlock,
   image: ImageBlockR,
+  faq: FAQBlock,
+  steps: StepsBlock,
+  timeline: TimelineBlock,
+  video: VideoBlockR,
+  contactForm: ContactFormBlockR,
+  postsList: PostsListBlockR,
   cta: CTABlock,
+  // trang chủ
+  homeHero: HomeHeroBlock,
+  usp: (b) => <UspSection no={b.no} eyebrow={b.eyebrow} title={b.title} pillars={b.pillars || []} />,
+  whyAim: (b) => <WhySection no={b.no} eyebrow={b.eyebrow} title={b.title} items={b.items || []} />,
+  servicesPreview: (b) => <ServicesSection no={b.no} eyebrow={b.eyebrow} title={b.title} cards={b.cards || []} ctaLabel={b.ctaLabel} ctaHref={b.ctaHref} />,
+  bookFlip: (b) => <BookFlip eyebrow={b.eyebrow || undefined} title={b.title || undefined} />,
+  projectsGrid: (b) => <ProjectsGridBlock {...b} />,
+  finalCta: (b) => <FinalCtaSection eyebrow={b.eyebrow || undefined} title={b.title || undefined} body={b.body || undefined} buttonLabel={b.buttonLabel || undefined} buttonHref={b.buttonHref || undefined} />,
 };
 
 export function RenderBlocks({ blocks }: { blocks?: any[]; style?: CSSProperties }) {

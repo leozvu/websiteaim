@@ -58,56 +58,23 @@ try {
     console.log('[db-init] ✓ Tạo bài viết mẫu.');
   }
 
-  // Trang kéo-thả mẫu (chỉ khi trống)
-  const pages = await payload.count({ collection: 'pages' });
-  if (pages.totalDocs === 0) {
-    await payload.create({
-      collection: 'pages',
-      data: {
-        title: 'Trang mẫu (kéo-thả)',
-        slug: 'trang-mau',
-        published: true,
-        layout: [
-          {
-            blockType: 'hero',
-            eyebrow: 'Trang dựng bằng kéo-thả',
-            title: 'Dựng trang trong vài phút',
-            subtitle: 'Kéo các khối vào, điền nội dung, sắp xếp lại — không cần code.',
-            primaryLabel: 'Bắt đầu dự án',
-            primaryHref: '/contact',
-          },
-          {
-            blockType: 'heading',
-            tone: 'ivory',
-            no: '01',
-            eyebrow: 'Khối mẫu',
-            title: 'Ba khối minh hoạ',
-            intro: 'Bạn có thể xoá, sửa hoặc thêm khối tuỳ ý trong /admin.',
-          },
-          {
-            blockType: 'cards',
-            tone: 'ivory',
-            columns: '3',
-            items: [
-              { icon: 'aim', title: 'Kéo-thả', body: 'Thêm khối và kéo ≡ để sắp xếp thứ tự.' },
-              { icon: 'precision', title: 'Đúng thương hiệu', body: 'Mọi khối dùng đúng màu và font của AIM.' },
-              { icon: 'handshake', title: 'Xem trước trực tiếp', body: 'Lưu là thấy thay đổi ngay ở khung xem trước.' },
-            ],
-          },
-          {
-            blockType: 'cta',
-            tone: 'navy',
-            eyebrow: 'Bắt đầu',
-            title: 'Sẵn sàng dựng trang của bạn?',
-            body: 'Vào /admin → Trang (kéo-thả) → Tạo mới.',
-            buttonLabel: 'Bắt đầu dự án',
-            buttonHref: '/contact',
-          },
-        ],
-      } as any,
-    });
-    console.log('[db-init] ✓ Tạo trang kéo-thả mẫu (/trang-mau).');
+  // Đủ 6 dự án gốc cho lưới trang chủ (top-up 1 lần khi collection còn ≤1 doc)
+  const projCount = await payload.count({ collection: 'projects' });
+  if (projCount.totalDocs <= 1) {
+    const { PROJECTS } = await import('../lib/content');
+    for (let i = 0; i < PROJECTS.length; i++) {
+      const pr = PROJECTS[i];
+      const dup = await payload.find({ collection: 'projects', where: { name: { equals: pr.name } }, limit: 1, depth: 0 });
+      if (dup.totalDocs === 0) {
+        await payload.create({ collection: 'projects', data: { ...pr, order: i + 1 } });
+        console.log(`[db-init] ✓ Tạo dự án: ${pr.name}`);
+      }
+    }
   }
+
+  // Các trang khối (home/about/services/projects/contact/blog) — idempotent theo slug
+  const { ensurePages } = await import('./seed-pages');
+  await ensurePages(payload);
 
   process.exit(0);
 } catch (err) {

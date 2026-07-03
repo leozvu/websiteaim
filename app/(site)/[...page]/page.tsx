@@ -2,7 +2,7 @@
    Route tĩnh (/, /about, ...) luôn ưu tiên; catch-all này lo mọi slug khác.
    ?preview=1 → hiện cả trang chưa xuất bản + bật Live Preview refresh. */
 
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getPayload } from 'payload';
 import config from '@payload-config';
@@ -44,6 +44,7 @@ export default async function BuilderPage({ params, searchParams }: Props) {
   const sp = await searchParams;
   const preview = sp?.preview === '1';
   const slug = page?.join('/') || 'home';
+  if (slug === 'home' && !preview) redirect('/'); // trang chủ chính chủ ở '/'
   const doc: any = await getPage(slug, preview);
   if (!doc) notFound();
   // preview=1 (mở trong khung Live Preview của /admin) → chỉnh sửa tương tác:

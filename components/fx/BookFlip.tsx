@@ -147,7 +147,10 @@ function PageBack() {
 
 const LEAVES: ReactNode[] = [<PageCover key="c" />, <PageStrategy key="1" />, <PageLogo key="2" />, <PageSystem key="3" />];
 
-export function BookFlip() {
+export function BookFlip({
+  eyebrow = 'Sản phẩm bàn giao · Brand book',
+  title = 'Cuốn cẩm nang bạn sẽ cầm trên tay',
+}: { eyebrow?: string; title?: string } = {}) {
   const wrap = useRef<HTMLDivElement>(null);
   const [p, setP] = useState(0);
   const [reduced, setReduced] = useState(false);
@@ -212,10 +215,10 @@ export function BookFlip() {
           <span aria-hidden style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 40%, rgba(197,173,138,0.08), transparent 55%)' }} />
           <div className="aim-container" style={{ position: 'relative', textAlign: 'center' }}>
             <div className="aim-eyebrow" style={{ color: 'var(--gold-bright)' }}>
-              Sản phẩm bàn giao · Brand book
+              {eyebrow}
             </div>
             <h2 className="aim-display" style={{ fontSize: 'var(--text-h2)', margin: '12px 0 0', color: 'var(--ivory)' }}>
-              Cuốn cẩm nang bạn sẽ cầm trên tay
+              {title}
             </h2>
           </div>
 
