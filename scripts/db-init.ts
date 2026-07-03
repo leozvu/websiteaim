@@ -1,11 +1,12 @@
-/* Khởi tạo schema Postgres LÚC BUILD trên Vercel (DATABASE_URL có sẵn, chạy trong
-   Node đầy đủ — không phải serverless nên push/DDL hoạt động).
-   - Không có DB → bỏ qua (build local/preview không DB vẫn chạy).
-   - Có DB → bật PAYLOAD_DB_PUSH=1 rồi getPayload → drizzle push tạo/đồng bộ bảng.
-   KHÔNG tạo user: để trống cho màn "Create first user" của Payload ở /admin. */
+/* Khởi tạo schema Postgres LÚC BUILD trên Vercel + seed admin/nội dung mẫu.
+   Quan trọng: Payload chỉ auto-push schema khi NODE_ENV !== 'production'. Vercel
+   build là production → phải ép NODE_ENV='development' TRONG process này (chỉ ảnh
+   hưởng bước db-init, không ảnh hưởng `next build` chạy sau ở process riêng).
+   Idempotent: chạy lại nhiều lần không nhân đôi. */
 
-export {}; // đánh dấu module (cho phép top-level await)
+export {}; // module (cho phép top-level await)
 
+process.env.NODE_ENV = 'development'; // để drizzle push chạy
 process.env.PAYLOAD_DB_PUSH = '1';
 
 const hasDb = Boolean(
@@ -23,8 +24,39 @@ if (!hasDb) {
 
 try {
   const [{ getPayload }, { default: config }] = await Promise.all([import('payload'), import('../payload.config')]);
-  await getPayload({ config });
+  const payload = await getPayload({ config });
   console.log('[db-init] ✓ Schema Postgres đã được tạo/đồng bộ.');
+
+  // Admin đầu tiên (đổi mật khẩu sau khi đăng nhập)
+  const users = await payload.count({ collection: 'users' });
+  if (users.totalDocs === 0) {
+    const email = process.env.SEED_EMAIL || 'admin@aimagency.vn';
+    await payload.create({
+      collection: 'users',
+      data: { email, password: process.env.SEED_PASSWORD || 'DoRightThings2026!', name: 'AIM Admin' },
+    });
+    console.log(`[db-init] ✓ Tạo admin: ${email}`);
+  } else {
+    console.log(`[db-init] • Đã có ${users.totalDocs} user — bỏ qua tạo admin.`);
+  }
+
+  // Nội dung mẫu (chỉ khi trống)
+  const posts = await payload.count({ collection: 'posts' });
+  if (posts.totalDocs === 0) {
+    await payload.create({
+      collection: 'posts',
+      data: {
+        title: 'Ngân sách branding cho SME: tiêu vào đâu trước?',
+        slug: 'ngan-sach-branding-cho-sme',
+        category: 'Thực chiến',
+        excerpt: 'Một cách phân bổ thực tế để mỗi đồng chi ra đều tạo khác biệt nhìn thấy được.',
+        published: true,
+        publishedAt: new Date().toISOString(),
+      },
+    });
+    console.log('[db-init] ✓ Tạo bài viết mẫu.');
+  }
+
   process.exit(0);
 } catch (err) {
   console.error('[db-init] ✗ Lỗi khi tạo schema:', err);
