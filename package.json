@@ -6,7 +6,7 @@
   "description": "Website chính thức của AIM AGENCY — Do Right Things.",
   "scripts": {
     "dev": "next dev",
-    "build": "tsx scripts/db-init.ts && next build",
+    "build": "cross-env NODE_ENV=development tsx scripts/db-init.ts && next build",
     "start": "next start",
     "lint": "next lint",
     "cms:init": "tsx scripts/dev-seed.ts"
@@ -30,6 +30,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.19",
+    "cross-env": "^10.1.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "15.4",
     "postcss": "^8.4.40",

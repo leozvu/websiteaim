@@ -6,7 +6,8 @@
 
 export {}; // module (cho phép top-level await)
 
-process.env.NODE_ENV = 'development'; // để drizzle push chạy
+/* NODE_ENV=development được set qua npm script (cross-env) để drizzle push chạy —
+   không gán trong file này vì next build type-check NODE_ENV là read-only. */
 process.env.PAYLOAD_DB_PUSH = '1';
 
 const hasDb = Boolean(
